@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "ZBarReaderView.h"
 #import <Parse/Parse.h>
 
 @interface AppDelegate ()
@@ -19,7 +18,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    [ZBarReaderView class];
     [Parse setApplicationId:@"d29Kn023cGrVZ63TvLXmUcbYHkjwGh6kRH4DQrD1"
                   clientKey:@"X2shBHIMA8iwopYz9iWgPlWcYFV96cbi2jZWOmCI"];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
