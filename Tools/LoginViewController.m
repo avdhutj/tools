@@ -43,19 +43,24 @@
 */
 - (IBAction)LoginClicked:(id)sender {
     if (![self.UserTextField.text isEqualToString:@""] && ![self.PasswordTextField.text isEqualToString:@""]) {
-        LoadingView* lView = [[LoadingView alloc] initWithFrame:CGRectMake(self.view.center.x - 50, self.view.center.y - 10,
-                                                                           100, 20)];
-        [self.view addSubview:lView];
+//        LoadingView* lView = [[LoadingView alloc] initWithFrame:CGRectMake(self.view.center.x - 50, self.view.center.y - 10,
+//                                                                        100, 20)];
+//        [self.view addSubview:lView];
         
         [PFUser logInWithUsernameInBackground:self.UserTextField.text password:self.PasswordTextField.text block:^(PFUser *user, NSError *error) {
-            [lView removeFromSuperview];
+//            [lView removeFromSuperview];
             if (user) {
-                UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Login Successful" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-                [alertView show];
+                
+//                UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Login Successful" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+//                [alertView show];
 //                MainTabViewController* mTVC = [[MainTabViewController alloc] init];
 //                [self showViewController:mTVC sender:self];
+                
                 MainTabViewController* mTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MainTabBarController"];
-                [self showViewController:mTVC sender:self];
+                [self presentViewController:mTVC animated:YES completion:^{
+                    
+                }];
+//                [self showViewController:mTVC sender:self];
             }
             else {
                 UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"Login Error!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];

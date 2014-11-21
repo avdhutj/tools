@@ -7,7 +7,7 @@
         <!--Login View Controller-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController id="vXZ-lx-hvc" customClass="LoginViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginViewController" id="vXZ-lx-hvc" customClass="LoginViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
@@ -74,10 +74,10 @@
             </objects>
             <point key="canvasLocation" x="1592" y="477"/>
         </scene>
-        <!--View Controller-->
+        <!--Camera View Controller-->
         <scene sceneID="Lbt-Wf-Tdf">
             <objects>
-                <viewController id="lKU-96-fqs" sceneMemberID="viewController">
+                <viewController id="lKU-96-fqs" customClass="CameraViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="eHJ-2I-XQZ"/>
                         <viewControllerLayoutGuide type="bottom" id="iBU-7s-Xn8"/>
@@ -85,12 +85,31 @@
                     <view key="view" contentMode="scaleToFill" id="mfv-Pl-i2Z">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="umO-eK-dMa">
+                                <rect key="frame" x="200" y="168" width="200" height="200"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerY" secondItem="umO-eK-dMa" secondAttribute="centerY" id="8uk-Yy-1cL"/>
+                            <constraint firstAttribute="centerY" secondItem="umO-eK-dMa" secondAttribute="centerY" id="fIE-8T-DDW"/>
+                            <constraint firstAttribute="centerX" secondItem="umO-eK-dMa" secondAttribute="centerX" id="orY-HW-qrZ"/>
+                            <constraint firstAttribute="centerX" secondItem="umO-eK-dMa" secondAttribute="centerX" id="vdh-9m-tbV"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="bFX-xw-6vs">
-                        <barButtonItem key="rightBarButtonItem" title="Logout" id="FeT-nh-xiY"/>
+                        <barButtonItem key="rightBarButtonItem" title="Logout" id="FeT-nh-xiY">
+                            <connections>
+                                <action selector="LogoutClicked:" destination="lKU-96-fqs" id="wds-nE-xDo"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <connections>
+                        <outlet property="cameraView" destination="umO-eK-dMa" id="ySo-sj-8AR"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q5r-v9-Xot" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
