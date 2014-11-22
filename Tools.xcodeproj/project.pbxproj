@@ -37,6 +37,8 @@
 		4AF22BFE1A1EBAEF00E1C317 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AF22BFA1A1EBAEF00E1C317 /* CoreMedia.framework */; };
 		4AF22BFF1A1EBAEF00E1C317 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AF22BFB1A1EBAEF00E1C317 /* CoreVideo.framework */; };
 		4AF22C001A1EBAEF00E1C317 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AF22BFC1A1EBAEF00E1C317 /* libiconv.dylib */; };
+		4AF2641D1A213CF7002D0463 /* LoadView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4AF2641C1A213CF7002D0463 /* LoadView.xib */; };
+		4AF264261A213F8C002D0463 /* LoadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AF264251A213F8C002D0463 /* LoadView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +93,9 @@
 		4AF22BFA1A1EBAEF00E1C317 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		4AF22BFB1A1EBAEF00E1C317 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		4AF22BFC1A1EBAEF00E1C317 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
+		4AF2641C1A213CF7002D0463 /* LoadView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadView.xib; sourceTree = "<group>"; };
+		4AF264241A213F8C002D0463 /* LoadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadView.h; sourceTree = "<group>"; };
+		4AF264251A213F8C002D0463 /* LoadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -226,6 +231,9 @@
 		4A91721E1A1DB568006E5C8A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				4AF264241A213F8C002D0463 /* LoadView.h */,
+				4AF264251A213F8C002D0463 /* LoadView.m */,
+				4AF2641C1A213CF7002D0463 /* LoadView.xib */,
 				4A91721F1A1DB590006E5C8A /* LoadingView.h */,
 				4A9172201A1DB590006E5C8A /* LoadingView.m */,
 			);
@@ -314,6 +322,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4AF2641D1A213CF7002D0463 /* LoadView.xib in Resources */,
 				4A0241D81A1DA49D00498E0B /* Main.storyboard in Resources */,
 				4A0241DD1A1DA49D00498E0B /* LaunchScreen.xib in Resources */,
 				4A0241DA1A1DA49D00498E0B /* Images.xcassets in Resources */,
@@ -334,6 +343,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4AF264261A213F8C002D0463 /* LoadView.m in Sources */,
 				4A02420D1A1DA90B00498E0B /* LoginViewController.m in Sources */,
 				4A9172241A1DBA6C006E5C8A /* MainTabViewController.m in Sources */,
 				4A9172211A1DB590006E5C8A /* LoadingView.m in Sources */,
