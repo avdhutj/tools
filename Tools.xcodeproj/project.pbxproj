@@ -12,6 +12,8 @@
 		1D2D8E0E1A1FC4A90035E144 /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D2D8E0A1A1FC4A90035E144 /* ParseFacebookUtils.framework */; };
 		1D2D8E0F1A1FC4A90035E144 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D2D8E0B1A1FC4A90035E144 /* ParseUI.framework */; };
 		1D2D8E121A1FC5760035E144 /* inventoryList.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D2D8E111A1FC5760035E144 /* inventoryList.m */; };
+		1DDC3FC41A200C7700E385F5 /* toolList.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC3FC31A200C7700E385F5 /* toolList.m */; };
+		1DDC3FC71A2020DC00E385F5 /* ToolDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC3FC61A2020DC00E385F5 /* ToolDetailViewController.m */; };
 		4A0241CF1A1DA49C00498E0B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A0241CE1A1DA49C00498E0B /* main.m */; };
 		4A0241D21A1DA49C00498E0B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A0241D11A1DA49C00498E0B /* AppDelegate.m */; };
 		4A0241D51A1DA49C00498E0B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A0241D41A1DA49C00498E0B /* ViewController.m */; };
@@ -58,6 +60,10 @@
 		1D2D8E0B1A1FC4A90035E144 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
 		1D2D8E101A1FC5760035E144 /* inventoryList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inventoryList.h; sourceTree = "<group>"; };
 		1D2D8E111A1FC5760035E144 /* inventoryList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = inventoryList.m; sourceTree = "<group>"; };
+		1DDC3FC21A200C7700E385F5 /* toolList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = toolList.h; sourceTree = "<group>"; };
+		1DDC3FC31A200C7700E385F5 /* toolList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = toolList.m; sourceTree = "<group>"; };
+		1DDC3FC51A2020DC00E385F5 /* ToolDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToolDetailViewController.h; sourceTree = "<group>"; };
+		1DDC3FC61A2020DC00E385F5 /* ToolDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToolDetailViewController.m; sourceTree = "<group>"; };
 		4A0241C91A1DA49C00498E0B /* Tools.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tools.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A0241CD1A1DA49C00498E0B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4A0241CE1A1DA49C00498E0B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -185,6 +191,10 @@
 				4A0241CC1A1DA49C00498E0B /* Supporting Files */,
 				1D2D8E101A1FC5760035E144 /* inventoryList.h */,
 				1D2D8E111A1FC5760035E144 /* inventoryList.m */,
+				1DDC3FC21A200C7700E385F5 /* toolList.h */,
+				1DDC3FC31A200C7700E385F5 /* toolList.m */,
+				1DDC3FC51A2020DC00E385F5 /* ToolDetailViewController.h */,
+				1DDC3FC61A2020DC00E385F5 /* ToolDetailViewController.m */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -347,6 +357,8 @@
 				4A02420D1A1DA90B00498E0B /* LoginViewController.m in Sources */,
 				4A9172241A1DBA6C006E5C8A /* MainTabViewController.m in Sources */,
 				4A9172211A1DB590006E5C8A /* LoadingView.m in Sources */,
+				1DDC3FC71A2020DC00E385F5 /* ToolDetailViewController.m in Sources */,
+				1DDC3FC41A200C7700E385F5 /* toolList.m in Sources */,
 				4A0241D51A1DA49C00498E0B /* ViewController.m in Sources */,
 				1D2D8E121A1FC5760035E144 /* inventoryList.m in Sources */,
 				4A0241D21A1DA49C00498E0B /* AppDelegate.m in Sources */,
@@ -479,10 +491,7 @@
 				);
 				INFOPLIST_FILE = Tools/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					/Users/avdhut/code/ZBarSDK,
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};
@@ -498,10 +507,7 @@
 				);
 				INFOPLIST_FILE = Tools/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					/Users/avdhut/code/ZBarSDK,
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};

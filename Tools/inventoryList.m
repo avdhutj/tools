@@ -8,6 +8,10 @@
 
 #import "inventoryList.h"
 
+@interface inventoryList ()
+
+@end
+
 @implementation inventoryList
 
 - (id)initWithCoder:(NSCoder *)aCoder {
@@ -50,8 +54,6 @@
     }
         
         cell.textLabel.text = [object objectForKey:@"toolID"];
-        /*NSString * a = [object objectForKey:@"toolID"];
-        NSLog(@"%@",a);*/
     
     return cell;
 }
