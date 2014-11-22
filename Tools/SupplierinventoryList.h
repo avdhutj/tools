@@ -10,9 +10,8 @@
 #import <Parse/Parse.h>
 #import <ParseUI/ParseUI.h>
 
-@interface InventoryList : PFQueryTableViewController
+@interface SupplierInventoryList : PFQueryTableViewController
 
 @property (weak, nonatomic) NSString* userType;
-
 
 @end

@@ -1,27 +1,33 @@
 //
-//  InventoryList.m
+//  inventoryList.m
 //  Tools
 //
 //  Created by Mazin Biviji on 11/21/14.
 //  Copyright (c) 2014 Fun. All rights reserved.
 //
 
-#import "InventoryList.h"
+#import "inventoryList.h"
 
-@interface InventoryList ()
+@interface inventoryList ()
 
 @end
 
-@implementation InventoryList
+@implementation inventoryList
 
 - (id)initWithCoder:(NSCoder *)aCoder {
     self = [super initWithCoder:aCoder];
     if (self) {
         
-        self.parseClassName = @"InvToolList";
+        self.parseClassName = @"invToolList";
         self.pullToRefreshEnabled = YES;
         self.paginationEnabled = YES;
         self.objectsPerPage = 20;
+        
+        //set self.userType to demonstrate user rules
+        //There should be two segues based on what the userType is to demonstrate user roles
+        //self.userType = @"supplier";
+        self.userType = @"oem";
+        
     }
     return self;
 }
@@ -52,7 +58,7 @@
                                       reuseIdentifier:CellIdentifier];
     }
         
-        cell.textLabel.text = [object objectForKey:@"toolId"];
+        cell.textLabel.text = [object objectForKey:@"toolID"];
     
     return cell;
 }

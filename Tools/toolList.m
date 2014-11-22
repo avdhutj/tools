@@ -1,19 +1,19 @@
 //
-//  toolList.m
+//  ToolList.m
 //  Tools
 //
 //  Created by Mazin Biviji on 11/21/14.
 //  Copyright (c) 2014 Fun. All rights reserved.
 //
 
-#import "toolList.h"
+#import "ToolList.h"
 #import "ToolDetailViewController.h"
 
-@interface toolList ()
+@interface ToolList ()
 
 @end
 
-@implementation toolList
+@implementation ToolList
 
 - (id)initWithCoder:(NSCoder *)bCoder {
     self = [super initWithCoder:bCoder];
@@ -54,7 +54,7 @@
                                       reuseIdentifier:CellIdentifier];
     }
     
-    cell.textLabel.text = [object objectForKey:@"toolID"];
+    cell.textLabel.text = [object objectForKey:@"toolId"];
     
     return cell;
 }

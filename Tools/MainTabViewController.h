@@ -10,4 +10,6 @@
 
 @interface MainTabViewController : UITabBarController
 
+@property (weak, nonatomic) NSString* userType;
+
 @end

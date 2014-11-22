@@ -19,7 +19,7 @@
     [super viewDidLoad];
 
     // Do any additional setup after loading the view.
-    self.examTitle.text = [self.exam objectForKey:@"toolID"];
+    self.examTitle.text = [self.exam objectForKey:@"toolId"];
     self.toolType.text = [self.exam objectForKey:@"toolType"];
     NSNumber *toolWeight = [self.exam objectForKey:@"weight"];
     self.toolWeight.text = [toolWeight stringValue];

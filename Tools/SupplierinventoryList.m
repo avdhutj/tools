@@ -6,13 +6,13 @@
 //  Copyright (c) 2014 Fun. All rights reserved.
 //
 
-#import "InventoryList.h"
+#import "SupplierInventoryList.h"
 
-@interface InventoryList ()
+@interface SupplierInventoryList ()
 
 @end
 
-@implementation InventoryList
+@implementation SupplierInventoryList
 
 - (id)initWithCoder:(NSCoder *)aCoder {
     self = [super initWithCoder:aCoder];

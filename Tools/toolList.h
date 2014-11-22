@@ -1,5 +1,5 @@
 //
-//  toolList.h
+//  ToolList.h
 //  Tools
 //
 //  Created by Mazin Biviji on 11/21/14.
@@ -10,6 +10,6 @@
 #import <Parse/Parse.h>
 #import <ParseUI/ParseUI.h>
 
-@interface toolList : PFQueryTableViewController
+@interface ToolList : PFQueryTableViewController
 
 @end
