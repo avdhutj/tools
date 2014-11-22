@@ -11,6 +11,12 @@
 
 @interface ToolDetailViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UILabel *examTitle;
+@property (weak, nonatomic) IBOutlet UILabel *toolType;
+@property (weak, nonatomic) IBOutlet UILabel *toolWeight;
+
+
+@property (weak, nonatomic) NSMutableArray *partNumbers;
 @property (weak, nonatomic) PFObject *exam;
+@property (weak, nonatomic) NSString *toolStatus;
 
 @end

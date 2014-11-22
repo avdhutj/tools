@@ -66,18 +66,18 @@
     // Pass the selected object to the new view controller.
     if ([segue.identifier isEqualToString:@"displayDetail"]) {
         
-        NSLog(@"Here");
-        
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         PFObject *object = [self.objects objectAtIndex:indexPath.row];
     
         // Set destination view controller to DetailViewController to avoid the NavigationViewController in the middle
-        /*UINavigationController *nav = [segue destinationViewController];
-        ToolDetailViewController *detailViewController = (ToolDetailViewController *) nav.topViewController;*/
+        UINavigationController *nav = [segue destinationViewController];
+        ToolDetailViewController *detailViewController = (ToolDetailViewController *) nav.topViewController;
         
-        ToolDetailViewController *detailViewController = [segue destinationViewController];
+        //ToolDetailViewController *detailViewController = [segue destinationViewController];
         detailViewController.exam = object;
+
     }
+
 }
 
 @end
