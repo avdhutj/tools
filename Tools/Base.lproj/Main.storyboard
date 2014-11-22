@@ -257,6 +257,12 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tool Status" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="41f-8y-gcY">
+                                <rect key="frame" x="207" y="214" width="97" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -265,6 +271,8 @@
                     </navigationItem>
                     <connections>
                         <outlet property="examTitle" destination="07k-F2-ulG" id="l9B-DZ-J6M"/>
+                        <outlet property="toolStatus" destination="41f-8y-gcY" id="CU4-oq-Rh0"/>
+                        <outlet property="toolStatusLbl" destination="41f-8y-gcY" id="VYU-Y4-fd1"/>
                         <outlet property="toolType" destination="dLd-vK-y7p" id="ddW-iv-eZD"/>
                         <outlet property="toolWeight" destination="3fz-h5-ft2" id="ilF-4f-Q5B"/>
                     </connections>

@@ -13,7 +13,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *examTitle;
 @property (weak, nonatomic) IBOutlet UILabel *toolType;
 @property (weak, nonatomic) IBOutlet UILabel *toolWeight;
-
+@property (weak, nonatomic) IBOutlet UILabel *toolStatusLbl;
 
 @property (weak, nonatomic) NSMutableArray *partNumbers;
 @property (weak, nonatomic) PFObject *exam;

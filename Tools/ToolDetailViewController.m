@@ -24,7 +24,8 @@
     NSNumber *toolWeight = [self.exam objectForKey:@"weight"];
     self.toolWeight.text = [toolWeight stringValue];
     
-    /*[self.exam setObject:[NSArray arrayWithObjects:@"MDX3Hui5jt", nil] forKey:@"part"];
+    /*add part numbers
+    [self.exam setObject:[NSArray arrayWithObjects:@"MDX3Hui5jt", nil] forKey:@"part"];
     [self.exam saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
             NSLog(@"Saved.");
@@ -33,14 +34,62 @@
         }
     }];*/
     
-    NSString* toolStatus = [NSString stringWithFormat:@"TBD"];
+    self.toolStatus = [NSString stringWithFormat:@"TBD"];
+    //__block int obsCount = 0;
     NSArray *partIDs = [self.exam objectForKey:@"part"];
     
-    for (NSString* part in partIDs){
-        [self.partNumbers addObject:[PFObject objectWithClassName:part]];
-    };
+    //Add part numbers to array
+    /*for (NSString* part in partIDs){
+        PFQuery *query = [PFQuery queryWithClassName:@"PartNumbers"];
+        NSLog(@"%@",part);
+        [query getObjectInBackgroundWithId:part block:^(PFObject *object, NSError *error) {
+            if (!error) {
+                // The find succeeded.
+                // Do something with the found object
+                    [self.partNumbers addObject:object];
+                    if ([[object objectForKey:@"status"] isEqualToString:@"Active"]) {
+                        self.toolStatus = [NSString stringWithFormat:@"Active"];
+                    } else if ([[object objectForKey:@"status"] isEqualToString:@"Obsolete"]) {
+                        obsCount = obsCount +1;
+                    }
+                // Log details of the failure
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
+                }
+        
+        }];
     
+    }*/
+    
+    //Part Number look up
+    NSString* part = [NSString stringWithFormat:@"IRAvDA3miQ"];
+    PFQuery *query = [PFQuery queryWithClassName:@"PartNumbers"];
+    NSLog(@"%@",part);
+    
+    [query getObjectInBackgroundWithId:part block:^(PFObject *object, NSError *error) {
+        if (!error) {
+            int obsCount = 0;
+            // The find succeeded.
+            // Do something with the found object
+            [self.partNumbers addObject:object];
+            if ([[object objectForKey:@"status"] isEqualToString:@"Active"]) {
+                self.toolStatus = [NSString stringWithFormat:@"Active"];
+            } else if ([[object objectForKey:@"status"] isEqualToString:@"Obsolete"]) {
+                obsCount = obsCount +1;
+            }
+            // Log details of the failure
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
+    
+    int obsCount = 0;
+    //end of Part Number look up
+        
+    if ([partIDs count]==obsCount) {
+        self.toolStatus = @"Obsolete";
+    }
+    self.toolStatusLbl.text = self.toolStatus;
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
