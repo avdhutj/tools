@@ -24,6 +24,26 @@
     //There should be two segues based on what the userType is to demonstrate user roles
     //self.userType = @"supplier";
     self.userType = @"oem";
+    
+    UITabBar *tabBar = self.tabBar;
+    //Scan
+    UITabBarItem *targetTabBarItem = [[tabBar items] objectAtIndex:0];
+    UIImage *selectedIcon = [UIImage imageNamed:@"scanSelected.png"];
+    UIImage *unSelectedImage = [UIImage imageNamed:@"scanUnSelected.png"];
+    [targetTabBarItem setImage:[self imageWithImage:unSelectedImage scaledToSize:CGSizeMake(30, 30)]];
+    [targetTabBarItem setSelectedImage:[self imageWithImage:selectedIcon scaledToSize:CGSizeMake(30, 30)]];
+    //Search
+    UITabBarItem *targetTabBarItem1 = [[tabBar items] objectAtIndex:1];
+    UIImage *selectedSearchIcon = [UIImage imageNamed:@"searchSelected.png"];
+    UIImage *unSelectedSearchIcon = [UIImage imageNamed:@"searchUnSelected.png"];
+    [targetTabBarItem1 setImage:[self imageWithImage:unSelectedSearchIcon scaledToSize:CGSizeMake(30, 30)]];
+    [targetTabBarItem1 setSelectedImage:[self imageWithImage:selectedSearchIcon scaledToSize:CGSizeMake(30, 30)]];
+    //Inv
+    UITabBarItem *targetTabBarItem2 = [[tabBar items] objectAtIndex:2];
+    UIImage *selectedInvIcon = [UIImage imageNamed:@"InvSelected.png"];
+    UIImage *unInvSelectedImage = [UIImage imageNamed:@"InvUnSelected.png"];
+    [targetTabBarItem2 setImage:[self imageWithImage:unInvSelectedImage scaledToSize:CGSizeMake(30, 30)]];
+    [targetTabBarItem2 setSelectedImage:[self imageWithImage:selectedInvIcon scaledToSize:CGSizeMake(30, 30)]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -31,6 +51,13 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
+    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
+    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
 
 #pragma mark - Navigation (need to work on this)
 

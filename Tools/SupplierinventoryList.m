@@ -53,6 +53,15 @@
     }
         
         cell.textLabel.text = [object objectForKey:@"toolId"];
+    NSString*task = [object objectForKey:@"task"];
+    cell.detailTextLabel.text = [object objectForKey:@"task"];
+    [self.alltasksArray addObject:object];
+    if ([task isEqualToString:@"Ship Tool"] || [task isEqualToString:@"Recieve Tool"]){
+        [self.updatetoolArray addObject:object];
+    } else if ([task isEqualToString:@"Update Tool Info"]){
+        [self.newtoolArray addObject:object];
+        //Also need to add tools with incomplete info here
+    }
     
     return cell;
 }

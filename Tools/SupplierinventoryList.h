@@ -13,5 +13,8 @@
 @interface SupplierInventoryList : PFQueryTableViewController
 
 @property (weak, nonatomic) NSString* userType;
+@property (weak, nonatomic) NSMutableArray* alltasksArray;
+@property (weak, nonatomic) NSMutableArray* updatetoolArray;
+@property (weak, nonatomic) NSMutableArray* newtoolArray;
 
 @end
