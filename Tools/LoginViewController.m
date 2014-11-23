@@ -9,6 +9,7 @@
 #import "LoginViewController.h"
 #import <Parse/Parse.h>
 #import "LoadingView.h"
+#import "LoadView.h"
 #import "MainTabViewController.h"
 
 @interface LoginViewController ()
@@ -47,14 +48,14 @@
 //                                                                        100, 20)];
 //        [self.view addSubview:lView];
         
+        LoadView* lView = [[[NSBundle mainBundle] loadNibNamed:@"LoadView" owner:nil options:nil] lastObject];
+        
+        [self.view addSubview:lView];
+        
         [PFUser logInWithUsernameInBackground:self.UserTextField.text password:self.PasswordTextField.text block:^(PFUser *user, NSError *error) {
-//            [lView removeFromSuperview];
+//            [_loadView removeFromSuperview];
+            [lView removeFromSuperview];
             if (user) {
-                
-//                UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Login Successful" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-//                [alertView show];
-//                MainTabViewController* mTVC = [[MainTabViewController alloc] init];
-//                [self showViewController:mTVC sender:self];
                 
                 MainTabViewController* mTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MainTabBarController"];
                 [self presentViewController:mTVC animated:YES completion:^{
