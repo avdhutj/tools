@@ -19,7 +19,7 @@
     [super viewDidLoad];
 
     // Do any additional setup after loading the view.
-    self.examTitle.text = [self.exam objectForKey:@"toolId"];
+    self.examTitle.text = [self.exam objectForKey:@"toolID"];
     self.toolType.text = [self.exam objectForKey:@"toolType"];
     NSNumber *toolWeight = [self.exam objectForKey:@"weight"];
     self.toolWeight.text = [toolWeight stringValue];
@@ -36,7 +36,19 @@
     
     self.toolStatus = [NSString stringWithFormat:@"TBD"];
     //__block int obsCount = 0;
+    int obsCount = 0;
     NSArray *partIDs = [self.exam objectForKey:@"part"];
+    
+    //Working w/o block operation
+    PFQuery *query = [PFQuery queryWithClassName:@"PartNumbers"];
+    for (NSString* part in partIDs){
+        NSString *status = [[query getObjectWithId:part] objectForKey:@"status"];
+        if([status isEqual:@"Active"]){
+            self.toolStatus = status;
+        } else if ([status isEqual:@"Obsolete"]){
+            obsCount ++;
+        }
+    };
     
     //Add part numbers to array
     /*for (NSString* part in partIDs){
@@ -59,30 +71,6 @@
         }];
     
     }*/
-    
-    //Part Number look up
-    NSString* part = [NSString stringWithFormat:@"IRAvDA3miQ"];
-    PFQuery *query = [PFQuery queryWithClassName:@"PartNumbers"];
-    NSLog(@"%@",part);
-    
-    [query getObjectInBackgroundWithId:part block:^(PFObject *object, NSError *error) {
-        if (!error) {
-            int obsCount = 0;
-            // The find succeeded.
-            // Do something with the found object
-            [self.partNumbers addObject:object];
-            if ([[object objectForKey:@"status"] isEqualToString:@"Active"]) {
-                self.toolStatus = [NSString stringWithFormat:@"Active"];
-            } else if ([[object objectForKey:@"status"] isEqualToString:@"Obsolete"]) {
-                obsCount = obsCount +1;
-            }
-            // Log details of the failure
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-        }
-    }];
-    
-    int obsCount = 0;
-    //end of Part Number look up
         
     if ([partIDs count]==obsCount) {
         self.toolStatus = @"Obsolete";
