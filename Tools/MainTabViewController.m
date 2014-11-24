@@ -44,6 +44,8 @@
     UIImage *unInvSelectedImage = [UIImage imageNamed:@"InvUnSelected.png"];
     [targetTabBarItem2 setImage:[self imageWithImage:unInvSelectedImage scaledToSize:CGSizeMake(30, 30)]];
     [targetTabBarItem2 setSelectedImage:[self imageWithImage:selectedInvIcon scaledToSize:CGSizeMake(30, 30)]];
+    //buttons
+    
 }
 
 - (void)didReceiveMemoryWarning {

@@ -26,11 +26,32 @@
         // Move to Next Screen
         [PFUser logOut];
     }
+    
+    /*
+    UIImage *btnDown = [UIImage imageNamed:@"LightPurpleButtonDown.png"];
+    
+    [self.LoginButton setImage:[self imageWithImage:btnDown scaledToSize:CGSizeMake(410.0, 60.0)]forState:UIControlStateNormal];
+    
+    UIImage *btnUp = [UIImage imageNamed:@"LightPurpleButtonUp.png"];
+    
+    [self.LoginButton setImage:[self imageWithImage:btnUp scaledToSize:CGSizeMake(410.0, 60.0)] forState:UIControlStateHighlighted];
+    
+    UIImage *btnPressed = [UIImage imageNamed:@"LightPurpleButtonPressed.png"];
+    [self.LoginButton setImage:[self imageWithImage:btnPressed scaledToSize:CGSizeMake(410.0,60.0)] forState:UIControlStateSelected];*/
+    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
+    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
+    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
 }
 
 /*
