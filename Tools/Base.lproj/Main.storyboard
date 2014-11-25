@@ -18,7 +18,10 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="G3t-Ll-TR1">
-                                <rect key="frame" x="85" y="191" width="205" height="28"/>
+                                <rect key="frame" x="85" y="191" width="205" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="8w7-1p-lNl"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
@@ -33,7 +36,10 @@
                                 </state>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="V3K-pZ-VZK">
-                                <rect key="frame" x="85" y="153" width="205" height="30"/>
+                                <rect key="frame" x="85" y="153" width="205" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Mcl-t2-NIj"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
@@ -46,7 +52,7 @@
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CQN-l2-o1a">
                                 <rect key="frame" x="62" y="229" width="250" height="51"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="40" id="ecY-XT-U9V"/>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="45" id="ecY-XT-U9V"/>
                                     <constraint firstAttribute="width" constant="202" id="o1J-St-yy5"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="202" id="pAS-yg-5xh"/>
                                 </constraints>
@@ -80,11 +86,11 @@
                             <constraint firstItem="wTQ-2q-kZi" firstAttribute="centerY" secondItem="CQN-l2-o1a" secondAttribute="centerY" id="CZg-rg-86n"/>
                             <constraint firstItem="V3K-pZ-VZK" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="Ebs-TF-AxW"/>
                             <constraint firstItem="G3t-Ll-TR1" firstAttribute="width" secondItem="uj7-Ib-uNv" secondAttribute="width" id="fXG-Gz-VKV"/>
-                            <constraint firstItem="V3K-pZ-VZK" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="69" id="fdR-eQ-ctc"/>
+                            <constraint firstItem="V3K-pZ-VZK" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="45" id="fdR-eQ-ctc"/>
                             <constraint firstItem="CQN-l2-o1a" firstAttribute="centerX" secondItem="uj7-Ib-uNv" secondAttribute="centerX" id="gcz-jU-bUX"/>
                             <constraint firstItem="V3K-pZ-VZK" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="141" id="ier-O6-EEa"/>
-                            <constraint firstItem="CQN-l2-o1a" firstAttribute="top" secondItem="G3t-Ll-TR1" secondAttribute="bottom" constant="5" id="lXR-xe-eXl"/>
-                            <constraint firstItem="G3t-Ll-TR1" firstAttribute="top" secondItem="V3K-pZ-VZK" secondAttribute="bottom" constant="5" id="mt9-sd-Cay"/>
+                            <constraint firstItem="CQN-l2-o1a" firstAttribute="top" secondItem="G3t-Ll-TR1" secondAttribute="bottom" constant="8" id="lXR-xe-eXl"/>
+                            <constraint firstItem="G3t-Ll-TR1" firstAttribute="top" secondItem="V3K-pZ-VZK" secondAttribute="bottom" constant="8" id="mt9-sd-Cay"/>
                             <constraint firstItem="CQN-l2-o1a" firstAttribute="centerX" secondItem="G3t-Ll-TR1" secondAttribute="centerX" id="svJ-hY-olx"/>
                             <constraint firstItem="m5G-hD-Dzr" firstAttribute="width" secondItem="uj7-Ib-uNv" secondAttribute="width" id="wrQ-gf-GBc"/>
                             <constraint firstItem="G3t-Ll-TR1" firstAttribute="leading" secondItem="V3K-pZ-VZK" secondAttribute="leading" id="zdt-O7-z4Y"/>
