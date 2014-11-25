@@ -27,17 +27,9 @@
         [PFUser logOut];
     }
     
-    /*
-    UIImage *btnDown = [UIImage imageNamed:@"LightPurpleButtonDown.png"];
     
-    [self.LoginButton setImage:[self imageWithImage:btnDown scaledToSize:CGSizeMake(410.0, 60.0)]forState:UIControlStateNormal];
-    
-    UIImage *btnUp = [UIImage imageNamed:@"LightPurpleButtonUp.png"];
-    
-    [self.LoginButton setImage:[self imageWithImage:btnUp scaledToSize:CGSizeMake(410.0, 60.0)] forState:UIControlStateHighlighted];
-    
-    UIImage *btnPressed = [UIImage imageNamed:@"LightPurpleButtonPressed.png"];
-    [self.LoginButton setImage:[self imageWithImage:btnPressed scaledToSize:CGSizeMake(410.0,60.0)] forState:UIControlStateSelected];*/
+    UIImage *btnPressed = [UIImage imageNamed:@"BlueButtonPressed.png"];
+    [self.LoginButton setImage:[self imageWithImage:btnPressed scaledToSize:CGSizeMake(410.0,60.0)] forState:UIControlEventTouchDown];
     
 }
 
