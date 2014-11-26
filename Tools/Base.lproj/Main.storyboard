@@ -75,6 +75,26 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eRu-0l-kmm">
+                                <rect key="frame" x="91" y="158" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="Y3z-1j-vYD"/>
+                                    <constraint firstAttribute="height" constant="30" id="yT7-G0-fGk"/>
+                                </constraints>
+                                <state key="normal" image="UserImg">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7F9-xD-KSv">
+                                <rect key="frame" x="86" y="196" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="lEl-tm-NWN"/>
+                                    <constraint firstAttribute="height" constant="30" id="xHx-gG-Wr1"/>
+                                </constraints>
+                                <state key="normal" image="PasswordImg">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -85,8 +105,12 @@
                             <constraint firstItem="wTQ-2q-kZi" firstAttribute="centerX" secondItem="G3t-Ll-TR1" secondAttribute="centerX" id="2p1-ga-osn"/>
                             <constraint firstItem="wTQ-2q-kZi" firstAttribute="centerY" secondItem="CQN-l2-o1a" secondAttribute="centerY" id="CZg-rg-86n"/>
                             <constraint firstItem="V3K-pZ-VZK" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="Ebs-TF-AxW"/>
+                            <constraint firstItem="G3t-Ll-TR1" firstAttribute="centerY" secondItem="7F9-xD-KSv" secondAttribute="centerY" id="Ebv-lo-1YB"/>
+                            <constraint firstItem="V3K-pZ-VZK" firstAttribute="centerY" secondItem="eRu-0l-kmm" secondAttribute="centerY" id="LF3-7A-VgC"/>
+                            <constraint firstItem="G3t-Ll-TR1" firstAttribute="leading" secondItem="eRu-0l-kmm" secondAttribute="leading" constant="-5" id="cdo-7X-N25"/>
                             <constraint firstItem="G3t-Ll-TR1" firstAttribute="width" secondItem="uj7-Ib-uNv" secondAttribute="width" id="fXG-Gz-VKV"/>
                             <constraint firstItem="V3K-pZ-VZK" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="45" id="fdR-eQ-ctc"/>
+                            <constraint firstItem="V3K-pZ-VZK" firstAttribute="leading" secondItem="7F9-xD-KSv" secondAttribute="leading" constant="-5" id="g9j-9m-1bb"/>
                             <constraint firstItem="CQN-l2-o1a" firstAttribute="centerX" secondItem="uj7-Ib-uNv" secondAttribute="centerX" id="gcz-jU-bUX"/>
                             <constraint firstItem="V3K-pZ-VZK" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="141" id="ier-O6-EEa"/>
                             <constraint firstItem="CQN-l2-o1a" firstAttribute="top" secondItem="G3t-Ll-TR1" secondAttribute="bottom" constant="8" id="lXR-xe-eXl"/>
@@ -514,6 +538,8 @@
         <image name="D7D3B4BF-9113-40A4-9494-4BCCDE28C2EE" width="200" height="200"/>
         <image name="GreyRounded" width="200" height="50"/>
         <image name="InvSelected" width="200" height="200"/>
+        <image name="PasswordImg" width="100" height="100"/>
+        <image name="UserImg" width="100" height="100"/>
         <image name="scanUnSelected" width="200" height="200"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

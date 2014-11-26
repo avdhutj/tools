@@ -21,8 +21,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    //Button Setup - why is the touch down event not working??
     UIImage *btnPressed = [UIImage imageNamed:@"BlueButtonPressed.png"];
     [self.LoginButton setImage:[self imageWithImage:btnPressed scaledToSize:CGSizeMake(410.0,60.0)] forState:UIControlEventTouchDown];
+    //Login textboximage set up
+    UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 30, 20)];
+    self.UserTextField.leftView = paddingView;
+    self.UserTextField.leftViewMode = UITextFieldViewModeAlways;
+    UIView *paddingView2 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 30, 20)];
+    self.PasswordTextField.leftView = paddingView2;
+    self.PasswordTextField.leftViewMode = UITextFieldViewModeAlways;
     
 }
 
