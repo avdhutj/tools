@@ -18,6 +18,12 @@
 @property (nonatomic, strong) AVCaptureVideoPreviewLayer *videoPreviewLayer;
 @property (nonatomic) BOOL isReading;
 
+@property (nonatomic, strong) CLLocation* location;
+@property (nonatomic) BOOL gotLocation;
+
+@property (nonatomic, strong) PFGeoPoint* geoPoint;
+@property (nonatomic, strong) PFObject* exam;
+
 -(BOOL)startReading;
 -(void)stopReading;
 
@@ -28,7 +34,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-
+    
+//    [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
+//        NSLog(@"Geopoint error: %@", error);
+//        _geoPoint = [PFGeoPoint geoPointWithLatitude:[geoPoint latitude] longitude:[geoPoint longitude]];
+//    }];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -40,6 +50,9 @@
     } else {
         NSLog(@"Error in starting to capture\n");
     }
+    CLLocationManager* locationManager = [[CLLocationManager alloc] init];
+    locationManager.delegate = self;
+    [locationManager startUpdatingLocation];
 }
 
 -(void)viewDidDisappear:(BOOL)animated {
@@ -151,17 +164,23 @@
                     [lView removeFromSuperview];
                     if ([objects count] > 0) {
                         // Push New View Controller
-                        PFObject* exam = [objects firstObject];
-//                        ToolDetailViewController* tVC = [[ToolDetailViewController alloc] init];
-                        ToolDetailViewController* tVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ToolDetailViewController"];
+                        _exam = [objects firstObject];
                         
-                        tVC.exam = exam;
-                        [self.navigationController pushViewController:tVC animated:YES];
+                        PFGeoPoint* examGeoPoint = [_exam objectForKey:@"toolGeoPoint"];
+                        if ([_geoPoint distanceInKilometersTo:examGeoPoint] > 1000 || !examGeoPoint) {
+                            UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Update" message:@"Update Geolocation of the tool" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+                            [alertView setTag:1];
+                            [alertView show];
+                        } else {
+                            ToolDetailViewController* tVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ToolDetailViewController"];
+                            
+                            tVC.exam = _exam;
+                            [self.navigationController pushViewController:tVC animated:YES];
+                        }
                         
                     }
                     else {
-                        // Handle Error
-                        [[[UIAlertView alloc] initWithTitle:@"Error!" message:@"Incorrect QR Code" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil] show];
+                        [[[UIAlertView alloc] initWithTitle:@"Error!" message:@"New QR Code" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil] show];
                     }
                 }];
                 
@@ -170,14 +189,49 @@
 //                [[[UIAlertView alloc] initWithTitle:@"Error!" message:@"Incorrect QR Code" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil] show];
 
                 UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"Incorrect QR Code" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                [alertView setTag:3];
                 [alertView show];
 //                [self startReading];
             }
         }
     }
 }
+
+#pragma UIAlertViewDelegate Functions
 -(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    [self startReading];
+    if ([alertView tag] == 1) {
+        if (buttonIndex == 0) {
+            ToolDetailViewController* tVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ToolDetailViewController"];
+            tVC.exam = _exam;
+            [self.navigationController pushViewController:tVC animated:YES];
+            
+        } else {
+            [_exam setObject:_geoPoint forKey:@"toolGeoPoint"];
+            LoadView* lView = [[[NSBundle mainBundle] loadNibNamed:@"LoadView" owner:nil options:nil] lastObject];
+            [self.view addSubview:lView];
+            
+            [_exam saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                [lView removeFromSuperview];
+                ToolDetailViewController* tVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ToolDetailViewController"];
+                tVC.exam = _exam;
+                [self.navigationController pushViewController:tVC animated:YES];
+                
+            }];
+        }
+        
+    } else if ([alertView tag] == 3) {
+        [self startReading];
+    }
+    
+}
+
+#pragma CLLocationManagerDelegate Functions
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+    _location = [locations lastObject];
+    _geoPoint = [PFGeoPoint geoPointWithLocation:_location];
+//    _geoPoint = [PFGeoPoint geoPointWithLatitude:[_location.coordinate.latitude] longitude:_location.co]
+    _gotLocation = true;
+    [manager stopUpdatingLocation];
 }
 
 - (IBAction)LogoutClicked:(id)sender {
