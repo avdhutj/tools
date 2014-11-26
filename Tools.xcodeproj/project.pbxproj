@@ -13,7 +13,7 @@
 		1D2D8E0F1A1FC4A90035E144 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D2D8E0B1A1FC4A90035E144 /* ParseUI.framework */; };
 		1DDC3FC71A2020DC00E385F5 /* ToolDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC3FC61A2020DC00E385F5 /* ToolDetailViewController.m */; };
 		1DDC3FD21A21482100E385F5 /* SupplierInventoryList.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC3FD11A21482100E385F5 /* SupplierInventoryList.m */; };
-		1DDC3FD51A2148B700E385F5 /* ToolList.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC3FD41A2148B700E385F5 /* ToolList.m */; };
+		1DDC3FD51A2148B700E385F5 /* ToolListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC3FD41A2148B700E385F5 /* ToolListViewController.m */; };
 		1DDC3FD81A21498B00E385F5 /* InventoryList.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC3FD71A21498B00E385F5 /* InventoryList.m */; };
 		4A0241CF1A1DA49C00498E0B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A0241CE1A1DA49C00498E0B /* main.m */; };
 		4A0241D21A1DA49C00498E0B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A0241D11A1DA49C00498E0B /* AppDelegate.m */; };
@@ -63,8 +63,8 @@
 		1DDC3FC61A2020DC00E385F5 /* ToolDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToolDetailViewController.m; sourceTree = "<group>"; };
 		1DDC3FD01A21482100E385F5 /* SupplierInventoryList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SupplierInventoryList.h; sourceTree = "<group>"; };
 		1DDC3FD11A21482100E385F5 /* SupplierInventoryList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SupplierInventoryList.m; sourceTree = "<group>"; };
-		1DDC3FD31A2148B700E385F5 /* ToolList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToolList.h; sourceTree = "<group>"; };
-		1DDC3FD41A2148B700E385F5 /* ToolList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToolList.m; sourceTree = "<group>"; };
+		1DDC3FD31A2148B700E385F5 /* ToolListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToolListViewController.h; sourceTree = "<group>"; };
+		1DDC3FD41A2148B700E385F5 /* ToolListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToolListViewController.m; sourceTree = "<group>"; };
 		1DDC3FD61A21498B00E385F5 /* InventoryList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryList.h; sourceTree = "<group>"; };
 		1DDC3FD71A21498B00E385F5 /* InventoryList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryList.m; sourceTree = "<group>"; };
 		4A0241C91A1DA49C00498E0B /* Tools.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tools.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -235,8 +235,8 @@
 				1DDC3FD71A21498B00E385F5 /* InventoryList.m */,
 				1DDC3FD01A21482100E385F5 /* SupplierInventoryList.h */,
 				1DDC3FD11A21482100E385F5 /* SupplierInventoryList.m */,
-				1DDC3FD31A2148B700E385F5 /* ToolList.h */,
-				1DDC3FD41A2148B700E385F5 /* ToolList.m */,
+				1DDC3FD31A2148B700E385F5 /* ToolListViewController.h */,
+				1DDC3FD41A2148B700E385F5 /* ToolListViewController.m */,
 				1DDC3FC51A2020DC00E385F5 /* ToolDetailViewController.h */,
 				1DDC3FC61A2020DC00E385F5 /* ToolDetailViewController.m */,
 			);
@@ -363,7 +363,7 @@
 				4A02420D1A1DA90B00498E0B /* LoginViewController.m in Sources */,
 				4A9172241A1DBA6C006E5C8A /* MainTabViewController.m in Sources */,
 				4A9172211A1DB590006E5C8A /* LoadingView.m in Sources */,
-				1DDC3FD51A2148B700E385F5 /* ToolList.m in Sources */,
+				1DDC3FD51A2148B700E385F5 /* ToolListViewController.m in Sources */,
 				1DDC3FD21A21482100E385F5 /* SupplierInventoryList.m in Sources */,
 				1DDC3FC71A2020DC00E385F5 /* ToolDetailViewController.m in Sources */,
 				4A0241D51A1DA49C00498E0B /* ViewController.m in Sources */,
