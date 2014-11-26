@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="ppn-YS-TOF">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -478,15 +478,10 @@
                                     <navigationItem title="Add Tool" id="Ecb-eB-1ep"/>
                                 </items>
                             </navigationBar>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Tool ID" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ILw-wO-r6O">
-                                <rect key="frame" x="16" y="92" width="168" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Weight" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bBa-Pj-q1c">
                                 <rect key="frame" x="16" y="138" width="168" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Description" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JJZ-f5-Psx">
                                 <rect key="frame" x="16" y="186" width="168" height="30"/>
@@ -503,34 +498,58 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Supplier" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WI5-4w-q0w">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Supplier" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WI5-4w-q0w">
                                 <rect key="frame" x="218" y="92" width="141" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Supplier Address" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tPO-Ta-g5B">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Supplier Address" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tPO-Ta-g5B">
                                 <rect key="frame" x="218" y="142" width="141" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ndO-Jo-ock">
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ndO-Jo-ock">
                                 <rect key="frame" x="144" y="581" width="87" height="30"/>
                                 <state key="normal" title="Add Tool">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="AddToolBtnClicked:" destination="ppn-YS-TOF" eventType="touchUpInside" id="Gty-yX-VtI"/>
+                                </connections>
                             </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Tool ID" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ILw-wO-r6O">
+                                <rect key="frame" x="16" y="92" width="168" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="WI5-4w-q0w" firstAttribute="top" secondItem="QuK-km-gFR" secondAttribute="bottom" constant="72" id="3DI-fg-oPX"/>
+                            <constraint firstItem="pnB-fC-OVt" firstAttribute="top" secondItem="ndO-Jo-ock" secondAttribute="bottom" constant="56" id="OZz-eO-Mtf"/>
+                            <constraint firstItem="WI5-4w-q0w" firstAttribute="leading" secondItem="tPO-Ta-g5B" secondAttribute="leading" id="d0t-xL-mX5"/>
+                            <constraint firstItem="tPO-Ta-g5B" firstAttribute="top" secondItem="WI5-4w-q0w" secondAttribute="bottom" constant="29" id="heX-Ez-gB9"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="dc4-UP-c8u">
                         <barButtonItem key="backBarButtonItem" title="Back" id="fg6-Qk-fql"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="AddToolBtn" destination="ndO-Jo-ock" id="JuU-YS-ITF"/>
+                        <outlet property="DescrTxt" destination="JJZ-f5-Psx" id="DfB-IG-gws"/>
+                        <outlet property="PartNo1Txt" destination="GCd-rg-GaC" id="46s-Bd-Wm7"/>
+                        <outlet property="PartNo2Txt" destination="2BR-da-eSl" id="rde-fb-nxd"/>
+                        <outlet property="SupplierAddressLbl" destination="tPO-Ta-g5B" id="6C8-aM-0Ka"/>
+                        <outlet property="SupplierNameLbl" destination="WI5-4w-q0w" id="ShV-Rt-38n"/>
+                        <outlet property="ToolIdTxt" destination="ILw-wO-r6O" id="ydY-Vx-r0h"/>
+                        <outlet property="WeightTxt" destination="bBa-Pj-q1c" id="zkq-CQ-27J"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j7I-yZ-VcY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1910.5" y="-262.5"/>
+            <point key="canvasLocation" x="-903.5" y="1191.5"/>
         </scene>
     </scenes>
     <resources>
