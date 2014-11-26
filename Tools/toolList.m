@@ -46,13 +46,13 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
                         object:(PFObject *)object {
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *CellIdentifier = @"ToolCell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
-                                      reuseIdentifier:CellIdentifier];
-    }
+//    if (cell == nil) {
+//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+//                                      reuseIdentifier:CellIdentifier];
+//    }
     
     cell.textLabel.text = [object objectForKey:@"toolId"];
     
@@ -70,14 +70,12 @@
         PFObject *object = [self.objects objectAtIndex:indexPath.row];
     
         // Set destination view controller to DetailViewController to avoid the NavigationViewController in the middle
-        UINavigationController *nav = [segue destinationViewController];
-        ToolDetailViewController *detailViewController = (ToolDetailViewController *) nav.topViewController;
+//        UINavigationController *nav = [segue destinationViewController];
+//        ToolDetailViewController *detailViewController = (ToolDetailViewController *) nav.topViewController;
         
-        //ToolDetailViewController *detailViewController = [segue destinationViewController];
+        ToolDetailViewController *detailViewController = [segue destinationViewController];
         detailViewController.exam = object;
-
     }
-
 }
 
 @end

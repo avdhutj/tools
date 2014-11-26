@@ -11,7 +11,7 @@
 
 //#import "ZBarReaderView.h"
 
-@interface CameraViewController : UIViewController <AVCaptureMetadataOutputObjectsDelegate>
+@interface CameraViewController : UIViewController <AVCaptureMetadataOutputObjectsDelegate, UIAlertViewDelegate>
 
 //@property (weak, nonatomic) IBOutlet ZBarReaderView *zBarReaderView;
 @property (weak, nonatomic) IBOutlet UIView *cameraView;

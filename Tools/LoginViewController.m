@@ -21,15 +21,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    UIImage *btnPressed = [UIImage imageNamed:@"BlueButtonPressed.png"];
+    [self.LoginButton setImage:[self imageWithImage:btnPressed scaledToSize:CGSizeMake(410.0,60.0)] forState:UIControlEventTouchDown];
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated {
     PFUser* currentUser = [PFUser currentUser];
     if (currentUser) {
         // Move to Next Screen
-        [PFUser logOut];
+        MainTabViewController* mTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MainTabBarController"];
+        [self presentViewController:mTVC animated:YES completion:^{
+            
+        }];
     }
-    
-    
-    UIImage *btnPressed = [UIImage imageNamed:@"BlueButtonPressed.png"];
-    [self.LoginButton setImage:[self imageWithImage:btnPressed scaledToSize:CGSizeMake(410.0,60.0)] forState:UIControlEventTouchDown];
     
 }
 
@@ -62,19 +67,15 @@
 //        [self.view addSubview:lView];
         
         LoadView* lView = [[[NSBundle mainBundle] loadNibNamed:@"LoadView" owner:nil options:nil] lastObject];
-        
         [self.view addSubview:lView];
         
         [PFUser logInWithUsernameInBackground:self.UserTextField.text password:self.PasswordTextField.text block:^(PFUser *user, NSError *error) {
-//            [_loadView removeFromSuperview];
             [lView removeFromSuperview];
             if (user) {
-                
                 MainTabViewController* mTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MainTabBarController"];
                 [self presentViewController:mTVC animated:YES completion:^{
                     
                 }];
-//                [self showViewController:mTVC sender:self];
             }
             else {
                 UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"Login Error!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];

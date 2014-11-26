@@ -16,7 +16,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *toolStatusLbl;
 
 @property (weak, nonatomic) NSMutableArray *partNumbers;
-@property (weak, nonatomic) PFObject *exam;
+@property (strong, nonatomic) PFObject *exam;
 @property (weak, nonatomic) NSString *toolStatus;
 
 @end

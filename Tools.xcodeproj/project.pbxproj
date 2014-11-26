@@ -33,6 +33,7 @@
 		4A0242081A1DA6AB00498E0B /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A0241FF1A1DA6AB00498E0B /* StoreKit.framework */; };
 		4A0242091A1DA6AB00498E0B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A0242001A1DA6AB00498E0B /* SystemConfiguration.framework */; };
 		4A02420D1A1DA90B00498E0B /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A02420C1A1DA90B00498E0B /* LoginViewController.m */; };
+		4A7DFE7C1A25854D0046B3AE /* LoadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AF264251A213F8C002D0463 /* LoadView.m */; };
 		4A9172211A1DB590006E5C8A /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9172201A1DB590006E5C8A /* LoadingView.m */; };
 		4A9172241A1DBA6C006E5C8A /* MainTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9172231A1DBA6C006E5C8A /* MainTabViewController.m */; };
 		4A9172411A1EB040006E5C8A /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9172401A1EB040006E5C8A /* CameraViewController.m */; };
@@ -41,7 +42,6 @@
 		4AF22BFF1A1EBAEF00E1C317 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AF22BFB1A1EBAEF00E1C317 /* CoreVideo.framework */; };
 		4AF22C001A1EBAEF00E1C317 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AF22BFC1A1EBAEF00E1C317 /* libiconv.dylib */; };
 		4AF2641D1A213CF7002D0463 /* LoadView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4AF2641C1A213CF7002D0463 /* LoadView.xib */; };
-		4AF264261A213F8C002D0463 /* LoadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AF264251A213F8C002D0463 /* LoadView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -358,6 +358,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A7DFE7C1A25854D0046B3AE /* LoadView.m in Sources */,
 				1DDC3FD81A21498B00E385F5 /* InventoryList.m in Sources */,
 				4A02420D1A1DA90B00498E0B /* LoginViewController.m in Sources */,
 				4A9172241A1DBA6C006E5C8A /* MainTabViewController.m in Sources */,

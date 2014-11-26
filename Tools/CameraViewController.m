@@ -9,6 +9,8 @@
 #import "CameraViewController.h"
 #import <Parse/Parse.h>
 #import "LoginViewController.h"
+#import "ToolDetailViewController.h"
+#import "LoadView.h"
 
 @interface CameraViewController ()
 
@@ -26,6 +28,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     _captureSession = nil;
     _isReading = NO;
     if ([self startReading]) {
@@ -33,6 +40,12 @@
     } else {
         NSLog(@"Error in starting to capture\n");
     }
+}
+
+-(void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self stopReading];
+    _isReading = NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -81,9 +94,9 @@
     [_captureSession addOutput:captureMetadataOutput];
     
     // Create a new serial dispatch queue.
-    dispatch_queue_t dispatchQueue;
-    dispatchQueue = dispatch_queue_create("myQueue", NULL);
-    [captureMetadataOutput setMetadataObjectsDelegate:self queue:dispatchQueue];
+//    dispatch_queue_t dispatchQueue;
+//    dispatchQueue = dispatch_queue_create("myQueue", NULL);
+    [captureMetadataOutput setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
     [captureMetadataOutput setMetadataObjectTypes:[NSArray arrayWithObject:AVMetadataObjectTypeQRCode]];
     
     // Initialize the video preview layer and add it as a sublayer to the viewPreview view's layer.
@@ -118,11 +131,55 @@
         if ([[metadataObj type] isEqualToString:AVMetadataObjectTypeQRCode]) {
             // If the found metadata is equal to the QR code metadata then update the status label's text,
             // stop reading and change the bar button item's title and the flag's value.
-            NSLog(@"Found QR Code\n");
+            NSLog(@"Found QR Code: %@\n", [metadataObj stringValue]);
+            
+            [self stopReading];
             _isReading = NO;
+
+            // Check if valid qrcode
+            NSString* qrCode = [metadataObj stringValue];
+            NSArray* splitString = [qrCode componentsSeparatedByString:@"_"];
+            NSLog(@"Stopped Reading QRCode\n");
+            
+            if ([[splitString objectAtIndex:0] isEqualToString:@"tool"]) {
+                // Check valid code in Parse
+                PFQuery* query = [PFQuery queryWithClassName:@"Tools"];
+                [query whereKey:@"qrCode" equalTo:qrCode];
+                LoadView* lView = [[[NSBundle mainBundle] loadNibNamed:@"LoadView" owner:nil options:nil] lastObject];
+                [self.view addSubview:lView];
+                [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                    [lView removeFromSuperview];
+                    if ([objects count] > 0) {
+                        // Push New View Controller
+                        PFObject* exam = [objects firstObject];
+//                        ToolDetailViewController* tVC = [[ToolDetailViewController alloc] init];
+                        ToolDetailViewController* tVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ToolDetailViewController"];
+                        
+                        tVC.exam = exam;
+                        [self.navigationController pushViewController:tVC animated:YES];
+                        
+                    }
+                    else {
+                        // Handle Error
+                        [[[UIAlertView alloc] initWithTitle:@"Error!" message:@"Incorrect QR Code" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil] show];
+                    }
+                }];
+                
+            }
+            else {
+//                [[[UIAlertView alloc] initWithTitle:@"Error!" message:@"Incorrect QR Code" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil] show];
+
+                UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"Incorrect QR Code" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                [alertView show];
+//                [self startReading];
+            }
         }
     }
 }
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    [self startReading];
+}
+
 - (IBAction)LogoutClicked:(id)sender {
     [PFUser logOut];
     [self dismissViewControllerAnimated:YES completion:^{
