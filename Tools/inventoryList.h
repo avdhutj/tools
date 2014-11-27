@@ -13,9 +13,9 @@
 @interface InventoryList : PFQueryTableViewController
 
 @property (weak, nonatomic) NSString* userType;
-@property (weak, nonatomic) NSMutableArray* alltasksArray;
-@property (weak, nonatomic) NSMutableArray* tooltransfersArray;
-@property (weak, nonatomic) NSMutableArray* newtoolArray;
+@property (strong, nonatomic) NSMutableArray* alltasksArray;
+@property (strong, nonatomic) NSMutableArray* tooltransfersArray;
+@property (strong, nonatomic) NSMutableArray* newtoolArray;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *SegmentedController;
 
 

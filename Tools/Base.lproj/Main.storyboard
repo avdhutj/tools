@@ -256,7 +256,7 @@
                             </connections>
                         </segmentedControl>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="Cell" textLabel="zad-yC-f42" detailTextLabel="Mjf-gb-BpU" style="IBUITableViewCellStyleValue1" id="YsL-Lf-Att">
+                            <tableViewCell contentMode="scaleToFill" restorationIdentifier="InvToolCell" selectionStyle="gray" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="Cell" textLabel="zad-yC-f42" detailTextLabel="Mjf-gb-BpU" style="IBUITableViewCellStyleValue1" id="YsL-Lf-Att">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="YsL-Lf-Att" id="fWU-Ve-uMA">
                                     <autoresizingMask key="autoresizingMask"/>

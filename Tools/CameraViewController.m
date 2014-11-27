@@ -135,8 +135,6 @@
         if ([[metadataObj type] isEqualToString:AVMetadataObjectTypeQRCode]) {
             // If the found metadata is equal to the QR code metadata then update the status label's text,
             // stop reading and change the bar button item's title and the flag's value.
-            NSLog(@"Found QR Code: %@\n", [metadataObj stringValue]);
-            
             [self stopReading];
             _isReading = NO;
 
@@ -195,6 +193,7 @@
     }
 }
 
+#pragma Add Tool Functions
 -(void)AddToolWithCheck:(BOOL)check {
     if (check) {
         PFQuery* query = [PFQuery queryWithClassName:@"Tools"];
@@ -256,8 +255,7 @@
         else {
             [self AddToolWithCheck:NO];
             
-        }
-        
+        }        
     }
     else if ([alertView tag] == 3) {  // Invalid QRCode AlertView
         [self startReading];
