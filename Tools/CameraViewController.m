@@ -10,6 +10,7 @@
 #import <Parse/Parse.h>
 #import "LoginViewController.h"
 #import "ToolDetailViewController.h"
+#import "AddToolViewController.h"
 #import "LoadView.h"
 
 @interface CameraViewController ()
@@ -24,11 +25,13 @@
 
 @property (nonatomic, strong) PFGeoPoint* geoPoint;
 @property (nonatomic, strong) PFObject* exam;
+@property (nonatomic, strong) NSString* qrCodeString;
 
 -(BOOL)startReading;
 -(void)stopReading;
 
--(void)ScanTool:(NSString*)qrCode;
+-(void)ScanTool;
+-(void)AddToolWithCheck:(BOOL)check;
 
 @end
 
@@ -37,11 +40,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-//    [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
-//        NSLog(@"Geopoint error: %@", error);
-//        _geoPoint = [PFGeoPoint geoPointWithLatitude:[geoPoint latitude] longitude:[geoPoint longitude]];
-//    }];
     _locationManager = [[CLLocationManager alloc] init];
     if ([_locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
         [_locationManager requestWhenInUseAuthorization];
@@ -75,23 +73,9 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
-// ZBarReaderViewDeleageFunctions
-//-(void)readerView:(ZBarReaderView *)readerView didReadSymbols:(ZBarSymbolSet *)symbols fromImage:(UIImage *)image {
-//    
-//}
-
 -(BOOL)startReading {
     NSError *error;
+    _qrCodeString = nil;
     
     // Get an instance of the AVCaptureDevice class to initialize a device object and provide the video
     // as the media type parameter.
@@ -116,8 +100,6 @@
     [_captureSession addOutput:captureMetadataOutput];
     
     // Create a new serial dispatch queue.
-//    dispatch_queue_t dispatchQueue;
-//    dispatchQueue = dispatch_queue_create("myQueue", NULL);
     [captureMetadataOutput setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
     [captureMetadataOutput setMetadataObjectTypes:[NSArray arrayWithObject:AVMetadataObjectTypeQRCode]];
     
@@ -159,22 +141,24 @@
             _isReading = NO;
 
             // Check if valid qrcode
-            NSString* qrCode = [metadataObj stringValue];
+            _qrCodeString = [metadataObj stringValue];
             if (self.controllerState == SCAN_TOOL) {
-                [self ScanTool:qrCode];
+                [self ScanTool];
+            } else if (self.controllerState == ADD_TOOL) {
+                [self AddToolWithCheck:YES];
             }
         }
     }
 }
 
 #pragma SCAN TOOL Functions
--(void)ScanTool:(NSString*)qrCode {
-    NSArray* splitString = [qrCode componentsSeparatedByString:@"_"];
+-(void)ScanTool {
+    NSArray* splitString = [_qrCodeString componentsSeparatedByString:@"_"];
     
     if ([[splitString objectAtIndex:0] isEqualToString:@"tool"]) {
         // Check valid code in Parse
         PFQuery* query = [PFQuery queryWithClassName:@"Tools"];
-        [query whereKey:@"qrCode" equalTo:qrCode];
+        [query whereKey:@"qrCode" equalTo:_qrCodeString];
         LoadView* lView = [[[NSBundle mainBundle] loadNibNamed:@"LoadView" owner:nil options:nil] lastObject];
         [self.view addSubview:lView];
         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -211,8 +195,40 @@
     }
 }
 
+-(void)AddToolWithCheck:(BOOL)check {
+    if (check) {
+        PFQuery* query = [PFQuery queryWithClassName:@"Tools"];
+        [query whereKey:@"qrCode" equalTo:_qrCodeString];
+        LoadView* lView = [[[NSBundle mainBundle] loadNibNamed:@"LoadView" owner:nil options:nil] lastObject];
+        [self.view addSubview:lView];
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            [lView removeFromSuperview];
+            if ([objects count] == 0) {
+                AddToolViewController* aTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"AddToolViewController"];
+                [aTVC setQRCode:_qrCodeString];
+                // [self.navigationController pushViewController:aTVC animated:YES];
+                [self presentViewController:aTVC animated:YES completion:^{
+                }];
+                
+            } else {
+                UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Tool Exists" message:@"This tool ID already exists in the system" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                [alertView setTag:4];
+                [alertView show];
+            }
+        }];
+        
+    } else {
+        AddToolViewController* aTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"AddToolViewController"];
+        [aTVC setQRCode:_qrCodeString];
+        // [self.navigationController pushViewController:aTVC animated:YES];
+        [self presentViewController:aTVC animated:YES completion:^{
+        }];
+    }
+}
+
 #pragma UIAlertViewDelegate Functions
 -(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    // Update Location AlertView
     if ([alertView tag] == 1) {
         if (buttonIndex == 0) {
             ToolDetailViewController* tVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ToolDetailViewController"];
@@ -232,8 +248,18 @@
                 
             }];
         }
+    }  // End of Update Location Alert View
+    else  if ([alertView tag] == 2) {  // New tool AlertView
+        if (buttonIndex == 0) {
+            [self startReading];
+        }
+        else {
+            [self AddToolWithCheck:NO];
+            
+        }
         
-    } else if ([alertView tag] == 3) {
+    }
+    else if ([alertView tag] == 3) {  // Invalid QRCode AlertView
         [self startReading];
     }
     

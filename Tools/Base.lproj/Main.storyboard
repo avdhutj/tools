@@ -191,7 +191,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aGd-jh-hd3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-416" y="436"/>
+            <point key="canvasLocation" x="-200.5" y="435.5"/>
         </scene>
         <!--Scan-->
         <scene sceneID="DUv-lG-A2V">
@@ -235,7 +235,7 @@
             </objects>
             <point key="canvasLocation" x="779.5" y="482.5"/>
         </scene>
-        <!--Root View Controller-->
+        <!--Inventory List-->
         <scene sceneID="f9G-hN-bSr">
             <objects>
                 <tableViewController id="c6h-Sj-XKW" customClass="InventoryList" sceneMemberID="viewController">
@@ -282,7 +282,7 @@
                             <outlet property="delegate" destination="c6h-Sj-XKW" id="PY6-EK-eIQ"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="ByG-GH-J5j"/>
+                    <navigationItem key="navigationItem" title="Inventory List" id="ByG-GH-J5j"/>
                     <connections>
                         <outlet property="SegmentedController" destination="pNn-I7-oPe" id="L8t-hm-Lyx"/>
                     </connections>
@@ -369,7 +369,7 @@
             </objects>
             <point key="canvasLocation" x="1958.5" y="487.5"/>
         </scene>
-        <!--Root View Controller-->
+        <!--Tool List-->
         <scene sceneID="jbq-zp-WYu">
             <objects>
                 <tableViewController id="WB3-Jn-xHr" customClass="ToolListViewController" sceneMemberID="viewController">
@@ -401,7 +401,7 @@
                             <outlet property="delegate" destination="WB3-Jn-xHr" id="NgL-q0-fvk"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="Itv-xI-UsT"/>
+                    <navigationItem key="navigationItem" title="Tool List" id="Itv-xI-UsT"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e9D-13-LDb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -440,7 +440,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4VE-nX-Sdv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1193.5" y="2180.5"/>
+            <point key="canvasLocation" x="1389.5" y="2152.5"/>
         </scene>
         <!--SupplierInventory-->
         <scene sceneID="s0e-Et-aTZ">
@@ -457,7 +457,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="asU-mC-lCH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="641.5" y="2180.5"/>
+            <point key="canvasLocation" x="837.5" y="2152.5"/>
         </scene>
         <!--Tool Details-->
         <scene sceneID="huZ-WX-RDr">
@@ -475,7 +475,13 @@
                             <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SdC-Kd-Xii">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <items>
-                                    <navigationItem title="Add Tool" id="Ecb-eB-1ep"/>
+                                    <navigationItem title="Add Tool" id="Ecb-eB-1ep">
+                                        <barButtonItem key="rightBarButtonItem" title="Dismiss" id="JG3-ey-gUF">
+                                            <connections>
+                                                <action selector="DismissClicked:" destination="ppn-YS-TOF" id="Beq-CW-wsn"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
                                 </items>
                             </navigationBar>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Weight" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bBa-Pj-q1c">
@@ -549,7 +555,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j7I-yZ-VcY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-903.5" y="1191.5"/>
+            <point key="canvasLocation" x="1988.5" y="1283.5"/>
         </scene>
     </scenes>
     <resources>

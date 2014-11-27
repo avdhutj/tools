@@ -45,6 +45,10 @@
     //Need to set up the part number adding thing this might be a little tricky because we will need to tool up the part number that was added and if it isnt there a new part number needs to be created after confirming with the user.
 }
 
+- (IBAction)DismissClicked:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:^{
+    }];
+}
 
 /*
 #pragma mark - Navigation
