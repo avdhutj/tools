@@ -9,6 +9,7 @@
 #import "MainTabViewController.h"
 #import "InventoryList.h"
 #import "SupplierInventoryList.h"
+#import "CameraViewController.h"
 #import <Parse/Parse.h>
 
 @interface MainTabViewController ()
@@ -46,6 +47,9 @@
     [targetTabBarItem2 setSelectedImage:[self imageWithImage:selectedInvIcon scaledToSize:CGSizeMake(30, 30)]];
     //buttons
     
+    // Setting camera view controller state
+    CameraViewController* cVC = [[self.tabBarController viewControllers] objectAtIndex:0];
+    [cVC setControllerState:SCAN_TOOL];
 }
 
 - (void)didReceiveMemoryWarning {
