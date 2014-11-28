@@ -8,12 +8,15 @@
 
 #import "ToolListViewController.h"
 #import "ToolDetailViewController.h"
+#import "AddToolTableViewController.h"
 
 @interface ToolListViewController ()
 
 @end
 
-@implementation ToolListViewController
+@implementation ToolListViewController {
+    NSArray *searchResults;
+}
 
 - (id)initWithCoder:(NSCoder *)bCoder {
     self = [super initWithCoder:bCoder];
@@ -26,6 +29,15 @@
         
     }
     return self;
+}
+
+- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
+{
+    NSPredicate *resultPredicate = [NSPredicate
+                                    predicateWithFormat:@"SELF contains[cd] %@",
+                                    searchText];
+    
+    searchResults = [self.objects filteredArrayUsingPredicate:resultPredicate];
 }
 
 - (PFQuery *)queryForTable {
@@ -63,9 +75,10 @@
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
+    NSLog(@"In prepare for Segue");
     // Pass the selected object to the new view controller.
     if ([segue.identifier isEqualToString:@"displayDetail"]) {
-        
+        NSLog(@"In  disp detail");
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         PFObject *object = [self.objects objectAtIndex:indexPath.row];
     
@@ -73,7 +86,7 @@
 //        UINavigationController *nav = [segue destinationViewController];
 //        ToolDetailViewController *detailViewController = (ToolDetailViewController *) nav.topViewController;
         
-        ToolDetailViewController *detailViewController = [segue destinationViewController];
+        AddToolTableViewController *detailViewController = [segue destinationViewController];
         detailViewController.exam = object;
     }
 }

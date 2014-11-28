@@ -46,11 +46,9 @@
     //Need to set up the part number adding thing this might be a little tricky because we will need to tool up the part number that was added and if it isnt there a new part number needs to be created after confirming with the user.
 }
 
-- (IBAction)PartNumber1:(id)sender {
-    //NSLog(@"Editting did end");
-    [self.PN1StatusLbl setHidden:FALSE];
-    
-    
+- (IBAction)DismissClicked:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:^{
+    }];
 }
 
 - (IBAction)EditTouchUp:(id)sender {

@@ -28,11 +28,38 @@
     self.Supplier = [query getObjectWithId:@"Pj9iWujEKk"];
     self.QRCode = @"QRCode_123";
     
+    self.toolStatus = [NSString stringWithFormat:@"TBD"];
+    //__block int obsCount = 0;
+    int obsCount = 0;
+    NSArray *partIDs = [self.exam objectForKey:@"part"];
+    
+    //Working w/o block operation
+    PFQuery *queryParts = [PFQuery queryWithClassName:@"PartNumbers"];
+    for (NSString* part in partIDs){
+        PFObject* partNo = [queryParts getObjectWithId:part];
+        NSString *status = [partNo objectForKey:@"status"];
+        [self.partNumbers addObject:[partNo objectForKey:@"name"]];
+        NSLog(@"%@",[partNo objectForKey:@"name"]);
+        if([status isEqual:@"Active"]){
+            self.toolStatus = status;
+        } else if ([status isEqual:@"Obsolete"]){
+            obsCount ++;
+        }
+    };
+    
+    if ([partIDs count]==obsCount) {
+        self.toolStatus = @"Obsolete";
+    }
+    
     //Set Up for the cells in the table
-    self.items = @{@"Supplier" : @[[self.Supplier objectForKey:@"supplier"], [self.Supplier objectForKey:@"address"]],
-                         @"Tool Details" : @[@"Tool ID", @"Weight", @"Tool type", @"Description"],
-                         @"Part Numbers" : @[@"Part Number", @"Part Number", @"Part Number", @"Part Number", @"Part Number"]};
-    self.tableTitles = [[self.items allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+    self.items = @{@"Supplier" : @[[self.Supplier objectForKey:@"supplier"],                    [self.Supplier objectForKey:@"address"]],
+                   @"Tool Details" : @[[self.exam objectForKey:@"toolId"], [NSString stringWithFormat: @"%i lbs",[[self.exam objectForKey:@"weight"]integerValue]], [self.exam objectForKey:@"toolType"],@"toolDescription"],
+                   @"Part Numbers" :@[@"self.partNumbers"]};
+    
+    //How to sort this?? tried to also sort this so part numbers are at the bottom so you can add to it using the button
+    //self.tableTitles = [[self.items allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+    self.tableTitles = [self.items allKeys];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -43,7 +70,6 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
     return [self.tableTitles count];
 }
@@ -54,7 +80,6 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
     NSString *sectionTitle = [self.tableTitles objectAtIndex:section];
     NSArray *sectionItems = [self.items objectForKey:sectionTitle];
@@ -82,12 +107,12 @@
     }
     
 }
+
 - (IBAction)AddToolTouchUp:(id)sender {
-    NSLog(@"Add Tool Btn");
-    /*TO UPDATE!!!
+    /*
     //Need to perform basic validation to ensure all cells are filled
     PFObject *tool = [PFObject objectWithClassName:@"Tools"];
-    tool[@"supplier"] = self.Supplier.objectId;
+    tool[@"supplier"] = self.;
     tool[@"toolId"] = self.ToolIdTxt.text;
     tool[@"weight"] = [NSNumber numberWithInt:[self.WeightTxt.text integerValue]];
     tool[@"toolDescription"] = self.DescrTxt.text;
@@ -100,18 +125,16 @@
     // Return NO if you do not want the specified item to be editable.
     
     NSString *sectionTitle = [self.tableTitles objectAtIndex:indexPath.section];
-    NSArray *sectionitems = [self.items objectForKey:sectionTitle];
-    NSString *item = [sectionitems objectAtIndex:indexPath.row];
     
     if ([sectionTitle isEqualToString:@"Supplier"]) {
+        
         return NO;
     }
-    
     
     return YES;
 }
 
-/*
+
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
@@ -121,13 +144,38 @@
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
 }
-*/
 
-/*
+
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    /*
+    NSString *sectionTitle = [self.tableTitles objectAtIndex:indexPath.section];
+    
+    if ([sectionTitle isEqualToString:@"Supplier"]) {
+        
+        return NO;
+    }*/
+    
+    
+    return YES;
+}
+
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+    
+
+    NSLog(@"move from:%ld to:%ld", (long)fromIndexPath.row, (long)toIndexPath.row);
+    // fetch the object at the row being moved
+    NSString *r = [self.tableTitles objectAtIndex:fromIndexPath.row];
+    NSMutableArray *titiles = [NSMutableArray arrayWithArray:self.tableTitles];
+    
+    // remove the original from the data structure
+    [titiles removeObjectAtIndex:fromIndexPath.row];
+    
+    // insert the object at the target row
+    [titiles insertObject:r atIndex:toIndexPath.row];
+    NSLog(@"result of move :\n%@", self.title);
 }
-*/
 
 /*
 // Override to support conditional rearranging of the table view.

@@ -19,7 +19,11 @@
 @property NSArray *tableTitles;
 @property NSDictionary *items;
 
-//Storyboard Objects
+@property (weak, nonatomic) NSMutableArray *partNumbers;
+@property (strong, nonatomic) PFObject *exam;
+@property (weak, nonatomic) NSString *toolStatus;
+
 @property (weak, nonatomic) IBOutlet UIButton *AddToolBtn;
+
 
 @end
