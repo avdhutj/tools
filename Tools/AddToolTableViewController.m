@@ -51,7 +51,10 @@
         self.toolStatus = @"Obsolete";
     }
     
-    //Set Up for the cells in the table
+    NSMutableDictionary * ItemsMutable = [NSMutableDictionary dictionaryWithObject:partIDs forKey:@"Section1"];
+    NSLog(@"%@",ItemsMutable);
+    
+    //Set Up for the  cells in the table
     self.items = @{@"Supplier" : @[[self.Supplier objectForKey:@"supplier"],                    [self.Supplier objectForKey:@"address"]],
                    @"Tool Details" : @[[self.exam objectForKey:@"toolId"], [NSString stringWithFormat: @"%i lbs",[[self.exam objectForKey:@"weight"]integerValue]], [self.exam objectForKey:@"toolType"],@"toolDescription"],
                    @"Part Numbers" :@[@"self.partNumbers"]};
