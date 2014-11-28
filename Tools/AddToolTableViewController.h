@@ -11,10 +11,10 @@
 
 @interface AddToolTableViewController : UITableViewController
 
-typedef NS_ENUM(NSInteger, ControllerState) {
-    ADD_TOOL = 0,
-    EDIT_TOOL,
-    VIEW_TOOL
+typedef NS_ENUM(NSInteger, ATVCControllerState) {
+    ATVC_ADD_TOOL = 0,
+    ATVC_EDIT_TOOL,
+    ATVC_VIEW_TOOL
 };
 
 //Values set in the prepare to Segue function
@@ -31,6 +31,6 @@ typedef NS_ENUM(NSInteger, ControllerState) {
 
 @property (weak, nonatomic) IBOutlet UIButton *AddToolBtn;
 
-@property (nonatomic) ControllerState controllerState;
+@property (nonatomic) ATVCControllerState controllerState;
 
 @end

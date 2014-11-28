@@ -10,10 +10,10 @@
 #import <CoreLocation/CoreLocation.h>
 #import <AVFoundation/AVFoundation.h>
 
-typedef NS_ENUM(NSInteger, ControllerState) {
-    SCAN_TOOL = 0,
-    ADD_TOOL,
-    SHIP_TOOL
+typedef NS_ENUM(NSInteger, CVCControllerState) {
+    CVC_SCAN_TOOL = 0,
+    CVC_ADD_TOOL,
+    CVC_SHIP_TOOL
 };
 
 @interface CameraViewController : UIViewController <AVCaptureMetadataOutputObjectsDelegate,
@@ -21,6 +21,6 @@ UIAlertViewDelegate, CLLocationManagerDelegate> {
 //    ControllerState controllerState;
 }
 
-@property (nonatomic) ControllerState controllerState;
+@property (nonatomic) CVCControllerState controllerState;
 @property (weak, nonatomic) IBOutlet UIView *cameraView;
 @end

@@ -49,7 +49,7 @@
     
     // Setting camera view controller state
     CameraViewController* cVC = [[self.tabBarController viewControllers] objectAtIndex:0];
-    [cVC setControllerState:SCAN_TOOL];
+    [cVC setControllerState:CVC_SCAN_TOOL];
 }
 
 - (void)didReceiveMemoryWarning {

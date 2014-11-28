@@ -11,6 +11,7 @@
 #import "LoginViewController.h"
 #import "ToolDetailViewController.h"
 #import "AddToolViewController.h"
+#import "AddToolTableViewController.h"
 #import "LoadView.h"
 
 @interface CameraViewController ()
@@ -31,7 +32,9 @@
 -(void)stopReading;
 
 -(void)ScanTool;
+-(void)ScanToolNext;
 -(void)AddToolWithCheck:(BOOL)check;
+-(void)AddToolNext;
 
 @end
 
@@ -45,8 +48,6 @@
         [_locationManager requestWhenInUseAuthorization];
     }
     _locationManager.delegate = self;
-    
-    NSLog(@"[DEBUG] Current Camera View Controller State: %ld", self.controllerState);
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -140,9 +141,9 @@
 
             // Check if valid qrcode
             _qrCodeString = [metadataObj stringValue];
-            if (self.controllerState == SCAN_TOOL) {
+            if (self.controllerState == CVC_SCAN_TOOL) {
                 [self ScanTool];
-            } else if (self.controllerState == ADD_TOOL) {
+            } else if (self.controllerState == CVC_ADD_TOOL) {
                 [self AddToolWithCheck:YES];
             }
         }
@@ -171,10 +172,13 @@
                     [alertView setTag:1];
                     [alertView show];
                 } else {
-                    ToolDetailViewController* tVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ToolDetailViewController"];
+                    [self ScanToolNext];
+
                     
-                    tVC.exam = _exam;
-                    [self.navigationController pushViewController:tVC animated:YES];
+//                    ToolDetailViewController* tVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ToolDetailViewController"];
+//                    
+//                    tVC.exam = _exam;
+//                    [self.navigationController pushViewController:tVC animated:YES];
                 }
                 
             }
@@ -193,6 +197,13 @@
     }
 }
 
+-(void)ScanToolNext {
+    AddToolTableViewController* aTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"AddToolTableViewController"];
+    [aTVC setControllerState:ATVC_VIEW_TOOL];
+    [aTVC setExam:_exam];
+    [self.navigationController pushViewController:aTVC animated:YES];
+}
+
 #pragma Add Tool Functions
 -(void)AddToolWithCheck:(BOOL)check {
     if (check) {
@@ -203,12 +214,12 @@
         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             [lView removeFromSuperview];
             if ([objects count] == 0) {
-                AddToolViewController* aTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"AddToolViewController"];
-                [aTVC setQRCode:_qrCodeString];
-                // [self.navigationController pushViewController:aTVC animated:YES];
-                [self presentViewController:aTVC animated:YES completion:^{
-                }];
-                
+                [self AddToolNext];
+//                AddToolViewController* aTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"AddToolViewController"];
+//                [aTVC setQRCode:_qrCodeString];
+//                // [self.navigationController pushViewController:aTVC animated:YES];
+//                [self presentViewController:aTVC animated:YES completion:^{
+//                }];
             } else {
                 UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Tool Exists" message:@"This tool ID already exists in the system" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
                 [alertView setTag:4];
@@ -217,12 +228,20 @@
         }];
         
     } else {
-        AddToolViewController* aTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"AddToolViewController"];
-        [aTVC setQRCode:_qrCodeString];
-        // [self.navigationController pushViewController:aTVC animated:YES];
-        [self presentViewController:aTVC animated:YES completion:^{
-        }];
+        [self AddToolNext];
+//        AddToolViewController* aTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"AddToolViewController"];
+//        [aTVC setQRCode:_qrCodeString];
+//        // [self.navigationController pushViewController:aTVC animated:YES];
+//        [self presentViewController:aTVC animated:YES completion:^{
+//        }];
     }
+}
+
+-(void)AddToolNext {
+    AddToolTableViewController* aTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"AddToolTableViewController"];
+    [aTVC setControllerState:ATVC_ADD_TOOL];
+    [aTVC setQRCode:_qrCodeString];
+    [self.navigationController pushViewController:aTVC animated:YES];
 }
 
 #pragma UIAlertViewDelegate Functions
@@ -230,9 +249,10 @@
     // Update Location AlertView
     if ([alertView tag] == 1) {
         if (buttonIndex == 0) {
-            ToolDetailViewController* tVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ToolDetailViewController"];
-            tVC.exam = _exam;
-            [self.navigationController pushViewController:tVC animated:YES];
+            [self ScanToolNext];
+//            ToolDetailViewController* tVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ToolDetailViewController"];
+//            tVC.exam = _exam;
+//            [self.navigationController pushViewController:tVC animated:YES];
             
         } else {
             [_exam setObject:_geoPoint forKey:@"toolGeoPoint"];
@@ -241,9 +261,10 @@
             
             [_exam saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 [lView removeFromSuperview];
-                ToolDetailViewController* tVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ToolDetailViewController"];
-                tVC.exam = _exam;
-                [self.navigationController pushViewController:tVC animated:YES];
+                [self ScanToolNext];
+//                ToolDetailViewController* tVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ToolDetailViewController"];
+//                tVC.exam = _exam;
+//                [self.navigationController pushViewController:tVC animated:YES];
                 
             }];
         }
