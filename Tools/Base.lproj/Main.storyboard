@@ -308,67 +308,6 @@
             </objects>
             <point key="canvasLocation" x="780" y="1276"/>
         </scene>
-        <!--Tool Details-->
-        <scene sceneID="Dxe-um-Suz">
-            <objects>
-                <viewController storyboardIdentifier="ToolDetailViewController" title="Tool Details" id="Oro-Oc-XfC" customClass="ToolDetailViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="ECZ-I5-l0e"/>
-                        <viewControllerLayoutGuide type="bottom" id="BFJ-ik-F4R"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="2eg-Ql-xNy">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QHC-eE-rgq">
-                                <rect key="frame" x="103" y="37" width="115" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="F64-P7-4gq"/>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dLd-vK-y7p">
-                                <rect key="frame" x="26" y="101" width="319" height="38"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3fz-h5-ft2">
-                                <rect key="frame" x="26" y="147" width="319" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tool Status" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="41f-8y-gcY">
-                                <rect key="frame" x="26" y="198" width="319" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="07k-F2-ulG">
-                                <rect key="frame" x="99" y="72" width="177" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="8fF-VG-QUa">
-                        <barButtonItem key="backBarButtonItem" title="Back" id="7qV-ww-T6w"/>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="examTitle" destination="07k-F2-ulG" id="l9B-DZ-J6M"/>
-                        <outlet property="toolStatus" destination="41f-8y-gcY" id="CU4-oq-Rh0"/>
-                        <outlet property="toolStatusLbl" destination="41f-8y-gcY" id="VYU-Y4-fd1"/>
-                        <outlet property="toolType" destination="dLd-vK-y7p" id="ddW-iv-eZD"/>
-                        <outlet property="toolWeight" destination="3fz-h5-ft2" id="ilF-4f-Q5B"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="0yH-Tk-AtD" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2026.5" y="1081.5"/>
-        </scene>
         <!--Tool List-->
         <scene sceneID="jbq-zp-WYu">
             <objects>
@@ -481,6 +420,9 @@
                             <items>
                                 <navigationItem title="Add Tool" id="lKb-AB-udZ"/>
                             </items>
+                            <connections>
+                                <outlet property="delegate" destination="tJR-jZ-xZ3" id="hfU-6T-z4n"/>
+                            </connections>
                         </navigationBar>
                         <button key="tableFooterView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="mPV-GI-n6w">
                             <rect key="frame" x="-23" y="-15" width="375" height="44"/>
@@ -552,7 +494,7 @@
                     </items>
                 </navigationBar>
             </objects>
-            <point key="canvasLocation" x="1963.5" y="742.5"/>
+            <point key="canvasLocation" x="2013.5" y="512.5"/>
         </scene>
     </scenes>
     <resources>

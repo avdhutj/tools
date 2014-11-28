@@ -11,6 +11,12 @@
 
 @interface AddToolTableViewController : UITableViewController
 
+typedef NS_ENUM(NSInteger, ControllerState) {
+    ADD_TOOL = 0,
+    EDIT_TOOL,
+    VIEW_TOOL
+};
+
 //Values set in the prepare to Segue function
 @property (strong, nonatomic) PFObject *Supplier;
 @property NSString* QRCode;
@@ -25,5 +31,6 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *AddToolBtn;
 
+@property (nonatomic) ControllerState controllerState;
 
 @end
