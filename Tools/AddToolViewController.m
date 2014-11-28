@@ -25,6 +25,7 @@
     //Set up for supplier name and address
     self.SupplierNameLbl.text = [self.Supplier objectForKey:@"supplier"];
     self.SupplierAddressLbl.text = [self.Supplier objectForKey:@"address"];
+    [self.PN1StatusLbl setHidden:TRUE];
     
 }
 
@@ -43,6 +44,24 @@
     tool[@"toolDescription"] = self.DescrTxt.text;
     [tool saveInBackground];
     //Need to set up the part number adding thing this might be a little tricky because we will need to tool up the part number that was added and if it isnt there a new part number needs to be created after confirming with the user.
+}
+
+- (IBAction)PartNumber1:(id)sender {
+    //NSLog(@"Editting did end");
+    [self.PN1StatusLbl setHidden:FALSE];
+    
+    
+}
+
+- (IBAction)EditTouchUp:(id)sender {
+    
+    if ([self.EditBtn.titleLabel.text isEqualToString:@"Edit"]) {
+        [self.EditBtn setTitle:@"Done" forState:UIControlStateNormal];
+    } else {
+    
+        [self.EditBtn setTitle:@"Edit" forState:UIControlStateNormal];
+    }
+    
 }
 
 

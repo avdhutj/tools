@@ -26,5 +26,10 @@
 @property (weak, nonatomic) IBOutlet UITextField *PartNo1Txt;
 @property (weak, nonatomic) IBOutlet UITextField *PartNo2Txt;
 @property (weak, nonatomic) IBOutlet UIButton *AddToolBtn;
+@property NSMutableArray *PartNumbers;
+@property (weak, nonatomic) IBOutlet UILabel *PN1StatusLbl;
+@property (weak, nonatomic) IBOutlet UIButton *EditBtn;
+@property (weak, nonatomic) IBOutlet UIButton *addPartNoBtn;
+
 
 @end
