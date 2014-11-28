@@ -10,11 +10,17 @@
 #import <CoreLocation/CoreLocation.h>
 #import <AVFoundation/AVFoundation.h>
 
-//#import "ZBarReaderView.h"
+typedef NS_ENUM(NSInteger, ControllerState) {
+    SCAN_TOOL = 0,
+    ADD_TOOL,
+    SHIP_TOOL
+};
 
 @interface CameraViewController : UIViewController <AVCaptureMetadataOutputObjectsDelegate,
-            UIAlertViewDelegate, CLLocationManagerDelegate>
+UIAlertViewDelegate, CLLocationManagerDelegate> {
+//    ControllerState controllerState;
+}
 
-//@property (weak, nonatomic) IBOutlet ZBarReaderView *zBarReaderView;
+@property (nonatomic) ControllerState controllerState;
 @property (weak, nonatomic) IBOutlet UIView *cameraView;
 @end
