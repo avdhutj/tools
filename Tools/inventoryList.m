@@ -65,6 +65,10 @@
     [super objectsDidLoad:error];
 }
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (self.SegmentedController.selectedSegmentIndex == 0) {
         return self.alltasksArray.count;
