@@ -12,4 +12,6 @@
 
 @interface ToolListViewController : PFQueryTableViewController
 
+@property (strong, nonatomic) PFObject *Supplier;
+
 @end

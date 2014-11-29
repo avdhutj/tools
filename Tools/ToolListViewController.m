@@ -52,6 +52,12 @@
     
     [query orderByDescending:@"createdAt"];
     
+    //Supplier for Add tool / detailed tool view controller
+    PFQuery *querySupplier = [PFQuery queryWithClassName:@"SupplierList"];
+    [querySupplier findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error){
+        self.Supplier = [querySupplier getObjectWithId:@"Pj9iWujEKk"];
+    }];
+    
     return query;
 }
 
@@ -75,10 +81,8 @@
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
-    NSLog(@"In prepare for Segue");
     // Pass the selected object to the new view controller.
     if ([segue.identifier isEqualToString:@"displayDetail"]) {
-        NSLog(@"In  disp detail");
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         PFObject *object = [self.objects objectAtIndex:indexPath.row];
     
@@ -88,6 +92,9 @@
         
         AddToolTableViewController *detailViewController = [segue destinationViewController];
         detailViewController.exam = object;
+        detailViewController.Supplier = self.Supplier;
+        [detailViewController setControllerState:ATVC_VIEW_TOOL];
+
     }
 }
 

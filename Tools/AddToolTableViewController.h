@@ -20,17 +20,21 @@ typedef NS_ENUM(NSInteger, ATVCControllerState) {
 //Values set in the prepare to Segue function
 @property (strong, nonatomic) PFObject *Supplier;
 @property NSString* QRCode;
+@property (strong, nonatomic) PFObject *exam;
 
 //Table Set Up Values
 @property NSArray *tableTitles;
-@property NSDictionary *items;
+@property NSMutableDictionary *items;
 
-@property (weak, nonatomic) NSMutableArray *partNumbers;
-@property (strong, nonatomic) PFObject *exam;
-@property (weak, nonatomic) NSString *toolStatus;
+//Tool Attributes
+@property (nonatomic) NSMutableArray *partNumbers;
+@property (nonatomic) NSMutableDictionary *partStausLookUp;
+@property (nonatomic) NSMutableArray *partPFObjects;
+@property (nonatomic) NSString *toolStatus;
+@property (nonatomic) UIImage *toolImage;
 
+//Controller
 @property (weak, nonatomic) IBOutlet UIButton *AddToolBtn;
-
 @property (nonatomic) ATVCControllerState controllerState;
 
 @end

@@ -23,46 +23,51 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    //These values should be set in the prepare for segue function from the Scan tab
-    PFQuery *query = [PFQuery queryWithClassName:@"SupplierList"];
-    self.Supplier = [query getObjectWithId:@"Pj9iWujEKk"];
-    self.QRCode = @"QRCode_123";
-    
-    self.toolStatus = [NSString stringWithFormat:@"TBD"];
-    //__block int obsCount = 0;
-    int obsCount = 0;
+    //View Set up
     NSArray *partIDs = [self.exam objectForKey:@"part"];
-    
-    //Working w/o block operation
+    self.partNumbers = [NSMutableArray new];
+    self.partStausLookUp = [[NSMutableDictionary alloc] init];
+    self.toolStatus = [NSString stringWithFormat:@"TBD"];
+    __block int obsCount = 0;
     PFQuery *queryParts = [PFQuery queryWithClassName:@"PartNumbers"];
-    for (NSString* part in partIDs){
-        PFObject* partNo = [queryParts getObjectWithId:part];
-        NSString *status = [partNo objectForKey:@"status"];
-        [self.partNumbers addObject:[partNo objectForKey:@"name"]];
-        NSLog(@"%@",[partNo objectForKey:@"name"]);
-        if([status isEqual:@"Active"]){
-            self.toolStatus = status;
-        } else if ([status isEqual:@"Obsolete"]){
-            obsCount ++;
+    
+    [queryParts findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error){
+        if(!error) {
+            for (NSString* part in partIDs){
+                PFObject* partNo = [queryParts getObjectWithId:part];
+                NSString *status = [partNo objectForKey:@"status"];
+                [self.partNumbers addObject:[partNo objectForKey:@"name"]];
+                [self.partStausLookUp setObject:status forKey:[partNo objectForKey:@"name"]];
+                NSLog(@"%@ status: %@",[partNo objectForKey:@"name"], [partNo objectForKey:@"status"]);
+                if([status isEqual:@"Active"]){
+                    self.toolStatus = status;
+                } else if ([status isEqual:@"Obsolete"]){
+                    obsCount ++;
+                }
+            };
+            
+            if ([partIDs count]==obsCount) {
+                self.toolStatus = @"Obsolete";
+            }
+            
+            //Set Up for the  cells in the table
+        
+            NSDictionary *dict =  @{@"Supplier" : @[[self.Supplier objectForKey:@"supplier"], [self.Supplier objectForKey:@"address"]],
+                            @"Tool Details" : @[[self.exam objectForKey:@"toolId"], [NSString stringWithFormat: @"%i lbs",[[self.exam objectForKey:@"weight"]integerValue]], [self.exam objectForKey:@"toolType"],@"toolDescription"]};
+            
+            self.items = [NSMutableDictionary dictionaryWithDictionary:dict];
+            [self.items setObject:self.partNumbers forKey:@"Part Numbers"];
+            
+            //How to sort this?? tried to also sort this so part numbers are at the bottom so you can add to it using the button
+            //self.tableTitles = [[self.items allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+            self.tableTitles = [self.items allKeys];
+            
+            [self.tableView reloadData];
+            
+        } else {
+            NSLog(@"%@", [error userInfo]);
         }
-    };
-    
-    if ([partIDs count]==obsCount) {
-        self.toolStatus = @"Obsolete";
-    }
-    
-    NSMutableDictionary * ItemsMutable = [NSMutableDictionary dictionaryWithObject:partIDs forKey:@"Section1"];
-    NSLog(@"%@",ItemsMutable);
-    
-    //Set Up for the  cells in the table
-    self.items = @{@"Supplier" : @[[self.Supplier objectForKey:@"supplier"],                    [self.Supplier objectForKey:@"address"]],
-                   @"Tool Details" : @[[self.exam objectForKey:@"toolId"], [NSString stringWithFormat: @"%i lbs",[[self.exam objectForKey:@"weight"]integerValue]], [self.exam objectForKey:@"toolType"],@"toolDescription"],
-                   @"Part Numbers" :@[@"self.partNumbers"]};
-    
-    //How to sort this?? tried to also sort this so part numbers are at the bottom so you can add to it using the button
-    //self.tableTitles = [[self.items allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-    self.tableTitles = [self.items allKeys];
-    
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -92,6 +97,9 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    //Get tool image from parse
+    self.toolImage = [UIImage imageNamed:@"UserImg"];
+    
     // Configure the cell...
     
     NSString *sectionTitle = [self.tableTitles objectAtIndex:indexPath.section];
@@ -101,14 +109,24 @@
     if ([sectionTitle isEqualToString:@"Part Numbers"]) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellDetail" forIndexPath:indexPath];
         cell.textLabel.text = item;
-        cell.detailTextLabel.text = @"Part Status";
+        if ([self.partStausLookUp count] > 0) {
+            cell.detailTextLabel.text = [self.partStausLookUp objectForKey:item];
+        }
         return cell;
+    } else if (indexPath.row==0) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellToolId" forIndexPath:indexPath];
+        cell.textLabel.text = item;
+        if ([sectionTitle isEqualToString:@"Tool Details"]){
+            cell.imageView.image = self.toolImage;
+            cell.detailTextLabel.text = self.toolStatus;
+        } else {cell.detailTextLabel.text = @"";};
+        return cell;
+        
     } else {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellLbl" forIndexPath:indexPath];
         cell.textLabel.text = item;
         return cell;
     }
-    
 }
 
 - (IBAction)AddToolTouchUp:(id)sender {
@@ -188,14 +206,20 @@
 }
 */
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([segue.identifier isEqualToString:@"MapView"]) {
+        
+        NSLog(@"Here");
+        
+    }
+
 }
-*/
+
 
 @end

@@ -12,7 +12,6 @@
 		1D2D8E0E1A1FC4A90035E144 /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D2D8E0A1A1FC4A90035E144 /* ParseFacebookUtils.framework */; };
 		1D2D8E0F1A1FC4A90035E144 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D2D8E0B1A1FC4A90035E144 /* ParseUI.framework */; };
 		1DCCBCA61A27F6E70040369E /* AddToolTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DCCBCA51A27F6E70040369E /* AddToolTableViewController.m */; };
-		1DDC3FC71A2020DC00E385F5 /* ToolDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC3FC61A2020DC00E385F5 /* ToolDetailViewController.m */; };
 		1DDC3FD21A21482100E385F5 /* SupplierInventoryList.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC3FD11A21482100E385F5 /* SupplierInventoryList.m */; };
 		1DDC3FD51A2148B700E385F5 /* ToolListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC3FD41A2148B700E385F5 /* ToolListViewController.m */; };
 		1DDC3FD81A21498B00E385F5 /* InventoryList.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC3FD71A21498B00E385F5 /* InventoryList.m */; };
@@ -63,8 +62,6 @@
 		1D2D8E0B1A1FC4A90035E144 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
 		1DCCBCA41A27F6E70040369E /* AddToolTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddToolTableViewController.h; sourceTree = "<group>"; };
 		1DCCBCA51A27F6E70040369E /* AddToolTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddToolTableViewController.m; sourceTree = "<group>"; };
-		1DDC3FC51A2020DC00E385F5 /* ToolDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToolDetailViewController.h; sourceTree = "<group>"; };
-		1DDC3FC61A2020DC00E385F5 /* ToolDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToolDetailViewController.m; sourceTree = "<group>"; };
 		1DDC3FD01A21482100E385F5 /* SupplierInventoryList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SupplierInventoryList.h; sourceTree = "<group>"; };
 		1DDC3FD11A21482100E385F5 /* SupplierInventoryList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SupplierInventoryList.m; sourceTree = "<group>"; };
 		1DDC3FD31A2148B700E385F5 /* ToolListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToolListViewController.h; sourceTree = "<group>"; };
@@ -247,8 +244,6 @@
 				1DDC3FD11A21482100E385F5 /* SupplierInventoryList.m */,
 				1DDC3FD31A2148B700E385F5 /* ToolListViewController.h */,
 				1DDC3FD41A2148B700E385F5 /* ToolListViewController.m */,
-				1DDC3FC51A2020DC00E385F5 /* ToolDetailViewController.h */,
-				1DDC3FC61A2020DC00E385F5 /* ToolDetailViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -375,7 +370,6 @@
 				4A9172211A1DB590006E5C8A /* LoadingView.m in Sources */,
 				1DDC3FD51A2148B700E385F5 /* ToolListViewController.m in Sources */,
 				1DDC3FD21A21482100E385F5 /* SupplierInventoryList.m in Sources */,
-				1DDC3FC71A2020DC00E385F5 /* ToolDetailViewController.m in Sources */,
 				1DCCBCA61A27F6E70040369E /* AddToolTableViewController.m in Sources */,
 				4A0241D51A1DA49C00498E0B /* ViewController.m in Sources */,
 				4A0241D21A1DA49C00498E0B /* AppDelegate.m in Sources */,
