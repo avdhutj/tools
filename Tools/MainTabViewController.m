@@ -7,7 +7,6 @@
 //
 
 #import "MainTabViewController.h"
-#import "InventoryList.h"
 #import "SupplierInventoryList.h"
 #import "CameraViewController.h"
 #import <Parse/Parse.h>

@@ -8,8 +8,15 @@
 
 #import "InventoryListViewController.h"
 #import <Parse/Parse.h>
+#import "LoadView.h"
 
 @interface InventoryListViewController ()
+
+@property (strong, nonatomic) NSMutableArray* allToolsArray;
+@property (strong, nonatomic) NSMutableArray* transferToolsArray;
+@property (strong, nonatomic) NSMutableArray* addToolsArray;
+
+-(void)loadData;
 
 @end
 
@@ -23,6 +30,12 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    _allToolsArray = [[NSMutableArray alloc] init];
+    _transferToolsArray = [[NSMutableArray alloc] init];
+    _addToolsArray = [[NSMutableArray alloc] init];
+    
+    [self loadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -33,26 +46,45 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
+
+    if (self.segmentController.selectedSegmentIndex == 0) {
+        return _allToolsArray.count;
+    }
+    else if (self.segmentController.selectedSegmentIndex == 1) {
+        return _transferToolsArray.count;
+    }
+    else if (self.segmentController.selectedSegmentIndex == 2) {
+        return _addToolsArray.count;
+    }
     return 0;
 }
 
-/*
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"InvToolCell" forIndexPath:indexPath];
     
     // Configure the cell...
-    
+    PFObject* object;
+    if (self.segmentController.selectedSegmentIndex == 0) {
+        object = [_allToolsArray objectAtIndex:indexPath.row];
+        
+    }
+    else if (self.segmentController.selectedSegmentIndex == 1) {
+        object = [_transferToolsArray objectAtIndex:indexPath.row];
+    }
+    else if (self.segmentController.selectedSegmentIndex == 2) {
+        object = [_addToolsArray objectAtIndex:indexPath.row];
+    }
+    cell.textLabel.text = [object valueForKey:@"toolId"];
+    cell.detailTextLabel.text = [object valueForKey:@"task"];
     return cell;
 }
-*/
+
 
 /*
 // Override to support conditional editing of the table view.
@@ -97,5 +129,35 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+-(void)loadData {
+    PFQuery* query = [PFQuery queryWithClassName:@"InvToolList"];
+    [query orderByAscending:@"taskType"];
+    
+    LoadView* lView = [[[NSBundle mainBundle] loadNibNamed:@"LoadView" owner:nil options:nil] lastObject];
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        [lView removeFromSuperview];
+        for (PFObject* object in objects) {
+            [_allToolsArray addObject:object];
+            if ([[object valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:1]]) {
+                [_addToolsArray addObject:object];
+            }
+            else if ([[object valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:2]]) {
+                [_transferToolsArray addObject:object];
+            }
+            else if ([[object valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:3]]) {
+                [_transferToolsArray addObject:object];
+            }
+        }
+        [self.tableView reloadData];
+    }];
+
+}
+- (IBAction)segmentControllerChanged:(id)sender {
+    [self.tableView reloadData];
+}
+
+
 
 @end

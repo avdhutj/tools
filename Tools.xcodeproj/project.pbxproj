@@ -17,7 +17,6 @@
 		1DCCBCAF1A2A7CC50040369E /* PartNoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DCCBCAE1A2A7CC50040369E /* PartNoCell.m */; };
 		1DDC3FD21A21482100E385F5 /* SupplierInventoryList.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC3FD11A21482100E385F5 /* SupplierInventoryList.m */; };
 		1DDC3FD51A2148B700E385F5 /* ToolListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC3FD41A2148B700E385F5 /* ToolListViewController.m */; };
-		1DDC3FD81A21498B00E385F5 /* InventoryList.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC3FD71A21498B00E385F5 /* InventoryList.m */; };
 		2E27C4231A28DA2C001204FB /* InventoryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E27C4221A28DA2C001204FB /* InventoryListViewController.m */; };
 		4A0241CF1A1DA49C00498E0B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A0241CE1A1DA49C00498E0B /* main.m */; };
 		4A0241D21A1DA49C00498E0B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A0241D11A1DA49C00498E0B /* AppDelegate.m */; };
@@ -74,8 +73,6 @@
 		1DDC3FD11A21482100E385F5 /* SupplierInventoryList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SupplierInventoryList.m; sourceTree = "<group>"; };
 		1DDC3FD31A2148B700E385F5 /* ToolListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToolListViewController.h; sourceTree = "<group>"; };
 		1DDC3FD41A2148B700E385F5 /* ToolListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToolListViewController.m; sourceTree = "<group>"; };
-		1DDC3FD61A21498B00E385F5 /* InventoryList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryList.h; sourceTree = "<group>"; };
-		1DDC3FD71A21498B00E385F5 /* InventoryList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryList.m; sourceTree = "<group>"; };
 		2E27C4211A28DA2C001204FB /* InventoryListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InventoryListViewController.h; path = ../InventoryListViewController.h; sourceTree = "<group>"; };
 		2E27C4221A28DA2C001204FB /* InventoryListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InventoryListViewController.m; path = ../InventoryListViewController.m; sourceTree = "<group>"; };
 		4A0241C91A1DA49C00498E0B /* Tools.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tools.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -260,8 +257,6 @@
 				4A9172231A1DBA6C006E5C8A /* MainTabViewController.m */,
 				4A91723F1A1EB040006E5C8A /* CameraViewController.h */,
 				4A9172401A1EB040006E5C8A /* CameraViewController.m */,
-				1DDC3FD61A21498B00E385F5 /* InventoryList.h */,
-				1DDC3FD71A21498B00E385F5 /* InventoryList.m */,
 				1DDC3FD01A21482100E385F5 /* SupplierInventoryList.h */,
 				1DDC3FD11A21482100E385F5 /* SupplierInventoryList.m */,
 				1DDC3FD31A2148B700E385F5 /* ToolListViewController.h */,
@@ -386,7 +381,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A7DFE7C1A25854D0046B3AE /* LoadView.m in Sources */,
-				1DDC3FD81A21498B00E385F5 /* InventoryList.m in Sources */,
 				4A02420D1A1DA90B00498E0B /* LoginViewController.m in Sources */,
 				4A9172241A1DBA6C006E5C8A /* MainTabViewController.m in Sources */,
 				4A9172211A1DB590006E5C8A /* LoadingView.m in Sources */,
