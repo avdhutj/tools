@@ -12,6 +12,8 @@
 		1D2D8E0E1A1FC4A90035E144 /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D2D8E0A1A1FC4A90035E144 /* ParseFacebookUtils.framework */; };
 		1D2D8E0F1A1FC4A90035E144 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D2D8E0B1A1FC4A90035E144 /* ParseUI.framework */; };
 		1DCCBCA61A27F6E70040369E /* AddToolTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DCCBCA51A27F6E70040369E /* AddToolTableViewController.m */; };
+		1DCCBCA91A29992F0040369E /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DCCBCA81A29992F0040369E /* MapViewController.m */; };
+		1DCCBCAB1A299C0C0040369E /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DCCBCAA1A299C0C0040369E /* MapKit.framework */; };
 		1DDC3FD21A21482100E385F5 /* SupplierInventoryList.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC3FD11A21482100E385F5 /* SupplierInventoryList.m */; };
 		1DDC3FD51A2148B700E385F5 /* ToolListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC3FD41A2148B700E385F5 /* ToolListViewController.m */; };
 		1DDC3FD81A21498B00E385F5 /* InventoryList.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC3FD71A21498B00E385F5 /* InventoryList.m */; };
@@ -62,6 +64,9 @@
 		1D2D8E0B1A1FC4A90035E144 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
 		1DCCBCA41A27F6E70040369E /* AddToolTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddToolTableViewController.h; sourceTree = "<group>"; };
 		1DCCBCA51A27F6E70040369E /* AddToolTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddToolTableViewController.m; sourceTree = "<group>"; };
+		1DCCBCA71A29992F0040369E /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
+		1DCCBCA81A29992F0040369E /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		1DCCBCAA1A299C0C0040369E /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		1DDC3FD01A21482100E385F5 /* SupplierInventoryList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SupplierInventoryList.h; sourceTree = "<group>"; };
 		1DDC3FD11A21482100E385F5 /* SupplierInventoryList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SupplierInventoryList.m; sourceTree = "<group>"; };
 		1DDC3FD31A2148B700E385F5 /* ToolListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToolListViewController.h; sourceTree = "<group>"; };
@@ -115,6 +120,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DCCBCAB1A299C0C0040369E /* MapKit.framework in Frameworks */,
 				1D2D8E0F1A1FC4A90035E144 /* ParseUI.framework in Frameworks */,
 				1D2D8E0C1A1FC4A90035E144 /* Bolts.framework in Frameworks */,
 				4AF22BFD1A1EBAEF00E1C317 /* AVFoundation.framework in Frameworks */,
@@ -149,6 +155,7 @@
 		4A0241C01A1DA49C00498E0B = {
 			isa = PBXGroup;
 			children = (
+				1DCCBCAA1A299C0C0040369E /* MapKit.framework */,
 				1D2D8E081A1FC4A90035E144 /* Bolts.framework */,
 				1D2D8E091A1FC4A90035E144 /* Parse.framework */,
 				1D2D8E0A1A1FC4A90035E144 /* ParseFacebookUtils.framework */,
@@ -230,6 +237,8 @@
 			children = (
 				2E27C4211A28DA2C001204FB /* InventoryListViewController.h */,
 				2E27C4221A28DA2C001204FB /* InventoryListViewController.m */,
+				1DCCBCA71A29992F0040369E /* MapViewController.h */,
+				1DCCBCA81A29992F0040369E /* MapViewController.m */,
 				1DCCBCA41A27F6E70040369E /* AddToolTableViewController.h */,
 				1DCCBCA51A27F6E70040369E /* AddToolTableViewController.m */,
 				4A02420B1A1DA90B00498E0B /* LoginViewController.h */,
@@ -376,6 +385,7 @@
 				2E27C4231A28DA2C001204FB /* InventoryListViewController.m in Sources */,
 				4A9172411A1EB040006E5C8A /* CameraViewController.m in Sources */,
 				4A0241CF1A1DA49C00498E0B /* main.m in Sources */,
+				1DCCBCA91A29992F0040369E /* MapViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -504,6 +514,7 @@
 				INFOPLIST_FILE = Tools/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
+				New_Setting = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};
@@ -520,6 +531,7 @@
 				INFOPLIST_FILE = Tools/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
+				New_Setting = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};

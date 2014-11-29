@@ -23,51 +23,72 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    //View Set up
-    NSArray *partIDs = [self.exam objectForKey:@"part"];
-    self.partNumbers = [NSMutableArray new];
-    self.partStausLookUp = [[NSMutableDictionary alloc] init];
-    self.toolStatus = [NSString stringWithFormat:@"TBD"];
-    __block int obsCount = 0;
-    PFQuery *queryParts = [PFQuery queryWithClassName:@"PartNumbers"];
-    
-    [queryParts findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error){
-        if(!error) {
-            for (NSString* part in partIDs){
-                PFObject* partNo = [queryParts getObjectWithId:part];
-                NSString *status = [partNo objectForKey:@"status"];
-                [self.partNumbers addObject:[partNo objectForKey:@"name"]];
-                [self.partStausLookUp setObject:status forKey:[partNo objectForKey:@"name"]];
-                NSLog(@"%@ status: %@",[partNo objectForKey:@"name"], [partNo objectForKey:@"status"]);
-                if([status isEqual:@"Active"]){
-                    self.toolStatus = status;
-                } else if ([status isEqual:@"Obsolete"]){
-                    obsCount ++;
-                }
-            };
-            
-            if ([partIDs count]==obsCount) {
-                self.toolStatus = @"Obsolete";
-            }
-            
-            //Set Up for the  cells in the table
+    if (self.controllerState == ATVC_ADD_TOOL) {
         
-            NSDictionary *dict =  @{@"Supplier" : @[[self.Supplier objectForKey:@"supplier"], [self.Supplier objectForKey:@"address"]],
-                            @"Tool Details" : @[[self.exam objectForKey:@"toolId"], [NSString stringWithFormat: @"%i lbs",[[self.exam objectForKey:@"weight"]integerValue]], [self.exam objectForKey:@"toolType"],@"toolDescription"]};
-            
-            self.items = [NSMutableDictionary dictionaryWithDictionary:dict];
-            [self.items setObject:self.partNumbers forKey:@"Part Numbers"];
-            
-            //How to sort this?? tried to also sort this so part numbers are at the bottom so you can add to it using the button
-            //self.tableTitles = [[self.items allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-            self.tableTitles = [self.items allKeys];
-            
-            [self.tableView reloadData];
-            
-        } else {
-            NSLog(@"%@", [error userInfo]);
-        }
-    }];
+        NSDictionary *dict =  @{@"Supplier" : @[@"Supplier", @"Supplier Address"],
+                                @"Tool Details" : @[@"Tool ID", @"Weight", @"Tool Type",@"Tool Description"],
+                                @"Part Numbers" : @[@"Part Number"]};
+        
+        self.items = [NSMutableDictionary dictionaryWithDictionary:dict];
+        //How to sort this?? tried to also sort this so part numbers are at the bottom so you can add to it using the button
+        //self.tableTitles = [[self.items allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+        self.tableTitles = [self.items allKeys];
+        
+        [self.tableView reloadData];
+        
+
+        
+    } else if (self.controllerState == ATVC_EDIT_TOOL || self.controllerState == ATVC_VIEW_TOOL) {
+        
+        
+        //View Set up if new tool
+        
+        //View Set up if exsisting tool
+        NSArray *partIDs = [self.exam objectForKey:@"part"];
+        self.partNumbers = [NSMutableArray new];
+        self.partStausLookUp = [[NSMutableDictionary alloc] init];
+        self.toolStatus = [NSString stringWithFormat:@"TBD"];
+        __block int obsCount = 0;
+        PFQuery *queryParts = [PFQuery queryWithClassName:@"PartNumbers"];
+        
+        [queryParts findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error){
+            if(!error) {
+                for (NSString* part in partIDs){
+                    PFObject* partNo = [queryParts getObjectWithId:part];
+                    NSString *status = [partNo objectForKey:@"status"];
+                    [self.partNumbers addObject:[partNo objectForKey:@"name"]];
+                    [self.partStausLookUp setObject:status forKey:[partNo objectForKey:@"name"]];
+                    NSLog(@"%@ status: %@",[partNo objectForKey:@"name"], [partNo objectForKey:@"status"]);
+                    if([status isEqual:@"Active"]){
+                        self.toolStatus = status;
+                    } else if ([status isEqual:@"Obsolete"]){
+                        obsCount ++;
+                    }
+                };
+                
+                if ([partIDs count]==obsCount) {
+                    self.toolStatus = @"Obsolete";
+                }
+                
+                //Set Up for the  cells in the table
+                
+                NSDictionary *dict =  @{@"Supplier" : @[[self.Supplier objectForKey:@"supplier"], [self.Supplier objectForKey:@"address"]],
+                                        @"Tool Details" : @[[self.exam objectForKey:@"toolId"], [NSString stringWithFormat: @"%i lbs",[[self.exam objectForKey:@"weight"]integerValue]], [self.exam objectForKey:@"toolType"],@"toolDescription"]};
+                
+                self.items = [NSMutableDictionary dictionaryWithDictionary:dict];
+                [self.items setObject:self.partNumbers forKey:@"Part Numbers"];
+                
+                //How to sort this?? tried to also sort this so part numbers are at the bottom so you can add to it using the button
+                //self.tableTitles = [[self.items allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+                self.tableTitles = [self.items allKeys];
+                
+                [self.tableView reloadData];
+                
+            } else {
+                NSLog(@"%@", [error userInfo]);
+            }
+        }];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -169,15 +190,6 @@
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    /*
-    NSString *sectionTitle = [self.tableTitles objectAtIndex:indexPath.section];
-    
-    if ([sectionTitle isEqualToString:@"Supplier"]) {
-        
-        return NO;
-    }*/
-    
-    
     return YES;
 }
 

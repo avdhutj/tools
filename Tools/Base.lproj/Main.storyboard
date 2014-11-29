@@ -513,11 +513,10 @@
             </objects>
             <point key="canvasLocation" x="2013.5" y="512.5"/>
         </scene>
-        <!--View Controller-->
+        <!--Map View Controller-->
         <scene sceneID="jxk-Rm-U48">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="mVR-nH-QMK" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <viewController id="w8z-vo-cDn" sceneMemberID="viewController">
+                <viewController id="w8z-vo-cDn" customClass="MapViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="bNh-ve-WLa"/>
                         <viewControllerLayoutGuide type="bottom" id="a2V-jd-Tk1"/>
@@ -526,22 +525,47 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="niV-2V-5cq">
-                                <rect key="frame" x="23" y="629" width="46" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="niV-2V-5cq">
+                                <rect key="frame" x="16" y="629" width="46" height="30"/>
                                 <state key="normal" title="Zoom">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="ZoomBtnClicked:" destination="w8z-vo-cDn" eventType="touchUpInside" id="Vap-sE-vOm"/>
+                                </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AA3-OT-tyL">
-                                <rect key="frame" x="77" y="629" width="46" height="30"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="mNG-oU-9QE">
+                                <rect key="frame" x="0.0" y="46" width="375" height="575"/>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AA3-OT-tyL">
+                                <rect key="frame" x="70" y="629" width="46" height="30"/>
                                 <state key="normal" title="Type">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="TypeBtnClicked:" destination="w8z-vo-cDn" eventType="touchUpInside" id="SbX-w4-Nh6"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="niV-2V-5cq" firstAttribute="leading" secondItem="xyj-Qa-kFd" secondAttribute="leadingMargin" id="5mT-3S-v0M"/>
+                            <constraint firstItem="AA3-OT-tyL" firstAttribute="leading" secondItem="xyj-Qa-kFd" secondAttribute="leadingMargin" constant="54" id="6LH-xA-D48"/>
+                            <constraint firstItem="a2V-jd-Tk1" firstAttribute="top" secondItem="AA3-OT-tyL" secondAttribute="bottom" constant="8" id="77L-cG-ras"/>
+                            <constraint firstAttribute="centerX" secondItem="mNG-oU-9QE" secondAttribute="centerX" id="Jvt-OC-nBe"/>
+                            <constraint firstItem="a2V-jd-Tk1" firstAttribute="top" secondItem="niV-2V-5cq" secondAttribute="bottom" constant="8" id="LfD-jn-kRj"/>
+                            <constraint firstItem="a2V-jd-Tk1" firstAttribute="top" secondItem="mNG-oU-9QE" secondAttribute="bottom" constant="46" id="Qzv-vA-hMq"/>
+                            <constraint firstAttribute="width" secondItem="mNG-oU-9QE" secondAttribute="width" id="jEx-mD-M5O"/>
+                            <constraint firstAttribute="centerY" secondItem="mNG-oU-9QE" secondAttribute="centerY" id="jbL-4Y-0T9"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="MapView" destination="mNG-oU-9QE" id="Fb0-44-zP0"/>
+                        <outlet property="typeBtn" destination="AA3-OT-tyL" id="j5l-Eo-4Se"/>
+                        <outlet property="zoomBtn" destination="niV-2V-5cq" id="EWA-yH-arl"/>
+                    </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mVR-nH-QMK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2563.5" y="512.5"/>
         </scene>
