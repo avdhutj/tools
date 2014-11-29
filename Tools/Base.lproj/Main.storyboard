@@ -340,7 +340,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="tJR-jZ-xZ3" kind="modal" identifier="displayDetail" id="qq7-6A-Uga"/>
+                                    <segue destination="tJR-jZ-xZ3" kind="push" identifier="displayDetail" id="qq7-6A-Uga"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -499,6 +499,7 @@
                             <outlet property="delegate" destination="tJR-jZ-xZ3" id="S2w-ec-pRH"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" id="YXX-Qn-Xlk"/>
                     <connections>
                         <outlet property="AddToolBtn" destination="mPV-GI-n6w" id="gCK-JK-otE"/>
                     </connections>
