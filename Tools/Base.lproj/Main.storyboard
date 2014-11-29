@@ -238,7 +238,7 @@
         <!--Inventory List-->
         <scene sceneID="f9G-hN-bSr">
             <objects>
-                <tableViewController id="c6h-Sj-XKW" customClass="InventoryList" sceneMemberID="viewController">
+                <tableViewController id="c6h-Sj-XKW" customClass="InventoryListViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="gtT-Zh-bKb">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -250,13 +250,14 @@
                             <segments>
                                 <segment title="All Tools"/>
                                 <segment title="Tool Transfers"/>
+                                <segment title="New Tools"/>
                             </segments>
                             <connections>
-                                <action selector="SegmentControl:" destination="c6h-Sj-XKW" eventType="valueChanged" id="nGz-Uk-fwS"/>
+                                <action selector="segmentControllerChanged:" destination="c6h-Sj-XKW" eventType="valueChanged" id="qGV-xY-eFu"/>
                             </connections>
                         </segmentedControl>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" restorationIdentifier="InvToolCell" selectionStyle="gray" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="Cell" textLabel="zad-yC-f42" detailTextLabel="Mjf-gb-BpU" style="IBUITableViewCellStyleValue1" id="YsL-Lf-Att">
+                            <tableViewCell contentMode="scaleToFill" restorationIdentifier="InvToolCell" selectionStyle="gray" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="InvToolCell" textLabel="zad-yC-f42" detailTextLabel="Mjf-gb-BpU" style="IBUITableViewCellStyleValue1" id="YsL-Lf-Att">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="YsL-Lf-Att" id="fWU-Ve-uMA">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -284,7 +285,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Inventory List" id="ByG-GH-J5j"/>
                     <connections>
-                        <outlet property="SegmentedController" destination="pNn-I7-oPe" id="L8t-hm-Lyx"/>
+                        <outlet property="segmentController" destination="pNn-I7-oPe" id="gjt-j0-fHF"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QR9-zT-5Dg" userLabel="First Responder" sceneMemberID="firstResponder"/>
