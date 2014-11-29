@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 
-@interface AddToolTableViewController : UITableViewController
+@interface AddToolTableViewController : UITableViewController <UITableViewDelegate>
 
 typedef NS_ENUM(NSInteger, ATVCControllerState) {
     ATVC_ADD_TOOL = 0,
@@ -34,6 +34,8 @@ typedef NS_ENUM(NSInteger, ATVCControllerState) {
 @property (nonatomic) UIImage *toolImage;
 
 //Controller
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *BackBtn;
+@property (nonatomic) UITextField *selectedTextFeild;
 @property (weak, nonatomic) IBOutlet UIButton *AddToolBtn;
 @property (nonatomic) ATVCControllerState controllerState;
 

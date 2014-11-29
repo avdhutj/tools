@@ -7,10 +7,14 @@
 //
 #import <MapKit/MapKit.h>
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
 
 @interface MapViewController : UIViewController <MKMapViewDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView *MapView;
 @property (weak, nonatomic) IBOutlet UIButton *zoomBtn;
 @property (weak, nonatomic) IBOutlet UIButton *typeBtn;
+
+@property (strong, nonatomic) PFObject *supplier;
+@property (strong, nonatomic) PFObject *tool;
 
 @end

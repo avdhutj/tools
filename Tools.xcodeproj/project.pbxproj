@@ -14,6 +14,7 @@
 		1DCCBCA61A27F6E70040369E /* AddToolTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DCCBCA51A27F6E70040369E /* AddToolTableViewController.m */; };
 		1DCCBCA91A29992F0040369E /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DCCBCA81A29992F0040369E /* MapViewController.m */; };
 		1DCCBCAB1A299C0C0040369E /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DCCBCAA1A299C0C0040369E /* MapKit.framework */; };
+		1DCCBCAF1A2A7CC50040369E /* PartNoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DCCBCAE1A2A7CC50040369E /* PartNoCell.m */; };
 		1DDC3FD21A21482100E385F5 /* SupplierInventoryList.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC3FD11A21482100E385F5 /* SupplierInventoryList.m */; };
 		1DDC3FD51A2148B700E385F5 /* ToolListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC3FD41A2148B700E385F5 /* ToolListViewController.m */; };
 		1DDC3FD81A21498B00E385F5 /* InventoryList.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC3FD71A21498B00E385F5 /* InventoryList.m */; };
@@ -67,6 +68,8 @@
 		1DCCBCA71A29992F0040369E /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		1DCCBCA81A29992F0040369E /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		1DCCBCAA1A299C0C0040369E /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		1DCCBCAD1A2A7CC50040369E /* PartNoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PartNoCell.h; sourceTree = "<group>"; };
+		1DCCBCAE1A2A7CC50040369E /* PartNoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PartNoCell.m; sourceTree = "<group>"; };
 		1DDC3FD01A21482100E385F5 /* SupplierInventoryList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SupplierInventoryList.h; sourceTree = "<group>"; };
 		1DDC3FD11A21482100E385F5 /* SupplierInventoryList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SupplierInventoryList.m; sourceTree = "<group>"; };
 		1DDC3FD31A2148B700E385F5 /* ToolListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToolListViewController.h; sourceTree = "<group>"; };
@@ -152,6 +155,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1DCCBCAC1A2A7C680040369E /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+				1DCCBCAD1A2A7CC50040369E /* PartNoCell.h */,
+				1DCCBCAE1A2A7CC50040369E /* PartNoCell.m */,
+			);
+			name = "New Group";
+			sourceTree = "<group>";
+		};
 		4A0241C01A1DA49C00498E0B = {
 			isa = PBXGroup;
 			children = (
@@ -192,6 +204,7 @@
 		4A0241CB1A1DA49C00498E0B /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				1DCCBCAC1A2A7C680040369E /* New Group */,
 				4A91721E1A1DB568006E5C8A /* Views */,
 				4A02420A1A1DA8DC00498E0B /* ViewControllers */,
 				4A0241D01A1DA49C00498E0B /* AppDelegate.h */,
@@ -379,6 +392,7 @@
 				4A9172211A1DB590006E5C8A /* LoadingView.m in Sources */,
 				1DDC3FD51A2148B700E385F5 /* ToolListViewController.m in Sources */,
 				1DDC3FD21A21482100E385F5 /* SupplierInventoryList.m in Sources */,
+				1DCCBCAF1A2A7CC50040369E /* PartNoCell.m in Sources */,
 				1DCCBCA61A27F6E70040369E /* AddToolTableViewController.m in Sources */,
 				4A0241D51A1DA49C00498E0B /* ViewController.m in Sources */,
 				4A0241D21A1DA49C00498E0B /* AppDelegate.m in Sources */,

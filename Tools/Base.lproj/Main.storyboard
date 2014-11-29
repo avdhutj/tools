@@ -339,7 +339,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="tJR-jZ-xZ3" kind="modal" identifier="displayDetail" id="qq7-6A-Uga"/>
+                                    <segue destination="HQp-mS-udN" kind="modal" identifier="displayDetail" id="GEE-vv-1B1"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -348,7 +348,9 @@
                             <outlet property="delegate" destination="WB3-Jn-xHr" id="NgL-q0-fvk"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Tool List" id="Itv-xI-UsT"/>
+                    <navigationItem key="navigationItem" title="Tool List" id="N3e-lZ-3rZ">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="PJE-d4-A3u"/>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e9D-13-LDb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -406,7 +408,23 @@
             </objects>
             <point key="canvasLocation" x="837.5" y="2152.5"/>
         </scene>
-        <!--Add Tool Table View Controller-->
+        <!--Navigation Controller-->
+        <scene sceneID="tCz-AQ-JmN">
+            <objects>
+                <navigationController id="HQp-mS-udN" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="1nJ-ux-cqI">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="tJR-jZ-xZ3" kind="relationship" relationship="rootViewController" id="ko5-kL-gTv"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vMZ-XU-r46" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1921.5" y="482.5"/>
+        </scene>
+        <!--Tool Detail-->
         <scene sceneID="W6a-Mh-irf">
             <objects>
                 <tableViewController storyboardIdentifier="AddToolTableViewController" id="tJR-jZ-xZ3" customClass="AddToolTableViewController" sceneMemberID="viewController">
@@ -414,16 +432,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                        <navigationBar key="tableHeaderView" contentMode="scaleToFill" id="cj8-8e-jzS">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <items>
-                                <navigationItem title="Add Tool" id="lKb-AB-udZ"/>
-                            </items>
-                            <connections>
-                                <outlet property="delegate" destination="tJR-jZ-xZ3" id="hfU-6T-z4n"/>
-                            </connections>
-                        </navigationBar>
                         <button key="tableFooterView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="mPV-GI-n6w">
                             <rect key="frame" x="-23" y="-15" width="375" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -469,21 +477,21 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="w8z-vo-cDn" kind="modal" identifier="MapView" trigger="accessoryAction" id="Npo-f8-QCv"/>
+                                    <segue destination="Yko-aN-Vhh" kind="modal" identifier="MapView" trigger="accessoryAction" id="Gt7-DP-PVQ"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CellDetail" editingAccessoryType="checkmark" textLabel="J4g-fY-uix" detailTextLabel="RE9-Q2-ADj" style="IBUITableViewCellStyleValue1" id="bev-fU-TDK">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CellDetail" textLabel="rZB-gU-Jh6" detailTextLabel="Hci-X6-Wr2" style="IBUITableViewCellStyleValue1" id="bev-fU-TDK" customClass="PartNoCell">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bev-fU-TDK" id="Cxf-nY-eT3">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="J4g-fY-uix">
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rZB-gU-Jh6">
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="RE9-Q2-ADj">
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Hci-X6-Wr2">
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
@@ -498,8 +506,17 @@
                             <outlet property="delegate" destination="tJR-jZ-xZ3" id="S2w-ec-pRH"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Tool Detail" id="VJk-Ch-vN1">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="Vnc-r3-BH8"/>
+                        <barButtonItem key="rightBarButtonItem" title="Back" id="LmM-Jt-C4o">
+                            <connections>
+                                <action selector="back:" destination="tJR-jZ-xZ3" id="jNN-ln-saT"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="AddToolBtn" destination="mPV-GI-n6w" id="gCK-JK-otE"/>
+                        <outlet property="BackBtn" destination="LmM-Jt-C4o" id="yqc-aJ-fig"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c5e-RK-vOH" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -511,9 +528,25 @@
                     </items>
                 </navigationBar>
             </objects>
-            <point key="canvasLocation" x="2013.5" y="512.5"/>
+            <point key="canvasLocation" x="2426.5" y="482.5"/>
         </scene>
-        <!--Map View Controller-->
+        <!--Navigation Controller-->
+        <scene sceneID="uHY-ge-Rx0">
+            <objects>
+                <navigationController id="Yko-aN-Vhh" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="c6p-Q7-3FI">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="w8z-vo-cDn" kind="relationship" relationship="rootViewController" id="Ldb-7h-oIN"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yaW-nO-KKa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2909.5" y="482.5"/>
+        </scene>
+        <!--Tool Map-->
         <scene sceneID="jxk-Rm-U48">
             <objects>
                 <viewController id="w8z-vo-cDn" customClass="MapViewController" sceneMemberID="viewController">
@@ -534,8 +567,8 @@
                                     <action selector="ZoomBtnClicked:" destination="w8z-vo-cDn" eventType="touchUpInside" id="Vap-sE-vOm"/>
                                 </connections>
                             </button>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="mNG-oU-9QE">
-                                <rect key="frame" x="0.0" y="46" width="375" height="575"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="mNG-oU-9QE">
+                                <rect key="frame" x="0.0" y="64" width="375" height="557"/>
                             </mapView>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AA3-OT-tyL">
                                 <rect key="frame" x="70" y="629" width="46" height="30"/>
@@ -559,6 +592,10 @@
                             <constraint firstAttribute="centerY" secondItem="mNG-oU-9QE" secondAttribute="centerY" id="jbL-4Y-0T9"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Tool Map" id="qh4-l9-le4">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="Cv0-bX-Oo5"/>
+                        <barButtonItem key="rightBarButtonItem" title="Back" id="bEA-KR-izZ"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="MapView" destination="mNG-oU-9QE" id="Fb0-44-zP0"/>
                         <outlet property="typeBtn" destination="AA3-OT-tyL" id="j5l-Eo-4Se"/>
@@ -567,7 +604,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mVR-nH-QMK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2563.5" y="512.5"/>
+            <point key="canvasLocation" x="3367.5" y="482.5"/>
         </scene>
     </scenes>
     <resources>

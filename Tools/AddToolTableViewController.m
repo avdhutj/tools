@@ -7,6 +7,8 @@
 //
 
 #import "AddToolTableViewController.h"
+#import "MapViewController.h"
+#import "PartNoCell.h"
 
 @interface AddToolTableViewController ()
 
@@ -21,13 +23,22 @@
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    //self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    if (self.controllerState == ATVC_ADD_TOOL || self.controllerState == ATVC_EDIT_TOOL) {
+        [self setEditing:YES animated:YES];
+        //show save tool btn
+    } else {
+        [self setEditing:NO animated:YES];
+    }
     
     if (self.controllerState == ATVC_ADD_TOOL) {
         
         NSDictionary *dict =  @{@"Supplier" : @[@"Supplier", @"Supplier Address"],
                                 @"Tool Details" : @[@"Tool ID", @"Weight", @"Tool Type",@"Tool Description"],
                                 @"Part Numbers" : @[@"Part Number"]};
+        
+        self.partStausLookUp = [NSMutableDictionary dictionaryWithObject:@"Status" forKey:@"Part Number"];
         
         self.items = [NSMutableDictionary dictionaryWithDictionary:dict];
         //How to sort this?? tried to also sort this so part numbers are at the bottom so you can add to it using the button
@@ -127,6 +138,8 @@
     NSArray *sectionitems = [self.items objectForKey:sectionTitle];
     NSString *item = [sectionitems objectAtIndex:indexPath.row];
     
+    //enable text feild
+    
     if ([sectionTitle isEqualToString:@"Part Numbers"]) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellDetail" forIndexPath:indexPath];
         cell.textLabel.text = item;
@@ -150,6 +163,21 @@
     }
 }
 
+#pragma mark - Table Actions
+- (IBAction)back:(id)sender {
+    //[self.de
+}
+
+/*
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{   NSLog(@"Row Selected: %@",indexPath);
+    PartNoCell * cell = (PartNoCell *)[tableView cellForRowAtIndexPath:indexPath];
+    self.selectedTextFeild = cell.TextFeild; // cell.tf is a UITextField property defined on MyCell
+    [self.selectedTextFeild becomeFirstResponder];
+}*/
+
+#pragma mark - Story Board
+
 - (IBAction)AddToolTouchUp:(id)sender {
     /*
     //Need to perform basic validation to ensure all cells are filled
@@ -163,17 +191,19 @@
 }
 
 
+#pragma mark - Edit Mode
+
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
     
     NSString *sectionTitle = [self.tableTitles objectAtIndex:indexPath.section];
     
-    if ([sectionTitle isEqualToString:@"Supplier"]) {
+    if ([sectionTitle isEqualToString:@"Part Numbers"]) {
         
-        return NO;
+        return YES;
     }
     
-    return YES;
+    return NO;
 }
 
 
@@ -184,15 +214,24 @@
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+        [tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    }
 }
 
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return YES;
+    NSString *sectionTitle = [self.tableTitles objectAtIndex:indexPath.section];
+    
+    if ([sectionTitle isEqualToString:@"Part Numbers"]) {
+        
+        return YES;
+    }
+    
+    return NO;
 }
 
+/*
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
     
@@ -208,7 +247,7 @@
     // insert the object at the target row
     [titiles insertObject:r atIndex:toIndexPath.row];
     NSLog(@"result of move :\n%@", self.title);
-}
+}*/
 
 /*
 // Override to support conditional rearranging of the table view.
@@ -227,7 +266,12 @@
     // Pass the selected object to the new view controller.
     if ([segue.identifier isEqualToString:@"MapView"]) {
         
-        NSLog(@"Here");
+        UINavigationController *nav = [segue destinationViewController];
+        MapViewController *map = (MapViewController *)([nav viewControllers][0]);
+
+        map.tool = self.exam;
+        map.supplier = self.Supplier;
+        NSLog(@"Prepare for Segue Complete");
         
     }
 

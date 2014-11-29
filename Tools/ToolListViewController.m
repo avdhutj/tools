@@ -90,7 +90,10 @@
 //        UINavigationController *nav = [segue destinationViewController];
 //        ToolDetailViewController *detailViewController = (ToolDetailViewController *) nav.topViewController;
         
-        AddToolTableViewController *detailViewController = [segue destinationViewController];
+
+        UINavigationController *nav = [segue destinationViewController];
+        AddToolTableViewController *detailViewController = (AddToolTableViewController *)([nav viewControllers][0]);
+        
         detailViewController.exam = object;
         detailViewController.Supplier = self.Supplier;
         [detailViewController setControllerState:ATVC_ADD_TOOL];
