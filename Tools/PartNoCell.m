@@ -18,11 +18,25 @@
 
 - (void)awakeFromNib {
     // Initialization code
-    //self.partNumbers
+
 }
 - (IBAction)PartTextCell:(id)sender {
     NSLog(@"Part end editting: %@",self.TextField.text);
+    [self.partNumbers whereKey:@"name" equalTo:self.TextField.text];
+    [self.partNumbers findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error){
+        if(!error) {
+            if ([objects count] > 1) {self.PartStatusLbl.text = @"Multiple";}
+            else {self.PartStatusLbl.text = [objects[0] objectForKey:@"status"];}
+        } else {
+            NSLog(@"%@",[error userInfo]);
+            
+        }
+        
+        [self.superview.superview reloadInputViews];
+        
+    }];
 }
+     
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

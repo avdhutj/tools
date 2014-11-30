@@ -526,7 +526,7 @@
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="trailingMargin" secondItem="qH3-Oa-Q5t" secondAttribute="trailing" constant="21" id="Qob-5z-uIE"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="qH3-Oa-Q5t" secondAttribute="trailing" constant="8" id="Qob-5z-uIE"/>
                                         <constraint firstItem="07Y-jb-B4h" firstAttribute="leading" secondItem="i7R-0p-K0b" secondAttribute="leadingMargin" constant="10" id="on6-OJ-r60"/>
                                         <constraint firstAttribute="centerY" secondItem="07Y-jb-B4h" secondAttribute="centerY" id="weL-6r-urg"/>
                                     </constraints>
@@ -567,7 +567,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="VJk-Ch-vN1">
                         <barButtonItem key="backBarButtonItem" title="Back" id="Vnc-r3-BH8"/>
-                        <barButtonItem key="rightBarButtonItem" title="Back" id="LmM-Jt-C4o">
+                        <barButtonItem key="rightBarButtonItem" title="Update" id="LmM-Jt-C4o">
                             <connections>
                                 <action selector="back:" destination="tJR-jZ-xZ3" id="jNN-ln-saT"/>
                             </connections>

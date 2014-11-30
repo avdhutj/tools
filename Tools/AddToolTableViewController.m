@@ -33,6 +33,10 @@
         [self setEditing:NO animated:YES];
     }*/
     
+    if (self.controllerState != ATVC_VIEW_TOOL) {
+        self.BackBtn.title = @"Save";
+    }
+    
     if (self.controllerState == ATVC_ADD_TOOL) {
         
         NSDictionary *dict =  @{@"Supplier" : @[@"Supplier", @"Supplier Address"],
@@ -163,7 +167,7 @@
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         return cell;
     } else if (indexPath.row==0) {
-        if (self.controllerState != ATVC_VIEW_TOOL && ![sectionTitle  isEqual: @"Supplier"]) {
+        if (self.controllerState != ATVC_VIEW_TOOL) {
             TextFieldCell *textCell = [tableView dequeueReusableCellWithIdentifier:@"TextCell" forIndexPath:indexPath];
             textCell.TextField.text = item;
             if ([sectionTitle isEqualToString:@"Tool Details"]) {
@@ -175,15 +179,16 @@
             }
             [textCell setSelectionStyle:UITableViewCellSelectionStyleNone];
             return textCell;
+        } else {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellToolId" forIndexPath:indexPath];
+            cell.textLabel.text = item;
+            if ([sectionTitle isEqualToString:@"Tool Details"]){
+                cell.imageView.image = self.toolImage;
+                cell.detailTextLabel.text = self.toolStatus;
+            } else {cell.detailTextLabel.text = @"";};
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            return cell;
         }
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellToolId" forIndexPath:indexPath];
-        cell.textLabel.text = item;
-        if ([sectionTitle isEqualToString:@"Tool Details"]){
-            cell.imageView.image = self.toolImage;
-            cell.detailTextLabel.text = self.toolStatus;
-        } else {cell.detailTextLabel.text = @"";};
-        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-        return cell;
         
     } else {
         if (self.controllerState != ATVC_VIEW_TOOL && ![sectionTitle  isEqual: @"Supplier"]) {
@@ -193,17 +198,28 @@
             [textCell setSelectionStyle:UITableViewCellSelectionStyleNone];
             return textCell;
             
+        } else {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellLbl" forIndexPath:indexPath];
+            cell.textLabel.text = item;
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            return cell;
         }
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellLbl" forIndexPath:indexPath];
-        cell.textLabel.text = item;
-        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-        return cell;
     }
 }
 
 #pragma mark - Table Actions
 - (IBAction)back:(id)sender {
     //NSLog(@"%@",self.selectedTextFeild.text);
+    if (self.controllerState == ATVC_VIEW_TOOL) {
+        self.controllerState = ATVC_EDIT_TOOL;
+        [self.tableView reloadData];
+        self.BackBtn.title = @"save";
+    } else if (self.controllerState != ATVC_VIEW_TOOL) {
+        //Save and perform validation
+        self.controllerState = ATVC_VIEW_TOOL;
+        [self.tableView reloadData];
+        self.BackBtn.title = @"Edit";
+    }
     
 }
 
