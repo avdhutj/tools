@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
 
 @interface PartNoCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UITextField *TextFeild;
+@property (weak, nonatomic) IBOutlet UITextField *TextField;
+@property (weak, nonatomic) IBOutlet UILabel *PartStatusLbl;
+@property PFQuery *partNumbers;
 
 @end

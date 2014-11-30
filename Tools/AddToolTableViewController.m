@@ -9,6 +9,7 @@
 #import "AddToolTableViewController.h"
 #import "MapViewController.h"
 #import "PartNoCell.h"
+#import "TextFieldCell.h"
 
 @interface AddToolTableViewController ()
 
@@ -24,13 +25,13 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     //self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
+    /*
     if (self.controllerState == ATVC_ADD_TOOL || self.controllerState == ATVC_EDIT_TOOL) {
         [self setEditing:YES animated:YES];
         //show save tool btn
     } else {
         [self setEditing:NO animated:YES];
-    }
+    }*/
     
     if (self.controllerState == ATVC_ADD_TOOL) {
         
@@ -60,12 +61,12 @@
         self.partStausLookUp = [[NSMutableDictionary alloc] init];
         self.toolStatus = [NSString stringWithFormat:@"TBD"];
         __block int obsCount = 0;
-        PFQuery *queryParts = [PFQuery queryWithClassName:@"PartNumbers"];
+        self.queryParts = [PFQuery queryWithClassName:@"PartNumbers"];
         
-        [queryParts findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error){
+        [self.queryParts findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error){
             if(!error) {
                 for (NSString* part in partIDs){
-                    PFObject* partNo = [queryParts getObjectWithId:part];
+                    PFObject* partNo = [self.queryParts getObjectWithId:part];
                     NSString *status = [partNo objectForKey:@"status"];
                     [self.partNumbers addObject:[partNo objectForKey:@"name"]];
                     [self.partStausLookUp setObject:status forKey:[partNo objectForKey:@"name"]];
@@ -141,38 +142,77 @@
     //enable text feild
     
     if ([sectionTitle isEqualToString:@"Part Numbers"]) {
+        
+        if (self.controllerState != ATVC_VIEW_TOOL) {
+            PartNoCell *PartTextCell = [tableView dequeueReusableCellWithIdentifier:@"PartNoTextCell" forIndexPath:indexPath];
+            PartTextCell.TextField.text = item;
+            if ([self.partStausLookUp count] > 0) {
+                PartTextCell.PartStatusLbl.text = [self.partStausLookUp objectForKey:item];
+            }
+            PartTextCell.partNumbers = self.queryParts;
+            [PartTextCell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            return PartTextCell;
+
+        }
+        
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellDetail" forIndexPath:indexPath];
         cell.textLabel.text = item;
         if ([self.partStausLookUp count] > 0) {
             cell.detailTextLabel.text = [self.partStausLookUp objectForKey:item];
         }
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         return cell;
     } else if (indexPath.row==0) {
+        if (self.controllerState != ATVC_VIEW_TOOL && ![sectionTitle  isEqual: @"Supplier"]) {
+            TextFieldCell *textCell = [tableView dequeueReusableCellWithIdentifier:@"TextCell" forIndexPath:indexPath];
+            textCell.TextField.text = item;
+            if ([sectionTitle isEqualToString:@"Tool Details"]) {
+                textCell.imageView.image = self.toolImage;
+                if (self.controllerState == ATVC_ADD_TOOL) {[textCell.TextField becomeFirstResponder];}
+                UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 60, 20)];
+                textCell.TextField.leftView = paddingView;
+                textCell.TextField.leftViewMode = UITextFieldViewModeAlways;
+            }
+            [textCell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            return textCell;
+        }
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellToolId" forIndexPath:indexPath];
         cell.textLabel.text = item;
         if ([sectionTitle isEqualToString:@"Tool Details"]){
             cell.imageView.image = self.toolImage;
             cell.detailTextLabel.text = self.toolStatus;
         } else {cell.detailTextLabel.text = @"";};
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         return cell;
         
     } else {
+        if (self.controllerState != ATVC_VIEW_TOOL && ![sectionTitle  isEqual: @"Supplier"]) {
+            TextFieldCell *textCell = [tableView dequeueReusableCellWithIdentifier:@"TextCell" forIndexPath:indexPath];
+            textCell.TextField.text = item;
+            if (self.controllerState == ATVC_EDIT_TOOL) {[textCell.TextField becomeFirstResponder];}
+            [textCell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            return textCell;
+            
+        }
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellLbl" forIndexPath:indexPath];
         cell.textLabel.text = item;
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         return cell;
     }
 }
 
 #pragma mark - Table Actions
 - (IBAction)back:(id)sender {
-    //[self.de
+    //NSLog(@"%@",self.selectedTextFeild.text);
+    
 }
 
 /*
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {   NSLog(@"Row Selected: %@",indexPath);
     PartNoCell * cell = (PartNoCell *)[tableView cellForRowAtIndexPath:indexPath];
-    self.selectedTextFeild = cell.TextFeild; // cell.tf is a UITextField property defined on MyCell
+    self.selectedTextFeild = cell.TextField; // cell.tf is a UITextField property defined on MyCell
     [self.selectedTextFeild becomeFirstResponder];
 }*/
 
@@ -190,7 +230,7 @@
     //Need to set up the part number adding thing this might be a little tricky because we will need to tool up the part number that was added and if it isnt there a new part number needs to be created after confirming with the user.*/
 }
 
-
+/*
 #pragma mark - Edit Mode
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -205,8 +245,8 @@
     
     return NO;
 }
-
-
+*/
+/*
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
@@ -216,9 +256,9 @@
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         [tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
-}
+}*/
 
-
+/*
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *sectionTitle = [self.tableTitles objectAtIndex:indexPath.section];
@@ -229,7 +269,7 @@
     }
     
     return NO;
-}
+}*/
 
 /*
 // Override to support rearranging the table view.

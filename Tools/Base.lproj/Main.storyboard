@@ -425,7 +425,7 @@
             </objects>
             <point key="canvasLocation" x="1921.5" y="482.5"/>
         </scene>
-        <!--Tool Detail-->
+        <!--Add Tool Table View Controller-->
         <scene sceneID="W6a-Mh-irf">
             <objects>
                 <tableViewController storyboardIdentifier="AddToolTableViewController" id="tJR-jZ-xZ3" customClass="AddToolTableViewController" sceneMemberID="viewController">
@@ -501,13 +501,71 @@
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PartNoTextCell" id="lpI-iP-GR8" customClass="PartNoCell">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lpI-iP-GR8" id="i7R-0p-K0b">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="07Y-jb-B4h">
+                                            <rect key="frame" x="21" y="9" width="275" height="30"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="YZk-rS-We2"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
+                                            <connections>
+                                                <action selector="PartTextCell:" destination="lpI-iP-GR8" eventType="editingDidEnd" id="UvQ-8x-Nf5"/>
+                                            </connections>
+                                        </textField>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qH3-Oa-Q5t">
+                                            <rect key="frame" x="318" y="11" width="42" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" white="0.56000000000000005" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailingMargin" secondItem="qH3-Oa-Q5t" secondAttribute="trailing" constant="21" id="Qob-5z-uIE"/>
+                                        <constraint firstItem="07Y-jb-B4h" firstAttribute="leading" secondItem="i7R-0p-K0b" secondAttribute="leadingMargin" constant="10" id="on6-OJ-r60"/>
+                                        <constraint firstAttribute="centerY" secondItem="07Y-jb-B4h" secondAttribute="centerY" id="weL-6r-urg"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="PartStatusLbl" destination="qH3-Oa-Q5t" id="ieX-9x-btk"/>
+                                    <outlet property="TextField" destination="07Y-jb-B4h" id="rPV-Rr-bCk"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TextCell" id="0Jt-vv-QsA" customClass="TextFieldCell">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0Jt-vv-QsA" id="4Wf-qL-iF8">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="wwZ-fa-1L2">
+                                            <rect key="frame" x="25" y="9" width="290" height="30"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
+                                            <connections>
+                                                <action selector="TextCellDidEndEditing:" destination="0Jt-vv-QsA" eventType="editingDidEnd" id="DKg-Uc-lnE"/>
+                                            </connections>
+                                        </textField>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="wwZ-fa-1L2" firstAttribute="leading" secondItem="4Wf-qL-iF8" secondAttribute="leadingMargin" constant="10" id="Z5s-er-egH"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="TextField" destination="wwZ-fa-1L2" id="Oh3-8F-nZm"/>
+                                </connections>
+                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="tJR-jZ-xZ3" id="nIm-QU-cVk"/>
                             <outlet property="delegate" destination="tJR-jZ-xZ3" id="S2w-ec-pRH"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Tool Detail" id="VJk-Ch-vN1">
+                    <navigationItem key="navigationItem" id="VJk-Ch-vN1">
                         <barButtonItem key="backBarButtonItem" title="Back" id="Vnc-r3-BH8"/>
                         <barButtonItem key="rightBarButtonItem" title="Back" id="LmM-Jt-C4o">
                             <connections>
@@ -529,7 +587,7 @@
                     </items>
                 </navigationBar>
             </objects>
-            <point key="canvasLocation" x="2426.5" y="482.5"/>
+            <point key="canvasLocation" x="2426.5" y="473.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="uHY-ge-Rx0">

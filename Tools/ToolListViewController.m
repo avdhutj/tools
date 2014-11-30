@@ -96,7 +96,7 @@
         
         detailViewController.exam = object;
         detailViewController.Supplier = self.Supplier;
-        [detailViewController setControllerState:ATVC_ADD_TOOL];
+        [detailViewController setControllerState:ATVC_VIEW_TOOL];
 
     }
 }

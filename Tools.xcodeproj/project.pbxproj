@@ -15,6 +15,7 @@
 		1DCCBCA91A29992F0040369E /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DCCBCA81A29992F0040369E /* MapViewController.m */; };
 		1DCCBCAB1A299C0C0040369E /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DCCBCAA1A299C0C0040369E /* MapKit.framework */; };
 		1DCCBCAF1A2A7CC50040369E /* PartNoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DCCBCAE1A2A7CC50040369E /* PartNoCell.m */; };
+		1DCCBCB21A2AFC950040369E /* TextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DCCBCB11A2AFC950040369E /* TextFieldCell.m */; };
 		1DDC3FD21A21482100E385F5 /* SupplierInventoryList.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC3FD11A21482100E385F5 /* SupplierInventoryList.m */; };
 		1DDC3FD51A2148B700E385F5 /* ToolListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC3FD41A2148B700E385F5 /* ToolListViewController.m */; };
 		2E27C4231A28DA2C001204FB /* InventoryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E27C4221A28DA2C001204FB /* InventoryListViewController.m */; };
@@ -69,6 +70,8 @@
 		1DCCBCAA1A299C0C0040369E /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		1DCCBCAD1A2A7CC50040369E /* PartNoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PartNoCell.h; sourceTree = "<group>"; };
 		1DCCBCAE1A2A7CC50040369E /* PartNoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PartNoCell.m; sourceTree = "<group>"; };
+		1DCCBCB01A2AFC950040369E /* TextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextFieldCell.h; sourceTree = "<group>"; };
+		1DCCBCB11A2AFC950040369E /* TextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextFieldCell.m; sourceTree = "<group>"; };
 		1DDC3FD01A21482100E385F5 /* SupplierInventoryList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SupplierInventoryList.h; sourceTree = "<group>"; };
 		1DDC3FD11A21482100E385F5 /* SupplierInventoryList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SupplierInventoryList.m; sourceTree = "<group>"; };
 		1DDC3FD31A2148B700E385F5 /* ToolListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToolListViewController.h; sourceTree = "<group>"; };
@@ -152,13 +155,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1DCCBCAC1A2A7C680040369E /* New Group */ = {
+		1DCCBCAC1A2A7C680040369E /* TextCells */ = {
 			isa = PBXGroup;
 			children = (
 				1DCCBCAD1A2A7CC50040369E /* PartNoCell.h */,
 				1DCCBCAE1A2A7CC50040369E /* PartNoCell.m */,
+				1DCCBCB01A2AFC950040369E /* TextFieldCell.h */,
+				1DCCBCB11A2AFC950040369E /* TextFieldCell.m */,
 			);
-			name = "New Group";
+			name = TextCells;
 			sourceTree = "<group>";
 		};
 		4A0241C01A1DA49C00498E0B = {
@@ -201,7 +206,7 @@
 		4A0241CB1A1DA49C00498E0B /* Tools */ = {
 			isa = PBXGroup;
 			children = (
-				1DCCBCAC1A2A7C680040369E /* New Group */,
+				1DCCBCAC1A2A7C680040369E /* TextCells */,
 				4A91721E1A1DB568006E5C8A /* Views */,
 				4A02420A1A1DA8DC00498E0B /* ViewControllers */,
 				4A0241D01A1DA49C00498E0B /* AppDelegate.h */,
@@ -380,6 +385,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DCCBCB21A2AFC950040369E /* TextFieldCell.m in Sources */,
 				4A7DFE7C1A25854D0046B3AE /* LoadView.m in Sources */,
 				4A02420D1A1DA90B00498E0B /* LoginViewController.m in Sources */,
 				4A9172241A1DBA6C006E5C8A /* MainTabViewController.m in Sources */,
