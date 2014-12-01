@@ -433,16 +433,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                        <button key="tableFooterView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="mPV-GI-n6w">
-                            <rect key="frame" x="-23" y="-15" width="375" height="44"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" title="Add Tool">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="AddToolTouchUp:" destination="tJR-jZ-xZ3" eventType="touchUpInside" id="avH-f1-5Gm"/>
-                            </connections>
-                        </button>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CellLbl" textLabel="6Tl-fL-Sro" style="IBUITableViewCellStyleDefault" id="U4D-ax-496">
                                 <autoresizingMask key="autoresizingMask"/>
@@ -574,7 +564,6 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="AddToolBtn" destination="mPV-GI-n6w" id="gCK-JK-otE"/>
                         <outlet property="BackBtn" destination="LmM-Jt-C4o" id="yqc-aJ-fig"/>
                     </connections>
                 </tableViewController>

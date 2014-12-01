@@ -5,6 +5,7 @@
 //  Created by Mazin Biviji on 11/27/14.
 //  Copyright (c) 2014 Fun. All rights reserved.
 //
+//Updates: to filter on tools and part numbers by OEM -> [innerQuery whereKeyExists:@"image"]; from https://parse.com/docs/ios_guide#queries/iOS
 
 #import "AddToolTableViewController.h"
 #import "MapViewController.h"
@@ -13,9 +14,25 @@
 
 @interface AddToolTableViewController ()
 
+@property NSArray *addToolTitles;
+
 @end
 
 @implementation AddToolTableViewController
+
+- (void)SetUpNotificationCenterPartNumber:(PartNoCell *)PartNo {
+    
+    if (self.controllerState != ATVC_VIEW_TOOL) {
+        self.BackBtn.title = @"Save";
+        //Notificaiton Center Setup
+        NSString *notifcaitonName = @"PartNoLookUpComplete";
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(TextFieldChangedNotification:)
+                                                     name:notifcaitonName
+                                                   object:PartNo];
+    }
+    
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -33,10 +50,6 @@
         [self setEditing:NO animated:YES];
     }*/
     
-    if (self.controllerState != ATVC_VIEW_TOOL) {
-        self.BackBtn.title = @"Save";
-    }
-    
     if (self.controllerState == ATVC_ADD_TOOL) {
         
         NSDictionary *dict =  @{@"Supplier" : @[@"Supplier", @"Supplier Address"],
@@ -51,8 +64,6 @@
         self.tableTitles = [self.items allKeys];
         
         [self.tableView reloadData];
-        
-
         
     } else if (self.controllerState == ATVC_EDIT_TOOL || self.controllerState == ATVC_VIEW_TOOL) {
         
@@ -153,8 +164,9 @@
             if ([self.partStausLookUp count] > 0) {
                 PartTextCell.PartStatusLbl.text = [self.partStausLookUp objectForKey:item];
             }
-            PartTextCell.partNumbers = self.queryParts;
             [PartTextCell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            PartTextCell.initialValue = item;
+            [self SetUpNotificationCenterPartNumber:PartTextCell];
             return PartTextCell;
 
         }
@@ -219,8 +231,53 @@
         self.controllerState = ATVC_VIEW_TOOL;
         [self.tableView reloadData];
         self.BackBtn.title = @"Edit";
+        
     }
     
+    /*
+     //Need to perform basic validation to ensure all cells are filled
+     PFObject *tool = [PFObject objectWithClassName:@"Tools"];
+     tool[@"supplier"] = self.;
+     tool[@"toolId"] = self.ToolIdTxt.text;
+     tool[@"weight"] = [NSNumber numberWithInt:[self.WeightTxt.text integerValue]];
+     tool[@"toolDescription"] = self.DescrTxt.text;
+     [tool saveInBackground];
+     //Need to set up the part number adding thing this might be a little tricky because we will need to tool up the part number that was added and if it isnt there a new part number needs to be created after confirming with the user.*/
+}
+
+-(void)TextFieldChangedNotification:(NSNotification *) notification {
+    
+    NSDictionary *updateDict  = [[notification userInfo] objectForKey:@"updateArray"];
+    //updateDict (var type)key:(NSString)isUpdated (NSString)ParseClass (NSString)PraseKey (NSString)UpdatedValue (NSString)UpdateObjectId
+    //NSLog(@"%@",updateDict);
+    
+    if ([[updateDict objectForKey:@"isUpdated"] isEqualToString:@"Updated"]){
+        
+        //Add UpdateArray to the EditViewUpdates Array
+        if ([[updateDict objectForKey:@"ParseClass"] isEqualToString:@"PartNumbers"]) {
+            //Part Numbers
+            if([[updateDict objectForKey:@"UpdateObjectId"] isEqualToString:@"new"]){
+                //New Part Numbers - add to PartNumbers (with new flag) and to tool
+                
+                
+            } if ([[updateDict objectForKey:@"UpdateObjectId"] isEqualToString:@"toReview"]) {
+                //To Review Part Numbers - need to update
+            } else {
+                //Add exsisting part number to tool
+            }
+            
+        } else if ([[updateDict objectForKey:@"ParseClass"] isEqualToString:@"Tools"]) {
+            //Tools
+            
+            
+        } else {
+            
+        }
+        
+    }
+    
+
+    [self.tableView reloadData];
 }
 
 /*
@@ -233,18 +290,6 @@
 }*/
 
 #pragma mark - Story Board
-
-- (IBAction)AddToolTouchUp:(id)sender {
-    /*
-    //Need to perform basic validation to ensure all cells are filled
-    PFObject *tool = [PFObject objectWithClassName:@"Tools"];
-    tool[@"supplier"] = self.;
-    tool[@"toolId"] = self.ToolIdTxt.text;
-    tool[@"weight"] = [NSNumber numberWithInt:[self.WeightTxt.text integerValue]];
-    tool[@"toolDescription"] = self.DescrTxt.text;
-    [tool saveInBackground];
-    //Need to set up the part number adding thing this might be a little tricky because we will need to tool up the part number that was added and if it isnt there a new part number needs to be created after confirming with the user.*/
-}
 
 /*
 #pragma mark - Edit Mode
