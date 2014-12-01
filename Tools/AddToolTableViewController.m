@@ -61,7 +61,11 @@
         self.items = [NSMutableDictionary dictionaryWithDictionary:dict];
         //How to sort this?? tried to also sort this so part numbers are at the bottom so you can add to it using the button
         //self.tableTitles = [[self.items allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-        self.tableTitles = [self.items allKeys];
+//        self.tableTitles = [self.items allKeys];
+        self.tableTitles = [[NSMutableArray alloc] initWithCapacity:[dict count]];
+        [self.tableTitles addObject:@"Tool Details"];
+        [self.tableTitles addObject:@"Part Numbers"];
+        [self.tableTitles addObject:@"Supplier"];
         
         [self.tableView reloadData];
         
@@ -107,7 +111,12 @@
                 
                 //How to sort this?? tried to also sort this so part numbers are at the bottom so you can add to it using the button
                 //self.tableTitles = [[self.items allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-                self.tableTitles = [self.items allKeys];
+                //self.tableTitles = [self.items allKeys];
+                
+                self.tableTitles = [[NSMutableArray alloc] initWithCapacity:[dict count]];
+                [self.tableTitles addObject:@"Tool Details"];
+                [self.tableTitles addObject:@"Part Numbers"];
+                [self.tableTitles addObject:@"Supplier"];
                 
                 [self.tableView reloadData];
                 
@@ -360,23 +369,14 @@
 
 
 #pragma mark - Navigation
-
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     if ([segue.identifier isEqualToString:@"MapView"]) {
-        
-        UINavigationController *nav = [segue destinationViewController];
-        MapViewController *map = (MapViewController *)([nav viewControllers][0]);
-
+        MapViewController *map = [segue destinationViewController];
         map.tool = self.exam;
         map.supplier = self.Supplier;
-        NSLog(@"Prepare for Segue Complete");
-        
     }
-
 }
-
-
 @end

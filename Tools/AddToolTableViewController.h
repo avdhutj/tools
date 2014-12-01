@@ -23,7 +23,7 @@ typedef NS_ENUM(NSInteger, ATVCControllerState) {
 @property (strong, nonatomic) PFObject *exam;
 
 //Table Set Up Values
-@property NSArray *tableTitles;
+@property NSMutableArray *tableTitles;
 @property NSMutableDictionary *items;
 @property NSArray *EditViewUpdatesArray;
 
