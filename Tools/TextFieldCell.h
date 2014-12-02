@@ -11,5 +11,7 @@
 @interface TextFieldCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UITextField *TextField;
+@property (nonatomic) int parseKeyIndex; //1 - 5 for values on tools detailes table
+@property (nonatomic) NSString*initialValue;
 
 @end

@@ -26,6 +26,7 @@ typedef NS_ENUM(NSInteger, ATVCControllerState) {
 @property NSMutableArray *tableTitles;
 @property NSMutableDictionary *items;
 @property NSArray *EditViewUpdatesArray;
+@property NSArray *AddedPartNumbers;
 
 //Tool Attributes
 @property (nonatomic) NSMutableArray *partNumbers;

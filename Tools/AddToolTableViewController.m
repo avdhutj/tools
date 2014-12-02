@@ -89,7 +89,6 @@
                     NSString *status = [partNo objectForKey:@"status"];
                     [self.partNumbers addObject:[partNo objectForKey:@"name"]];
                     [self.partStausLookUp setObject:status forKey:[partNo objectForKey:@"name"]];
-                    NSLog(@"%@ status: %@",[partNo objectForKey:@"name"], [partNo objectForKey:@"status"]);
                     if([status isEqual:@"Active"]){
                         self.toolStatus = status;
                     } else if ([status isEqual:@"Obsolete"]){
@@ -176,6 +175,7 @@
             [PartTextCell setSelectionStyle:UITableViewCellSelectionStyleNone];
             PartTextCell.initialValue = item;
             [self SetUpNotificationCenterPartNumber:PartTextCell];
+            PartTextCell.ArrayIndex = indexPath.row;
             return PartTextCell;
 
         }
@@ -188,7 +188,7 @@
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         return cell;
     } else if (indexPath.row==0) {
-        if (self.controllerState != ATVC_VIEW_TOOL) {
+        if (self.controllerState != ATVC_VIEW_TOOL && ![sectionTitle  isEqual: @"Supplier"]) {
             TextFieldCell *textCell = [tableView dequeueReusableCellWithIdentifier:@"TextCell" forIndexPath:indexPath];
             textCell.TextField.text = item;
             if ([sectionTitle isEqualToString:@"Tool Details"]) {
@@ -197,6 +197,8 @@
                 UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 60, 20)];
                 textCell.TextField.leftView = paddingView;
                 textCell.TextField.leftViewMode = UITextFieldViewModeAlways;
+                textCell.initialValue = item;
+                textCell.parseKeyIndex = indexPath.row;
             }
             [textCell setSelectionStyle:UITableViewCellSelectionStyleNone];
             return textCell;
@@ -217,6 +219,8 @@
             textCell.TextField.text = item;
             if (self.controllerState == ATVC_EDIT_TOOL) {[textCell.TextField becomeFirstResponder];}
             [textCell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            textCell.initialValue = item;
+            textCell.parseKeyIndex = indexPath.row;
             return textCell;
             
         } else {
@@ -234,15 +238,34 @@
     if (self.controllerState == ATVC_VIEW_TOOL) {
         self.controllerState = ATVC_EDIT_TOOL;
         [self.tableView reloadData];
-        self.BackBtn.title = @"save";
+        self.BackBtn.title = @"Save";
     } else if (self.controllerState != ATVC_VIEW_TOOL) {
         //Save and perform validation
         self.controllerState = ATVC_VIEW_TOOL;
         [self.tableView reloadData];
         self.BackBtn.title = @"Edit";
         
+        //Save New Part Numbers
+        for (NSString* parts in [self.items objectForKey:@"Part Numbers"]){
+            if ([[self.partStausLookUp objectForKey:parts] isEqualToString:@"Add Part No"]) {
+                PFObject *newPart = [PFObject objectWithClassName:@"PartNumbers"];
+                newPart[@"name"] = parts;
+                newPart[@"Flag"] = @"Added Part No";
+                newPart[@"status"] = @"TBD";
+                [newPart saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    if(succeeded){
+                        [self.partNumbers addObject:newPart.objectId];
+                        NSLog(@"%@",self.partNumbers);
+                    } else {
+                        NSLog(@"%@", [error userInfo]);
+                    }
+                 }];
+            }
+        }
+        
     }
-    
+}
+
     /*
      //Need to perform basic validation to ensure all cells are filled
      PFObject *tool = [PFObject objectWithClassName:@"Tools"];
@@ -252,31 +275,46 @@
      tool[@"toolDescription"] = self.DescrTxt.text;
      [tool saveInBackground];
      //Need to set up the part number adding thing this might be a little tricky because we will need to tool up the part number that was added and if it isnt there a new part number needs to be created after confirming with the user.*/
-}
 
 -(void)TextFieldChangedNotification:(NSNotification *) notification {
     
     NSDictionary *updateDict  = [[notification userInfo] objectForKey:@"updateArray"];
-    //updateDict (var type)key:(NSString)isUpdated (NSString)ParseClass (NSString)PraseKey (NSString)UpdatedValue (NSString)UpdateObjectId
-    //NSLog(@"%@",updateDict);
     
     if ([[updateDict objectForKey:@"isUpdated"] isEqualToString:@"Updated"]){
         
         //Add UpdateArray to the EditViewUpdates Array
         if ([[updateDict objectForKey:@"ParseClass"] isEqualToString:@"PartNumbers"]) {
             //Part Numbers
+            //updateArray format:(NSString)isUpdated (NSString)ParseClass (NSString)PraseKey (NSString)UpdatedValue (NSString)UpdateObjectId (int)UpdateIndexNo (NSString)UpdatedStatus
             if([[updateDict objectForKey:@"UpdateObjectId"] isEqualToString:@"new"]){
                 //New Part Numbers - add to PartNumbers (with new flag) and to tool
+                NSMutableArray *PartNos = [NSMutableArray arrayWithArray:[self.items objectForKey:@"Part Numbers"]];
+                [PartNos setObject:[updateDict objectForKey:@"UpdatedValue"] atIndexedSubscript:[[updateDict objectForKey:@"UpdateIndexNo"] integerValue]];
+                [self.items setObject:PartNos forKey:@"Part Numbers"];
                 
+                [self.partStausLookUp setObject:@"Add Part No" forKey:[updateDict objectForKey:@"UpdatedValue"]];
                 
             } if ([[updateDict objectForKey:@"UpdateObjectId"] isEqualToString:@"toReview"]) {
                 //To Review Part Numbers - need to update
+                
             } else {
                 //Add exsisting part number to tool
+                NSMutableArray *PartNos = [NSMutableArray arrayWithArray:[self.items objectForKey:@"Part Numbers"]];
+                [PartNos setObject:[updateDict objectForKey:@"UpdatedValue"] atIndexedSubscript:[[updateDict objectForKey:@"UpdateIndexNo"] integerValue]];
+                [self.items setObject:PartNos forKey:@"Part Numbers"];
+                
+                //Updated PartNumbers with ObjectID
+                [self.partStausLookUp setObject:[updateDict objectForKey:@"UpdatedStatus"]forKey:[updateDict objectForKey:@"UpdatedValue"]];
+                [self.partNumbers addObject:[updateDict objectForKey:@"UpdateObjectId"]];
+                
             }
             
         } else if ([[updateDict objectForKey:@"ParseClass"] isEqualToString:@"Tools"]) {
             //Tools
+            //updateArray format:(NSString)isUpdated (NSString)ParseClass (int)PraseKey (NSString)UpdatedValue
+            //@"Tool Details" : @[@"Tool ID", @"Weight", @"Tool Type",@"Tool Description"],
+            NSMutableArray* tool =[self.items objectForKey:@"Tool Details"];
+            [tool setObject:[updateDict objectForKey:@""] atIndexedSubscript:[[updateDict objectForKey:@"ParseKey"] integerValue]];
             
             
         } else {

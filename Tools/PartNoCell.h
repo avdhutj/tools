@@ -12,7 +12,8 @@
 @interface PartNoCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UITextField *TextField;
 @property (weak, nonatomic) IBOutlet UILabel *PartStatusLbl;
-@property (nonatomic) NSString*initialValue;
+@property int ArrayIndex;
 @property (nonatomic) NSString*updatedObjectId;
+@property (nonatomic) NSString*initialValue;
 
 @end
