@@ -7,14 +7,21 @@
 //
 
 #import "InventoryListViewController.h"
+#import "AddToolTableViewController.h"
+#import "CameraViewController.h"
 #import <Parse/Parse.h>
 #import "LoadView.h"
 
-@interface InventoryListViewController ()
+@interface InventoryListViewController () {
 
+}
+
+@property (strong, nonatomic) PFObject* selectedObject;
 @property (strong, nonatomic) NSMutableArray* allToolsArray;
 @property (strong, nonatomic) NSMutableArray* transferToolsArray;
 @property (strong, nonatomic) NSMutableArray* addToolsArray;
+
+@property (strong, nonatomic) NSMutableSet* doneSet;
 
 -(void)loadData;
 
@@ -34,6 +41,8 @@
     _allToolsArray = [[NSMutableArray alloc] init];
     _transferToolsArray = [[NSMutableArray alloc] init];
     _addToolsArray = [[NSMutableArray alloc] init];
+    
+    _doneSet = [[NSMutableSet alloc] init];
     
     [self loadData];
 }
@@ -80,55 +89,46 @@
     else if (self.segmentController.selectedSegmentIndex == 2) {
         object = [_addToolsArray objectAtIndex:indexPath.row];
     }
+    
+    if ([_doneSet containsObject:[object objectId]]) {
+        [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+    }
+    else {
+        [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+    }
+    
     cell.textLabel.text = [object valueForKey:@"toolId"];
     cell.detailTextLabel.text = [object valueForKey:@"task"];
     return cell;
 }
 
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.segmentController.selectedSegmentIndex == 0) {
+        self.selectedObject = [_allToolsArray objectAtIndex:indexPath.row];
+        CameraViewController* cVC = [self.storyboard instantiateViewControllerWithIdentifier:@"CameraViewController"];
+        if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:0]]) {
+            [cVC setInvToolId:[_selectedObject valueForKey:@"toolId"]];
+            [cVC setControllerState:CVC_INV_TAG_TOOL];
+        }
+        else if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:1]]) {
+            [cVC setControllerState:CVC_INV_ADD_TOOL];
+        }
+        else if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:2]]) {
+            [cVC setControllerState:CVC_INV_SHIP_TOOL];
+        }
+        else if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:3]]) {
+            [cVC setControllerState:CVC_INV_RECIEVE_TOOL];
+        }
+        else if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:4]]) {
+            [cVC setControllerState:CVC_INV_UPDATE_TOOL];
+        }
+//        [self.navigationController pushViewController:cVC animated:YES];
+        [cVC setInventoryListViewController:self];
+        [self presentViewController:cVC animated:YES completion:^{
+            
+        }];
+    }
 }
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 -(void)loadData {
     PFQuery* query = [PFQuery queryWithClassName:@"InvToolList"];
@@ -155,9 +155,76 @@
 
 }
 - (IBAction)segmentControllerChanged:(id)sender {
+    _selectedObject = nil;
     [self.tableView reloadData];
 }
 
+-(void)HandleTagTool:(NSString*)qrCodeString {
+    LoadView* lView = [[[NSBundle mainBundle] loadNibNamed:@"LoadView" owner:nil options:nil] lastObject];
+    [self.view addSubview:lView];
+    NSString* toolId = [_selectedObject objectForKey:@"toolId"];
+    PFQuery* query = [PFQuery queryWithClassName:@"Tools"];
+    [query whereKey:@"toolId" equalTo:toolId];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if ([objects count] == 0) {
+            [lView removeFromSuperview];
+            // Error
+        }
+        else {
+            PFObject* toolObject = [objects objectAtIndex:0];
+            [toolObject setValue:qrCodeString forKey:@"qrCode"];
+            [toolObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                [lView removeFromSuperview];
+                if (succeeded) {
+                    // Add check mark
+                    [_doneSet addObject:[_selectedObject objectId]];
+                    [self.tableView reloadData];
+                    
+                    // Move to detail view controller
+                    AddToolTableViewController* aTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"AddToolTableViewController"];
+                    [aTVC setExam:toolObject];
+                    [aTVC setControllerState:ATVC_VIEW_TOOL];
+                    [self.navigationController pushViewController:aTVC animated:YES];
+                }
+                else {
+                    // Handle Error
+                }
+            }];
+        }
+    }];
+}
+
+-(void)HandleAddTool:(NSString*)qrCodeString {
+    PFObject* toolObject = [PFObject objectWithClassName:@"Tools"];
+    [toolObject setValue:qrCodeString forKey:@"qrCode"];
+    [toolObject setValue:[_selectedObject objectForKey:@"toolId"] forKey:@"toolId"];
+    AddToolTableViewController* aTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"AddToolTableViewController"];
+    [aTVC setExam:toolObject];
+    [aTVC setControllerState:ATVC_ADD_TOOL];
+    [self.navigationController pushViewController:aTVC animated:YES];
+}
+
+-(void)gotQRCode:(NSString *)qrCodeString {
+    if (qrCodeString == nil) {
+        // Process Error
+        NSLog(@"Canceled pressed");
+    }
+    else {
+//        NSLog(@"Got qrCode: %@", qrCodeString);
+        if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:0]]) {
+            [self HandleTagTool:qrCodeString];
+        }
+        else if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:1]]) {
+            [self HandleAddTool:qrCodeString];
+            
+        }
+        
+    }
+}
+
+-(void)SaveSucess {
+    [_doneSet addObject:_selectedObject];
+}
 
 
 @end

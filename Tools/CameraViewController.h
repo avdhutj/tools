@@ -10,17 +10,26 @@
 #import <CoreLocation/CoreLocation.h>
 #import <AVFoundation/AVFoundation.h>
 
+#import "InventoryListViewController.h" // Controller which will be calling camera view controller
+
 typedef NS_ENUM(NSInteger, CVCControllerState) {
     CVC_SCAN_TOOL = 0,
-    CVC_ADD_TOOL,
-    CVC_SHIP_TOOL
+    CVC_INV_TAG_TOOL,
+    CVC_INV_ADD_TOOL,
+    CVC_INV_SHIP_TOOL,
+    CVC_INV_RECIEVE_TOOL,
+    CVC_INV_UPDATE_TOOL
 };
 
 @interface CameraViewController : UIViewController <AVCaptureMetadataOutputObjectsDelegate,
 UIAlertViewDelegate, CLLocationManagerDelegate> {
-//    ControllerState controllerState;
-}
 
+}
 @property (nonatomic) CVCControllerState controllerState;
 @property (weak, nonatomic) IBOutlet UIView *cameraView;
+
+@property (strong, nonatomic) NSString* invToolId; // Information passed from Inventory view conrtroller
+@property (nonatomic, weak) InventoryListViewController* inventoryListViewController;
+
+
 @end

@@ -16,7 +16,12 @@ typedef NS_ENUM(NSInteger, TaskType) {
     TT_UPDATE_TOOL
 };
 
-@interface InventoryListViewController : UITableViewController
-@property (strong, nonatomic) IBOutlet UISegmentedControl *segmentController;
 
+@interface InventoryListViewController : UITableViewController {
+
+}
+
+-(void)gotQRCode:(NSString*)qrCodeString;
+
+@property (strong, nonatomic) IBOutlet UISegmentedControl *segmentController;
 @end

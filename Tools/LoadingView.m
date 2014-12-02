@@ -10,7 +10,6 @@
 
 @implementation LoadingView
 
-// LoadView* lView = [[[NSBundle mainBundle] loadNibNamed:@"LoadView" owner:nil options:nil] lastObject];
 
 -(id) initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
