@@ -33,6 +33,7 @@
 
 -(void)ScanTool;
 -(void)ScanToolNext;
+-(void)InvTagTool;
 -(void)AddToolWithCheck:(BOOL)check;
 -(void)AddToolNext;
 
@@ -143,8 +144,12 @@
             _qrCodeString = [metadataObj stringValue];
             if (self.controllerState == CVC_SCAN_TOOL) {
                 [self ScanTool];
-            } else if (self.controllerState == CVC_ADD_TOOL) {
-                [self AddToolWithCheck:YES];
+            }
+            else if (self.controllerState == CVC_INV_TAG_TOOL) {
+                [self InvTagTool];
+            }
+            else if (self.controllerState == CVC_INV_ADD_TOOL) {
+//                [self AddToolWithCheck:YES];
             }
         }
     }
@@ -174,11 +179,6 @@
                 } else {
                     [self ScanToolNext];
 
-                    
-//                    ToolDetailViewController* tVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ToolDetailViewController"];
-//                    
-//                    tVC.exam = _exam;
-//                    [self.navigationController pushViewController:tVC animated:YES];
                 }
                 
             }
@@ -202,6 +202,42 @@
     [aTVC setControllerState:ATVC_VIEW_TOOL];
     [aTVC setExam:_exam];
     [self.navigationController pushViewController:aTVC animated:YES];
+}
+
+#pragma Inventory Tag tool functions
+-(void)InvTagTool {
+    PFQuery* query = [PFQuery queryWithClassName:@"Tools"];
+    [query whereKey:@"qrCode" equalTo:_qrCodeString];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if ([objects count] != 0) {
+            // QR Code already exists
+            [self dismissViewControllerAnimated:YES completion:^{
+                [_inventoryListViewController gotQRCode:nil];
+            }];
+        }
+        else {
+            [self dismissViewControllerAnimated:YES completion:^{
+                [_inventoryListViewController gotQRCode:_qrCodeString];
+            }];
+        }
+    }];
+}
+
+#pragma Inventory Add Tool Functions
+-(void)InvAddTool {
+    PFQuery* query = [PFQuery queryWithClassName:@"Tools"];
+    [query whereKey:@"qrCode" equalTo:_qrCodeString];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if ([objects count] != 0) {
+            // QR Code already exists
+            [self dismissViewControllerAnimated:YES completion:^{
+                [_inventoryListViewController gotQRCode:nil];
+            }];
+        }
+        else {
+            [_inventoryListViewController gotQRCode:_qrCodeString];
+        }
+    }];
 }
 
 #pragma Add Tool Functions
@@ -250,10 +286,6 @@
     if ([alertView tag] == 1) {
         if (buttonIndex == 0) {
             [self ScanToolNext];
-//            ToolDetailViewController* tVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ToolDetailViewController"];
-//            tVC.exam = _exam;
-//            [self.navigationController pushViewController:tVC animated:YES];
-            
         } else {
             [_exam setObject:_geoPoint forKey:@"toolGeoPoint"];
             LoadView* lView = [[[NSBundle mainBundle] loadNibNamed:@"LoadView" owner:nil options:nil] lastObject];
@@ -262,9 +294,6 @@
             [_exam saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 [lView removeFromSuperview];
                 [self ScanToolNext];
-//                ToolDetailViewController* tVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ToolDetailViewController"];
-//                tVC.exam = _exam;
-//                [self.navigationController pushViewController:tVC animated:YES];
                 
             }];
         }
@@ -297,6 +326,11 @@
     [PFUser logOut];
     [self dismissViewControllerAnimated:YES completion:^{
         //
+    }];
+}
+- (IBAction)CancelClicked:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:^{
+        [_inventoryListViewController gotQRCode:nil];
     }];
 }
 
