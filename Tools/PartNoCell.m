@@ -48,22 +48,17 @@
         }
         //Post notifcation once the block operation is complete
         [self postNotifcationPartNoLookUpComplete];
-        
     }];
 }
 
 -(void)postNotifcationPartNoLookUpComplete{
-    //updateArray format:(NSString)isUpdated (NSString)ParseClass (NSString)PraseKey (NSString)UpdatedValue (NSString)UpdateObjectId
+    //updateArray format:(NSString)isUpdated (NSString)ParseClass (NSString)PraseKey (NSString)UpdatedValue (NSString)UpdateObjectId (int)UpdateIndexNo (NSString)UpdatedStatus
     NSString* isUpdated = @"NotUpdated";
     if (![self.TextField.text isEqualToString:self.initialValue]) {
         isUpdated = @"Updated";
     }
     
-    //NSLog(@"%@",@[isUpdated,@"PartNumbers",@"name",self.TextField.text,self.updatedObjectId]);
-    
-    NSLog(@"%@",self.updatedObjectId);
-    
-    NSMutableDictionary *updateDict = [NSMutableDictionary dictionaryWithObjects:@[isUpdated,@"PartNumbers",@"name",self.TextField.text,self.updatedObjectId]  forKeys:@[@"isUpdated",@"ParseClass",@"PartKey",@"UpdatedValue",@"UpdateObjectId"]];
+    NSMutableDictionary *updateDict = [NSMutableDictionary dictionaryWithObjects:@[isUpdated,@"PartNumbers",@"name",self.TextField.text,self.updatedObjectId,[NSNumber numberWithInt:self.ArrayIndex],self.PartStatusLbl.text] forKeys:@[@"isUpdated",@"ParseClass",@"PartKey",@"UpdatedValue",@"UpdateObjectId",@"UpdateIndexNo",@"UpdatedStatus"]];
     
     //NSArray *updateArray = @[isUpdated,@"name",self.TextField.text];
     NSDictionary *UserInfo = [NSDictionary dictionaryWithObjectsAndKeys:updateDict,@"updateArray", nil];
