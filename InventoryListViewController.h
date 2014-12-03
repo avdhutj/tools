@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
 
 typedef NS_ENUM(NSInteger, TaskType) {
     TT_SCAN_TOOL = 0,
@@ -16,12 +17,21 @@ typedef NS_ENUM(NSInteger, TaskType) {
     TT_UPDATE_TOOL
 };
 
+typedef NS_ENUM(NSInteger, ILControllerState) {
+    IL_TAG_TOOL = 0,
+    IL_ADD_TOOL,
+    IL_SHIP_TOOL,
+    IL_RECIEVE_TOOL,
+    IL_UPDATE_TOOL,
+    IL_NONE
+};
 
-@interface InventoryListViewController : UITableViewController {
 
-}
+@interface InventoryListViewController : UITableViewController
 
 -(void)gotQRCode:(NSString*)qrCodeString;
+
+@property (strong, nonatomic) PFObject* shippingSupplier;
 
 @property (strong, nonatomic) IBOutlet UISegmentedControl *segmentController;
 @end

@@ -33,7 +33,13 @@
 
 -(void)ScanTool;
 -(void)ScanToolNext;
+
 -(void)InvTagTool;
+-(void)InvAddTool;
+-(void)InvShipTool;
+-(void)InvRecieveTool;
+-(void)InvUpdateTool;
+
 -(void)AddToolWithCheck:(BOOL)check;
 -(void)AddToolNext;
 
@@ -149,7 +155,10 @@
                 [self InvTagTool];
             }
             else if (self.controllerState == CVC_INV_ADD_TOOL) {
-//                [self AddToolWithCheck:YES];
+                [self InvAddTool];
+            }
+            else if (self.controllerState == CVC_INV_SHIP_TOOL) {
+                [self InvShipTool];
             }
         }
     }
@@ -204,7 +213,7 @@
     [self.navigationController pushViewController:aTVC animated:YES];
 }
 
-#pragma Inventory Tag tool functions
+#pragma Inventory Functions
 -(void)InvTagTool {
     PFQuery* query = [PFQuery queryWithClassName:@"Tools"];
     [query whereKey:@"qrCode" equalTo:_qrCodeString];
@@ -223,7 +232,6 @@
     }];
 }
 
-#pragma Inventory Add Tool Functions
 -(void)InvAddTool {
     PFQuery* query = [PFQuery queryWithClassName:@"Tools"];
     [query whereKey:@"qrCode" equalTo:_qrCodeString];
@@ -237,6 +245,18 @@
         else {
             [_inventoryListViewController gotQRCode:_qrCodeString];
         }
+    }];
+}
+
+-(void)InvShipTool {
+    [self dismissViewControllerAnimated:YES completion:^{
+        [_inventoryListViewController gotQRCode:_qrCodeString];
+    }];
+}
+
+-(void)InvRecieveTool {
+    [self dismissViewControllerAnimated:YES completion:^{
+        [_inventoryListViewController gotQRCode:_qrCodeString];
     }];
 }
 

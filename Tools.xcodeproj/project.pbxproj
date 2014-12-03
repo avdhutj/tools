@@ -37,6 +37,7 @@
 		4A0242081A1DA6AB00498E0B /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A0241FF1A1DA6AB00498E0B /* StoreKit.framework */; };
 		4A0242091A1DA6AB00498E0B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A0242001A1DA6AB00498E0B /* SystemConfiguration.framework */; };
 		4A02420D1A1DA90B00498E0B /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A02420C1A1DA90B00498E0B /* LoginViewController.m */; };
+		4A39E1D21A2D72890082D390 /* SupplierListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A39E1D11A2D72890082D390 /* SupplierListViewController.m */; };
 		4A7DFE7C1A25854D0046B3AE /* LoadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AF264251A213F8C002D0463 /* LoadView.m */; };
 		4A9172211A1DB590006E5C8A /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9172201A1DB590006E5C8A /* LoadingView.m */; };
 		4A9172241A1DBA6C006E5C8A /* MainTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9172231A1DBA6C006E5C8A /* MainTabViewController.m */; };
@@ -103,6 +104,8 @@
 		4A0242001A1DA6AB00498E0B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		4A02420B1A1DA90B00498E0B /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		4A02420C1A1DA90B00498E0B /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		4A39E1D01A2D72890082D390 /* SupplierListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SupplierListViewController.h; sourceTree = "<group>"; };
+		4A39E1D11A2D72890082D390 /* SupplierListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SupplierListViewController.m; sourceTree = "<group>"; };
 		4A91721F1A1DB590006E5C8A /* LoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingView.h; sourceTree = "<group>"; };
 		4A9172201A1DB590006E5C8A /* LoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingView.m; sourceTree = "<group>"; };
 		4A9172221A1DBA6C006E5C8A /* MainTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTabViewController.h; sourceTree = "<group>"; };
@@ -250,6 +253,8 @@
 		4A02420A1A1DA8DC00498E0B /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				4A39E1D11A2D72890082D390 /* SupplierListViewController.m */,
+				4A39E1D01A2D72890082D390 /* SupplierListViewController.h */,
 				2E27C4211A28DA2C001204FB /* InventoryListViewController.h */,
 				2E27C4221A28DA2C001204FB /* InventoryListViewController.m */,
 				1DCCBCA71A29992F0040369E /* MapViewController.h */,
@@ -391,6 +396,7 @@
 				4A9172241A1DBA6C006E5C8A /* MainTabViewController.m in Sources */,
 				4A9172211A1DB590006E5C8A /* LoadingView.m in Sources */,
 				1DDC3FD51A2148B700E385F5 /* ToolListViewController.m in Sources */,
+				4A39E1D21A2D72890082D390 /* SupplierListViewController.m in Sources */,
 				1DDC3FD21A21482100E385F5 /* SupplierInventoryList.m in Sources */,
 				1DCCBCAF1A2A7CC50040369E /* PartNoCell.m in Sources */,
 				1DCCBCA61A27F6E70040369E /* AddToolTableViewController.m in Sources */,
