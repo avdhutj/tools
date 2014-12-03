@@ -8,31 +8,54 @@
 
 #import "MapViewController.h"
 
-@interface MapViewController ()
+@interface MapViewController () {
 
+    BOOL firstTimeMapUpdate;
+}
 @end
 
 @implementation MapViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    firstTimeMapUpdate = true;
     // Do any additional setup after loading the view.
     _MapView.delegate = self;
     _MapView.showsUserLocation = YES;
+    if (_controllerState == MV_SHOW_TOOLS || _controllerState == MV_SHOW_TOOLS_AND_SUPPLIERS) {
+        for (PFObject* object in _toolObjects) {
+            if ([object valueForKey:@"toolGeoPoint"] != nil) {
+                MKPointAnnotation* annontation = [[MKPointAnnotation alloc] init];
+                PFGeoPoint* toolGeoPoint = [object valueForKey:@"toolGeoPoint"];
+                [annontation setCoordinate:CLLocationCoordinate2DMake(toolGeoPoint.latitude, toolGeoPoint.longitude)];
+                [self.MapView addAnnotation:annontation];
+            }
+        }
+    }
+    if (_controllerState == MV_SHOW_SUPPLIERS || _controllerState == MV_SHOW_TOOLS_AND_SUPPLIERS) {
+        for (PFObject* object in _supplierObjects) {
+            if ([object valueForKey:@"supplierGeoPoint"] != nil) {
+                PFGeoPoint* geoPoint = [object valueForKey:@"supplierGeoPoint"];
+                MKPointAnnotation* annontation = [[MKPointAnnotation alloc] init];
+                [annontation setCoordinate:CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude)];
+                [self.MapView addAnnotation:annontation];
+            }
+        }
+    }
 }
 
-- (void)mapView:(MKMapView *)mapView
-didUpdateUserLocation:
-(MKUserLocation *)userLocation
-{
-    _MapView.centerCoordinate =
-    userLocation.location.coordinate;
+- (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
+    if (firstTimeMapUpdate) {
+        _MapView.centerCoordinate = userLocation.location.coordinate;
+        MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(userLocation.location.coordinate, 20000, 20000);
+        [_MapView setRegion:region animated:NO];
+        firstTimeMapUpdate = false;
+    }
+    
 }
 - (IBAction)ZoomBtnClicked:(id)sender {
     MKUserLocation *userLocation = _MapView.userLocation;
-    MKCoordinateRegion region =
-    MKCoordinateRegionMakeWithDistance (
-                                        userLocation.location.coordinate, 20000, 20000);
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(userLocation.location.coordinate, 20, 20);
     [_MapView setRegion:region animated:NO];
 }
 - (IBAction)TypeBtnClicked:(id)sender {

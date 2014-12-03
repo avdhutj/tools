@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -394,6 +394,11 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Tool List" id="N3e-lZ-3rZ">
                         <barButtonItem key="backBarButtonItem" title="Back" id="PJE-d4-A3u"/>
+                        <barButtonItem key="rightBarButtonItem" title="Map" id="5CK-Xc-7i9">
+                            <connections>
+                                <segue destination="w8z-vo-cDn" kind="push" identifier="ToolListMapViewSegue" id="ZmY-up-pUw"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e9D-13-LDb" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -649,7 +654,7 @@
                     </items>
                 </navigationBar>
             </objects>
-            <point key="canvasLocation" x="2426.5" y="472.5"/>
+            <point key="canvasLocation" x="1946.5" y="482.5"/>
         </scene>
         <!--Tool Map-->
         <scene sceneID="jxk-Rm-U48">
@@ -699,17 +704,15 @@
                     </view>
                     <navigationItem key="navigationItem" title="Tool Map" id="qh4-l9-le4">
                         <barButtonItem key="backBarButtonItem" title="Back" id="Cv0-bX-Oo5"/>
-                        <barButtonItem key="rightBarButtonItem" title="Back" id="bEA-KR-izZ"/>
                     </navigationItem>
                     <connections>
                         <outlet property="MapView" destination="mNG-oU-9QE" id="Fb0-44-zP0"/>
                         <outlet property="typeBtn" destination="AA3-OT-tyL" id="j5l-Eo-4Se"/>
-                        <outlet property="zoomBtn" destination="niV-2V-5cq" id="EWA-yH-arl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mVR-nH-QMK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3065.5" y="473.5"/>
+            <point key="canvasLocation" x="2484.5" y="553.5"/>
         </scene>
     </scenes>
     <resources>
@@ -726,4 +729,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina47"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="AXz-aE-YIu"/>
+    </inferredMetricsTieBreakers>
 </document>
