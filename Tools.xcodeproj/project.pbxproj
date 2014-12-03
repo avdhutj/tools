@@ -38,9 +38,10 @@
 		4A0242091A1DA6AB00498E0B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A0242001A1DA6AB00498E0B /* SystemConfiguration.framework */; };
 		4A02420D1A1DA90B00498E0B /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A02420C1A1DA90B00498E0B /* LoginViewController.m */; };
 		4A39E1D21A2D72890082D390 /* SupplierListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A39E1D11A2D72890082D390 /* SupplierListViewController.m */; };
+		4A39E1D51A2F72EB0082D390 /* SupplierTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A39E1D41A2F72EB0082D390 /* SupplierTabBarController.m */; };
 		4A7DFE7C1A25854D0046B3AE /* LoadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AF264251A213F8C002D0463 /* LoadView.m */; };
 		4A9172211A1DB590006E5C8A /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9172201A1DB590006E5C8A /* LoadingView.m */; };
-		4A9172241A1DBA6C006E5C8A /* MainTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9172231A1DBA6C006E5C8A /* MainTabViewController.m */; };
+		4A9172241A1DBA6C006E5C8A /* OEMTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9172231A1DBA6C006E5C8A /* OEMTabViewController.m */; };
 		4A9172411A1EB040006E5C8A /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9172401A1EB040006E5C8A /* CameraViewController.m */; };
 		4AF22BFD1A1EBAEF00E1C317 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AF22BF91A1EBAEF00E1C317 /* AVFoundation.framework */; };
 		4AF22BFE1A1EBAEF00E1C317 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AF22BFA1A1EBAEF00E1C317 /* CoreMedia.framework */; };
@@ -106,10 +107,12 @@
 		4A02420C1A1DA90B00498E0B /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		4A39E1D01A2D72890082D390 /* SupplierListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SupplierListViewController.h; sourceTree = "<group>"; };
 		4A39E1D11A2D72890082D390 /* SupplierListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SupplierListViewController.m; sourceTree = "<group>"; };
+		4A39E1D31A2F72EB0082D390 /* SupplierTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SupplierTabBarController.h; sourceTree = "<group>"; };
+		4A39E1D41A2F72EB0082D390 /* SupplierTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SupplierTabBarController.m; sourceTree = "<group>"; };
 		4A91721F1A1DB590006E5C8A /* LoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingView.h; sourceTree = "<group>"; };
 		4A9172201A1DB590006E5C8A /* LoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingView.m; sourceTree = "<group>"; };
-		4A9172221A1DBA6C006E5C8A /* MainTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTabViewController.h; sourceTree = "<group>"; };
-		4A9172231A1DBA6C006E5C8A /* MainTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTabViewController.m; sourceTree = "<group>"; };
+		4A9172221A1DBA6C006E5C8A /* OEMTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMTabViewController.h; sourceTree = "<group>"; };
+		4A9172231A1DBA6C006E5C8A /* OEMTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMTabViewController.m; sourceTree = "<group>"; };
 		4A91723F1A1EB040006E5C8A /* CameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraViewController.h; sourceTree = "<group>"; };
 		4A9172401A1EB040006E5C8A /* CameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraViewController.m; sourceTree = "<group>"; };
 		4AF22BF91A1EBAEF00E1C317 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -263,14 +266,16 @@
 				1DCCBCA51A27F6E70040369E /* AddToolTableViewController.m */,
 				4A02420B1A1DA90B00498E0B /* LoginViewController.h */,
 				4A02420C1A1DA90B00498E0B /* LoginViewController.m */,
-				4A9172221A1DBA6C006E5C8A /* MainTabViewController.h */,
-				4A9172231A1DBA6C006E5C8A /* MainTabViewController.m */,
+				4A9172221A1DBA6C006E5C8A /* OEMTabViewController.h */,
+				4A9172231A1DBA6C006E5C8A /* OEMTabViewController.m */,
 				4A91723F1A1EB040006E5C8A /* CameraViewController.h */,
 				4A9172401A1EB040006E5C8A /* CameraViewController.m */,
 				1DDC3FD01A21482100E385F5 /* SupplierInventoryList.h */,
 				1DDC3FD11A21482100E385F5 /* SupplierInventoryList.m */,
 				1DDC3FD31A2148B700E385F5 /* ToolListViewController.h */,
 				1DDC3FD41A2148B700E385F5 /* ToolListViewController.m */,
+				4A39E1D31A2F72EB0082D390 /* SupplierTabBarController.h */,
+				4A39E1D41A2F72EB0082D390 /* SupplierTabBarController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -391,9 +396,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				1DCCBCB21A2AFC950040369E /* TextFieldCell.m in Sources */,
+				4A39E1D51A2F72EB0082D390 /* SupplierTabBarController.m in Sources */,
 				4A7DFE7C1A25854D0046B3AE /* LoadView.m in Sources */,
 				4A02420D1A1DA90B00498E0B /* LoginViewController.m in Sources */,
-				4A9172241A1DBA6C006E5C8A /* MainTabViewController.m in Sources */,
+				4A9172241A1DBA6C006E5C8A /* OEMTabViewController.m in Sources */,
 				4A9172211A1DB590006E5C8A /* LoadingView.m in Sources */,
 				1DDC3FD51A2148B700E385F5 /* ToolListViewController.m in Sources */,
 				4A39E1D21A2D72890082D390 /* SupplierListViewController.m in Sources */,

@@ -6,16 +6,16 @@
 //  Copyright (c) 2014 Fun. All rights reserved.
 //
 
-#import "MainTabViewController.h"
+#import "OEMTabViewController.h"
 #import "SupplierInventoryList.h"
 #import "CameraViewController.h"
 #import <Parse/Parse.h>
 
-@interface MainTabViewController ()
+@interface OEMTabViewController ()
 
 @end
 
-@implementation MainTabViewController
+@implementation OEMTabViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
