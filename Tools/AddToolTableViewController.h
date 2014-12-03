@@ -26,7 +26,7 @@ typedef NS_ENUM(NSInteger, ATVCControllerState) {
 @property NSMutableArray *tableTitles;
 @property NSMutableDictionary *items;
 @property NSArray *EditViewUpdatesArray;
-@property NSArray *AddedPartNumbers;
+@property NSMutableArray *AddedPartNumbers;
 
 //Tool Attributes
 @property (nonatomic) NSMutableArray *partNumbers;
@@ -43,5 +43,7 @@ typedef NS_ENUM(NSInteger, ATVCControllerState) {
 @property (nonatomic) UITextField* selectedTextFeild;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *BackBtn;
 @property (nonatomic) ATVCControllerState controllerState;
+
+-(void)addPartNumberRow;
 
 @end

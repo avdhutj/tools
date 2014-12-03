@@ -42,13 +42,17 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     //self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    /*
+    
+    //Uncomment to add + button to right navigationbar btn
+    //self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addPartNumberRow:)];
+
     if (self.controllerState == ATVC_ADD_TOOL || self.controllerState == ATVC_EDIT_TOOL) {
-        [self setEditing:YES animated:YES];
+        [self setEditing:YES animated:NO];
         //show save tool btn
+        //self.BackBtn.title = @"Save";
     } else {
-        [self setEditing:NO animated:YES];
-    }*/
+        [self setEditing:NO animated:NO];
+    }
     
     if (self.controllerState == ATVC_ADD_TOOL) {
         
@@ -70,9 +74,6 @@
         [self.tableView reloadData];
         
     } else if (self.controllerState == ATVC_EDIT_TOOL || self.controllerState == ATVC_VIEW_TOOL) {
-        
-        
-        //View Set up if new tool
         
         //View Set up if exsisting tool
         NSArray *partIDs = [self.exam objectForKey:@"part"];
@@ -107,10 +108,7 @@
                 
                 self.items = [NSMutableDictionary dictionaryWithDictionary:dict];
                 [self.items setObject:self.partNumbers forKey:@"Part Numbers"];
-                
-                //How to sort this?? tried to also sort this so part numbers are at the bottom so you can add to it using the button
-                //self.tableTitles = [[self.items allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-                //self.tableTitles = [self.items allKeys];
+                self.AddedPartNumbers = [NSMutableArray arrayWithArray:self.partNumbers];
                 
                 self.tableTitles = [[NSMutableArray alloc] initWithCapacity:[dict count]];
                 [self.tableTitles addObject:@"Tool Details"];
@@ -176,6 +174,16 @@
             PartTextCell.initialValue = item;
             [self SetUpNotificationCenterPartNumber:PartTextCell];
             PartTextCell.ArrayIndex = indexPath.row;
+            
+            if (indexPath.row == [self.AddedPartNumbers count]) {
+                //Add part no
+                [self addPartNumberRow];
+            }
+            
+            if (indexPath.row == [[self.items objectForKey:@"Part Numbers"] count] - 1) {
+                PartTextCell.TextField.textColor =[UIColor lightGrayColor];
+            }
+            
             return PartTextCell;
 
         }
@@ -188,12 +196,13 @@
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         return cell;
     } else if (indexPath.row==0) {
-        if (self.controllerState != ATVC_VIEW_TOOL && ![sectionTitle  isEqual: @"Supplier"]) {
+        
+        if (self.controllerState == ATVC_ADD_TOOL && indexPath.section == 1) {
             TextFieldCell *textCell = [tableView dequeueReusableCellWithIdentifier:@"TextCell" forIndexPath:indexPath];
             textCell.TextField.text = item;
             if ([sectionTitle isEqualToString:@"Tool Details"]) {
                 textCell.imageView.image = self.toolImage;
-                if (self.controllerState == ATVC_ADD_TOOL) {[textCell.TextField becomeFirstResponder];}
+                //if (self.controllerState == ATVC_ADD_TOOL) {[textCell.TextField becomeFirstResponder];}
                 UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 60, 20)];
                 textCell.TextField.leftView = paddingView;
                 textCell.TextField.leftViewMode = UITextFieldViewModeAlways;
@@ -215,16 +224,39 @@
         
     } else {
         if (self.controllerState != ATVC_VIEW_TOOL && ![sectionTitle  isEqual: @"Supplier"]) {
-            TextFieldCell *textCell = [tableView dequeueReusableCellWithIdentifier:@"TextCell" forIndexPath:indexPath];
-            textCell.TextField.text = item;
-            if (self.controllerState == ATVC_EDIT_TOOL) {[textCell.TextField becomeFirstResponder];}
-            [textCell setSelectionStyle:UITableViewCellSelectionStyleNone];
-            textCell.initialValue = item;
-            textCell.parseKeyIndex = indexPath.row;
-            return textCell;
+            if(indexPath.section == 0 && indexPath.row ==1) {
+                //Weight in Edit Mode
+                TextFieldCell *textCell = [tableView dequeueReusableCellWithIdentifier:@"TextCell" forIndexPath:indexPath];
+                textCell.TextField.text = item;
+                [textCell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                textCell.initialValue = item;
+                textCell.parseKeyIndex = indexPath.row;
+                return textCell;
+            } else if(indexPath.section == 0 && indexPath.row ==2) {
+                //Tool Type in Edit Mode
+                TextFieldCell *textCell = [tableView dequeueReusableCellWithIdentifier:@"TextCell" forIndexPath:indexPath];
+                textCell.TextField.text = item;
+                [textCell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                textCell.initialValue = item;
+                textCell.parseKeyIndex = indexPath.row;
+                return textCell;
+            } else {
+                //Other - text in dark grey
+                TextFieldCell *textCell = [tableView dequeueReusableCellWithIdentifier:@"TextCell" forIndexPath:indexPath];
+                textCell.TextField.text = item;
+                textCell.TextField.textColor = [UIColor grayColor];
+                [textCell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                textCell.initialValue = item;
+                textCell.parseKeyIndex = indexPath.row;
+                return textCell;
+            }
             
         } else {
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellLbl" forIndexPath:indexPath];
+            
+            if (indexPath.section == 0 && indexPath.row ==3) {
+                cell.textLabel.textColor = [UIColor grayColor];
+            }
             cell.textLabel.text = item;
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             return cell;
@@ -233,36 +265,109 @@
 }
 
 #pragma mark - Table Actions
+
+-(void)addPartNumberRow{
+
+    [self.AddedPartNumbers addObject:@"new"];
+    NSString *newPart = @"New part number";
+    NSMutableArray* partsMutable = [self.items objectForKey:@"Part Numbers"];
+    [partsMutable addObject:newPart];
+    [self.items setObject:partsMutable forKey:@"Part Numbers"];
+    [self.partStausLookUp addEntriesFromDictionary:[NSDictionary dictionaryWithObject:@"-" forKey:newPart]];
+    [self.tableView reloadData];
+    
+}
+
+-(void)saveToolId {
+    
+    if (self.controllerState == ATVC_ADD_TOOL) {
+        PFObject *tool = [PFObject objectWithClassName:@"Tools"];
+        self.exam = tool;
+
+    }
+    
+    NSArray *toolDetails = [self.items objectForKey:@"Tool Details"];
+    self.exam[@"toolId"] = toolDetails[0];
+    self.exam[@"weight"] = toolDetails[1];
+    self.exam[@"toolType"] = toolDetails[2];
+    self.exam[@"toolDescription"] = toolDetails[3];
+    //this or part numbers?
+    self.exam[@"part"] = self.AddedPartNumbers;
+    NSLog(@"%@",self.exam);
+    [self.exam saveInBackground];
+    [self.tableView reloadData];
+}
+
 - (IBAction)back:(id)sender {
     //NSLog(@"%@",self.selectedTextFeild.text);
     if (self.controllerState == ATVC_VIEW_TOOL) {
         self.controllerState = ATVC_EDIT_TOOL;
+        [self.tableView setEditing:YES animated:YES];
         [self.tableView reloadData];
         self.BackBtn.title = @"Save";
-    } else if (self.controllerState != ATVC_VIEW_TOOL) {
-        //Save and perform validation
-        self.controllerState = ATVC_VIEW_TOOL;
-        [self.tableView reloadData];
-        self.BackBtn.title = @"Edit";
+        [self addPartNumberRow];
         
-        //Save New Part Numbers
-        for (NSString* parts in [self.items objectForKey:@"Part Numbers"]){
-            if ([[self.partStausLookUp objectForKey:parts] isEqualToString:@"Add Part No"]) {
-                PFObject *newPart = [PFObject objectWithClassName:@"PartNumbers"];
-                newPart[@"name"] = parts;
-                newPart[@"Flag"] = @"Added Part No";
-                newPart[@"status"] = @"TBD";
-                [newPart saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                    if(succeeded){
-                        [self.partNumbers addObject:newPart.objectId];
-                        NSLog(@"%@",self.partNumbers);
-                    } else {
-                        NSLog(@"%@", [error userInfo]);
-                    }
-                 }];
+    } else if (self.controllerState != ATVC_VIEW_TOOL) {
+        
+        if ([self.BackBtn.title isEqualToString:@"Edit"]) {
+            [self.tableView setEditing:YES animated:YES];
+        }  else {
+            //Save and perform validation
+            self.controllerState = ATVC_VIEW_TOOL;
+            //[self.tableView reloadData];
+            self.BackBtn.title = @"Edit";
+            
+            //Dont add part number if New part number
+            int partsCounter = 0;
+            
+            NSMutableArray *partNumbers = [NSMutableArray arrayWithArray:[self.items objectForKey:@"Part Numbers"]];
+            
+            for (NSString* parts in partNumbers) {
+                
+                if ([parts isEqualToString:@"New part number"]) {
+                    
+                    [partNumbers removeObjectAtIndex:partsCounter];
+                    [self.AddedPartNumbers removeObjectAtIndex:partsCounter];
+                    NSLog(@"%@",self.AddedPartNumbers);
+                }
+                
+                [self.items setObject:partNumbers forKey:@"Part Numbers"];
+                partsCounter++;
             }
+            
+            //Save New Part Numbers
+            __block int count = 0;
+            
+            for (NSString* parts in [self.items objectForKey:@"Part Numbers"]){
+                if ([self.AddedPartNumbers[count] isEqualToString:@"new"]) {
+                    PFObject *newPart = [PFObject objectWithClassName:@"PartNumbers"];
+                    newPart[@"name"] = parts;
+                    newPart[@"Flag"] = @"Added Part No";
+                    newPart[@"status"] = @"TBD";
+                    [newPart saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                        if(succeeded){
+                            [self.AddedPartNumbers addObject:newPart.objectId];
+                            //NSLog(@"%@",self.partNumbers);
+                            count++;
+
+                            if (count == [[self.items objectForKey:@"Part Numbers"] count]) {
+                                NSLog(@"Save Tool - new count: %i",count);
+                                //Save changes to tool Id
+                                [self saveToolId];
+                            }
+                        } else {
+                            NSLog(@"%@", [error userInfo]);
+                        }
+                    }];
+                }
+                
+            }
+            
+            [self.tableView setEditing:NO animated:YES];
+            
         }
         
+        [self.tableView reloadData];
     }
 }
 
@@ -280,6 +385,11 @@
     
     NSDictionary *updateDict  = [[notification userInfo] objectForKey:@"updateArray"];
     
+    if ([[updateDict objectForKey:@"isUpdated"] isEqualToString:@"UpdatedAdd"]) {
+        [self addPartNumberRow];
+        [updateDict setValue:@"Updated" forKey:@"isUpdated"];
+    }
+    
     if ([[updateDict objectForKey:@"isUpdated"] isEqualToString:@"Updated"]){
         
         //Add UpdateArray to the EditViewUpdates Array
@@ -289,10 +399,10 @@
             if([[updateDict objectForKey:@"UpdateObjectId"] isEqualToString:@"new"]){
                 //New Part Numbers - add to PartNumbers (with new flag) and to tool
                 NSMutableArray *PartNos = [NSMutableArray arrayWithArray:[self.items objectForKey:@"Part Numbers"]];
-                [PartNos setObject:[updateDict objectForKey:@"UpdatedValue"] atIndexedSubscript:[[updateDict objectForKey:@"UpdateIndexNo"] integerValue]];
+                [PartNos setObject:[updateDict objectForKey:@"UpdatedValue"] atIndexedSubscript:[[updateDict  objectForKey:@"UpdateIndexNo"] integerValue]];
                 [self.items setObject:PartNos forKey:@"Part Numbers"];
-                
                 [self.partStausLookUp setObject:@"Add Part No" forKey:[updateDict objectForKey:@"UpdatedValue"]];
+                [self.AddedPartNumbers setObject:[updateDict objectForKey:@"UpdateObjectId"] atIndexedSubscript:[[updateDict objectForKey:@"UpdateIndexNo"] integerValue]];
                 
             } if ([[updateDict objectForKey:@"UpdateObjectId"] isEqualToString:@"toReview"]) {
                 //To Review Part Numbers - need to update
@@ -305,7 +415,7 @@
                 
                 //Updated PartNumbers with ObjectID
                 [self.partStausLookUp setObject:[updateDict objectForKey:@"UpdatedStatus"]forKey:[updateDict objectForKey:@"UpdatedValue"]];
-                [self.partNumbers addObject:[updateDict objectForKey:@"UpdateObjectId"]];
+                [self.AddedPartNumbers addObject:[updateDict objectForKey:@"UpdateObjectId"]];
                 
             }
             
@@ -338,7 +448,7 @@
 
 #pragma mark - Story Board
 
-/*
+
 #pragma mark - Edit Mode
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -348,23 +458,47 @@
     
     if ([sectionTitle isEqualToString:@"Part Numbers"]) {
         
-        return YES;
+        if ([[self.items objectForKey:@"Part Numbers"] count] > 2 && indexPath.row > 0) {
+            return YES;
+        }
+        
     }
     
     return NO;
 }
-*/
+
 /*
+//Update setEditing to add a button
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated {
+    [super setEditing:editing animated:animated];
+    
+    if (editing) {
+        // Add the + button
+        UIBarButtonItem *addBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addAction:)];
+        self.navigationItem.leftBarButtonItem = addBtn;
+    } else {
+        // remove the + button
+        self.navigationItem.leftBarButtonItem = nil;
+    }
+}*/
+
+
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
+        if ([[self.tableTitles objectAtIndex:indexPath.section] isEqualToString:@"Part Numbers"]) {
+            NSMutableArray *parts = [NSMutableArray arrayWithArray:[self.items objectForKey:@"Part Numbers"]];
+            [parts removeObjectAtIndex:indexPath.row];
+            [self.AddedPartNumbers removeObjectAtIndex:indexPath.row];
+            [self.items setObject:parts forKey:@"Part Numbers"];
+        }
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         [tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
-}*/
+}
 
 /*
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath

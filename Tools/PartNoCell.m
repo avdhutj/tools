@@ -20,7 +20,22 @@
     // Initialization code
 
 }
+
+
+- (IBAction)PartNoTextEditingDidBegin:(id)sender {
+    
+    if ([self.TextField.text isEqualToString:@"New part number"]) {
+        self.TextField.text = @"";
+    }
+}
+
+
 - (IBAction)PartTextCell:(id)sender {
+    
+    if ([self.TextField.text isEqualToString:@""] && [self.initialValue isEqualToString:@"New part number"]) {
+        self.TextField.text = @"New part number";
+    }
+    
     PFQuery *partNumbers = [PFQuery queryWithClassName:@"PartNumbers"];
     [partNumbers whereKey:@"name" equalTo:self.TextField.text];
     [partNumbers findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error){
@@ -56,6 +71,9 @@
     NSString* isUpdated = @"NotUpdated";
     if (![self.TextField.text isEqualToString:self.initialValue]) {
         isUpdated = @"Updated";
+        if([self.initialValue isEqualToString:@"New part number"]){
+            isUpdated = @"UpdatedAdd";
+        }
     }
     
     NSMutableDictionary *updateDict = [NSMutableDictionary dictionaryWithObjects:@[isUpdated,@"PartNumbers",@"name",self.TextField.text,self.updatedObjectId,[NSNumber numberWithInt:self.ArrayIndex],self.PartStatusLbl.text] forKeys:@[@"isUpdated",@"ParseClass",@"PartKey",@"UpdatedValue",@"UpdateObjectId",@"UpdateIndexNo",@"UpdatedStatus"]];
