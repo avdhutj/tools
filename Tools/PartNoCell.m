@@ -26,6 +26,7 @@
     
     if ([self.TextField.text isEqualToString:@"New part number"]) {
         self.TextField.text = @"";
+        self.TextField.textColor = [UIColor blackColor];
     }
 }
 
