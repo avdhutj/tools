@@ -239,7 +239,7 @@
             
             self.items = [NSMutableDictionary dictionaryWithDictionary:dict];
             [self.items setObject:self.partNumbers forKey:@"Part Numbers"];
-            self.AddedPartNumbers = [NSMutableArray arrayWithArray:self.partNumbers];
+            self.AddedPartNumbers = [NSMutableArray arrayWithArray:partIDs];
             
             self.tableTitles = [[NSMutableArray alloc] initWithCapacity:[dict count]];
             [self.tableTitles addObject:@"Tool Details"];
@@ -291,13 +291,13 @@
 }
 
 - (IBAction)back:(id)sender {
-    //NSLog(@"%@",self.selectedTextFeild.text);
+    
     if (self.controllerState == ATVC_VIEW_TOOL) {
         self.controllerState = ATVC_EDIT_TOOL;
         [self.tableView setEditing:YES animated:YES];
-        [self.tableView reloadData];
         self.BackBtn.title = @"Save";
         [self addPartNumberRow];
+        [self.tableView reloadData];
         
     } else if (self.controllerState != ATVC_VIEW_TOOL) {
         
@@ -320,18 +320,18 @@
                     
                     [partNumbers removeObjectAtIndex:partsCounter];
                     [self.AddedPartNumbers removeObjectAtIndex:partsCounter];
-                    NSLog(@"%@",self.AddedPartNumbers);
                 }
                 
-                [self.items setObject:partNumbers forKey:@"Part Numbers"];
                 partsCounter++;
             }
+
+            [self.items setObject:partNumbers forKey:@"Part Numbers"];
             
             //Save New Part Numbers
             __block int count = 0;
             
             for (NSString* parts in [self.items objectForKey:@"Part Numbers"]){
-                if ([self.AddedPartNumbers[count] isEqualToString:@"new"]) {
+                if ([[self.AddedPartNumbers objectAtIndex:count] isEqualToString:@"new"]) {
                     PFObject *newPart = [PFObject objectWithClassName:@"PartNumbers"];
                     newPart[@"name"] = parts;
                     newPart[@"Flag"] = @"Added Part No";
@@ -339,9 +339,6 @@
                     [newPart saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                         if(succeeded){
                             [self.AddedPartNumbers addObject:newPart.objectId];
-                            //NSLog(@"%@",self.partNumbers);
-                            count++;
-
                             if (count == [[self.items objectForKey:@"Part Numbers"] count]) {
                                 NSLog(@"Save Tool - new count: %i",count);
                                 //Save changes to tool Id
@@ -352,7 +349,7 @@
                         }
                     }];
                 }
-                
+                count++;
             }
             
             [self.tableView setEditing:NO animated:YES];
@@ -407,16 +404,18 @@
                 
                 //Updated PartNumbers with ObjectID
                 [self.partStausLookUp setObject:[updateDict objectForKey:@"UpdatedStatus"]forKey:[updateDict objectForKey:@"UpdatedValue"]];
-                [self.AddedPartNumbers addObject:[updateDict objectForKey:@"UpdateObjectId"]];
+                [self.AddedPartNumbers setObject:[updateDict objectForKey:@"UpdateObjectId"] atIndexedSubscript:[[updateDict objectForKey:@"UpdateIndexNo"] integerValue]];
                 
             }
+            
+            
             
         } else if ([[updateDict objectForKey:@"ParseClass"] isEqualToString:@"Tools"]) {
             //Tools
             //updateArray format:(NSString)isUpdated (NSString)ParseClass (int)PraseKey (NSString)UpdatedValue
             //@"Tool Details" : @[@"Tool ID", @"Weight", @"Tool Type",@"Tool Description"],
             NSMutableArray* tool =[self.items objectForKey:@"Tool Details"];
-            [tool setObject:[updateDict objectForKey:@""] atIndexedSubscript:[[updateDict objectForKey:@"ParseKey"] integerValue]];
+            [tool setObject:[updateDict objectForKey:@"UpdatedValue"] atIndexedSubscript:[[updateDict objectForKey:@"ParseKey"] integerValue]];
             
             
         } else {
@@ -450,7 +449,7 @@
     
     if ([sectionTitle isEqualToString:@"Part Numbers"]) {
         
-        if ([[self.items objectForKey:@"Part Numbers"] count] > 2 && indexPath.row > 0) {
+        if ([[self.items objectForKey:@"Part Numbers"] count] > 2) {
             return YES;
         }
         
