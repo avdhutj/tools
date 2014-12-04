@@ -33,7 +33,14 @@ typedef NS_ENUM(NSInteger, ATVCControllerState) {
 @property (nonatomic) NSMutableDictionary *partStausLookUp;
 @property (nonatomic) NSMutableArray *partPFObjects;
 @property (nonatomic) NSString *toolStatus;
+
+//Images
 @property (nonatomic) UIImage *toolImage;
+@property (nonatomic) UIImage *cameraImage;
+@property (nonatomic) UIImage *cameraSelectedImage;
+@property (nonatomic) UIImage *PhoneImage;
+@property (nonatomic) UIImage *PhoneSelectedImage;
+
 
 //PartNumebr Query (sent to Part No Cell to check for Part  status)
 @property PFQuery* queryParts;

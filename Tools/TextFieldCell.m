@@ -23,21 +23,20 @@
 
 - (IBAction)TextCellDidEndEditing:(id)sender {
     
-    //Post notifcation once the block operation is complete
     [self postNotifcationPartNoLookUpComplete];
     
 }
 
 -(void)postNotifcationPartNoLookUpComplete{
+
     //updateArray format:(NSString)isUpdated (NSString)ParseClass (NSString)PraseKey (NSString)UpdatedValue
     NSString* isUpdated = @"NotUpdated";
     if (![self.TextField.text isEqualToString:self.initialValue]) {
         isUpdated = @"Updated";
     }
     
-    NSMutableDictionary *updateDict = [NSMutableDictionary dictionaryWithObjects:@[isUpdated,@"PartNumbers",[NSNumber numberWithInt:self.parseKeyIndex],self.TextField.text] forKeys:@[@"isUpdated",@"ParseClass",@"ParseKey",@"UpdatedValue"]];
+    NSMutableDictionary *updateDict = [NSMutableDictionary dictionaryWithObjects:@[isUpdated,@"Tools",[NSNumber numberWithInt:self.parseKeyIndex],self.TextField.text] forKeys:@[@"isUpdated",@"ParseClass",@"ParseKey",@"UpdatedValue"]];
     
-    //NSArray *updateArray = @[isUpdated,@"name",self.TextField.text];
     NSDictionary *UserInfo = [NSDictionary dictionaryWithObjectsAndKeys:updateDict,@"updateArray", nil];
     
     NSString *notificationName = @"PartNoLookUpComplete";
