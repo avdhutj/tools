@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MainTabViewController : UITabBarController
+@interface OEMTabViewController : UITabBarController
 
 @property (weak, nonatomic) NSString* userType;
 

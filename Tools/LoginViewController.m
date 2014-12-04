@@ -10,7 +10,8 @@
 #import <Parse/Parse.h>
 #import "LoadingView.h"
 #import "LoadView.h"
-#import "MainTabViewController.h"
+#import "OEMTabViewController.h"
+#import "SupplierTabBarController.h"
 
 @interface LoginViewController ()
 
@@ -20,10 +21,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [PFUser logOut];
     // Do any additional setup after loading the view.
     //Button Setup - why is the touch down event not working??
     UIImage *btnPressed = [UIImage imageNamed:@"BlueButtonPressed.png"];
-    [self.LoginButton setImage:[self imageWithImage:btnPressed scaledToSize:CGSizeMake(410.0,60.0)] forState:UIControlEventTouchDown];
+    [self.LoginButton setImage:[self imageWithImage:btnPressed scaledToSize:CGSizeMake(410.0,60.0)] forState:UIControlStateSelected];
     //Login textboximage set up
     UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 30, 20)];
     self.UserTextField.leftView = paddingView;
@@ -38,10 +40,16 @@
     PFUser* currentUser = [PFUser currentUser];
     if (currentUser) {
         // Move to Next Screen
-        MainTabViewController* mTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MainTabBarController"];
-        [self presentViewController:mTVC animated:YES completion:^{
-            
-        }];
+        if ([[currentUser valueForKey:@"type"] isEqualToString:@"oem"]) {
+            OEMTabViewController* mTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"OEMTabBarController"];
+            [self presentViewController:mTVC animated:YES completion:^{
+            }];
+        }
+        else {
+            SupplierTabBarController* sTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SupplierTabBarController"];
+            [self presentViewController:sTVC animated:YES completion:^{
+            }];
+        }
     }
     
 }
@@ -80,10 +88,17 @@
         [PFUser logInWithUsernameInBackground:self.UserTextField.text password:self.PasswordTextField.text block:^(PFUser *user, NSError *error) {
             [lView removeFromSuperview];
             if (user) {
-                MainTabViewController* mTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MainTabBarController"];
-                [self presentViewController:mTVC animated:YES completion:^{
-                    
-                }];
+                if ([[user valueForKey:@"type"] isEqualToString:@"oem"]) {
+                    OEMTabViewController* mTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"OEMTabBarController"];
+                    [self presentViewController:mTVC animated:YES completion:^{
+                    }];
+                }
+                else {
+                    SupplierTabBarController* sTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SupplierTabBarController"];
+                    [self presentViewController:sTVC animated:YES completion:^{
+                    }];
+                }
+
             }
             else {
                 UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"Login Error!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];

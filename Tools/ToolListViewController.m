@@ -9,6 +9,7 @@
 #import "ToolListViewController.h"
 #import "ToolDetailViewController.h"
 #import "AddToolTableViewController.h"
+#import "MapViewController.h"
 
 @interface ToolListViewController ()
 
@@ -102,6 +103,11 @@
         
         //[self.navigationController pushViewController:detailViewController animated:YES];
 
+    }
+    else if ([segue.identifier isEqualToString:@"ToolListMapViewSegue"]) {
+        MapViewController* mVC = [segue destinationViewController];
+        [mVC setControllerState:MV_SHOW_TOOLS];
+        [mVC setToolObjects:self.objects];
     }
 }
 
