@@ -55,6 +55,31 @@
         [_locationManager requestWhenInUseAuthorization];
     }
     _locationManager.delegate = self;
+    
+    [self.CancelBtn setImage:[UIImage imageNamed:@"CancelSelected"] forState:UIControlStateSelected];
+    [self.TorchBtn setImage:[UIImage imageNamed:@"TorchSelected"] forState:UIControlStateSelected];
+    
+}
+- (IBAction)TourchTouchUpInside:(id)sender {
+    
+    AVCaptureDevice *flashLight = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    if ([flashLight isTorchAvailable] && [flashLight isTorchModeSupported:AVCaptureTorchModeOn])
+    {
+        BOOL success = [flashLight lockForConfiguration:nil];
+        if (success)
+        {
+            if ([flashLight isTorchActive]) {
+                self.TorchBtn.imageView.image = [UIImage imageNamed:@"TorchSelected"];
+                [flashLight setTorchMode:AVCaptureTorchModeOff];
+            } else {
+                self.TorchBtn.imageView.image = [UIImage imageNamed:@"Torch"];
+                [flashLight setTorchMode:AVCaptureTorchModeOn];
+            }
+            [flashLight unlockForConfiguration];
+        }
+    }
+
+    
 }
 
 -(void)viewDidAppear:(BOOL)animated {
