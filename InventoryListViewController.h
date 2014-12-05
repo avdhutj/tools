@@ -18,7 +18,8 @@ typedef NS_ENUM(NSInteger, TaskType) {
 };
 
 typedef NS_ENUM(NSInteger, ILControllerState) {
-    IL_TAG_TOOL = 0,
+    IL_CAMERA = 0,
+    IL_TAG_TOOL,
     IL_ADD_TOOL,
     IL_SHIP_TOOL,
     IL_RECIEVE_TOOL,

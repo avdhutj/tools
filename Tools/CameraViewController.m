@@ -39,6 +39,7 @@
 -(void)InvShipTool;
 -(void)InvRecieveTool;
 -(void)InvUpdateTool;
+-(void)HandleInv;
 
 -(void)AddToolWithCheck:(BOOL)check;
 -(void)AddToolNext;
@@ -151,15 +152,18 @@
             if (self.controllerState == CVC_SCAN_TOOL) {
                 [self ScanTool];
             }
-            else if (self.controllerState == CVC_INV_TAG_TOOL) {
-                [self InvTagTool];
+            else if (self.controllerState == CVC_INV) {
+                [self HandleInv];
             }
-            else if (self.controllerState == CVC_INV_ADD_TOOL) {
-                [self InvAddTool];
-            }
-            else if (self.controllerState == CVC_INV_SHIP_TOOL) {
-                [self InvShipTool];
-            }
+//            else if (self.controllerState == CVC_INV_TAG_TOOL) {
+//                [self InvTagTool];
+//            }
+//            else if (self.controllerState == CVC_INV_ADD_TOOL) {
+//                [self InvAddTool];
+//            }
+//            else if (self.controllerState == CVC_INV_SHIP_TOOL) {
+//                [self InvShipTool];
+//            }
         }
     }
 }
@@ -214,6 +218,22 @@
 }
 
 #pragma Inventory Functions
+
+-(void)HandleInv {
+    NSArray* splitString = [_qrCodeString componentsSeparatedByString:@"_"];
+    if ([[splitString objectAtIndex:0] isEqualToString:@"tool"]) {
+        [self dismissViewControllerAnimated:YES completion:^{
+            [_inventoryListViewController gotQRCode:_qrCodeString];
+        }];
+        
+    }
+    else {
+        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"Incorrect QR Code" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alertView setTag:3];
+        [alertView show];
+    }
+    
+}
 -(void)InvTagTool {
     PFQuery* query = [PFQuery queryWithClassName:@"Tools"];
     [query whereKey:@"qrCode" equalTo:_qrCodeString];

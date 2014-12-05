@@ -128,20 +128,21 @@
         self.selectedObject = [_allToolsArray objectAtIndex:indexPath.row];
         CameraViewController* cVC = [self.storyboard instantiateViewControllerWithIdentifier:@"CameraViewController"];
         if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:0]]) {
+            self.controllerState = IL_CAMERA;
             [cVC setInvToolId:[_selectedObject valueForKey:@"toolId"]];
-            [cVC setControllerState:CVC_INV_TAG_TOOL];
+            [cVC setControllerState:CVC_INV];
         }
         else if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:1]]) {
-            [cVC setControllerState:CVC_INV_ADD_TOOL];
+            [cVC setControllerState:CVC_INV];
         }
         else if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:2]]) {
-            [cVC setControllerState:CVC_INV_SHIP_TOOL];
+            [cVC setControllerState:CVC_INV];
         }
         else if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:3]]) {
-            [cVC setControllerState:CVC_INV_RECIEVE_TOOL];
+            [cVC setControllerState:CVC_INV];
         }
         else if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:4]]) {
-            [cVC setControllerState:CVC_INV_UPDATE_TOOL];
+            [cVC setControllerState:CVC_INV];
         }
 //        [self.navigationController pushViewController:cVC animated:YES];
         [cVC setInventoryListViewController:self];
