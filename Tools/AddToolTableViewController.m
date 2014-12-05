@@ -89,7 +89,7 @@
     return [sectionItems count];
 }
 
--(void)handleTap{
+-(void)handleTap:(UITapGestureRecognizer *)recognizer {
  
     NSLog(@"Clicked");
     
@@ -167,7 +167,8 @@
             cell.textLabel.text = item;
             if ([sectionTitle isEqualToString:@"Tool Details"]){
                 cell.imageView.image = self.cameraImage;
-                //UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+                UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+                [cell.imageView addGestureRecognizer:tap];
                 cell.detailTextLabel.text = self.toolStatus;
             } else {
                 //phone call image
