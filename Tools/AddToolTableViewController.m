@@ -11,6 +11,8 @@
 #import "MapViewController.h"
 #import "PartNoCell.h"
 #import "TextFieldCell.h"
+#import "ToolTypeCell.h"
+#import "APPViewController.h"
 
 @interface AddToolTableViewController ()
 
@@ -92,9 +94,11 @@
 -(void)handleTap:(UITapGestureRecognizer *)recognizer {
  
     NSLog(@"Clicked");
+    APPViewController* cameraVC = [self.storyboard instantiateViewControllerWithIdentifier:@"TakePhotoViewController"];
+    [self presentViewController:cameraVC animated:YES completion:^{
+    }];
     
 }
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     //Get tool image from parse
@@ -193,8 +197,18 @@
                 return textCell;
             } else if(indexPath.section == 0 && indexPath.row ==2) {
                 //Tool Type in Edit Mode
-                TextFieldCell *textCell = [tableView dequeueReusableCellWithIdentifier:@"TextCell" forIndexPath:indexPath];
-                textCell.TextField.text = item;
+                ToolTypeCell *textCell = [tableView dequeueReusableCellWithIdentifier:@"ToolTypeInput" forIndexPath:indexPath];
+                if ([item isEqualToString:@"Stamping die"]) {
+                    textCell.ToolTypeSegControl.selectedSegmentIndex = 0;
+                } else if ([item isEqualToString:@"Injection mold"]) {
+                    textCell.ToolTypeSegControl.selectedSegmentIndex = 1;
+                } else if ([item isEqualToString:@"Check fixture"]){
+                    textCell.ToolTypeSegControl.selectedSegmentIndex = 2;
+                } else if ([item isEqualToString:@"Gauge"]) {
+                    textCell.ToolTypeSegControl.selectedSegmentIndex = 3;
+                } else {
+                    textCell.ToolTypeSegControl.selectedSegmentIndex = 4;
+                }
                 [textCell setSelectionStyle:UITableViewCellSelectionStyleNone];
                 textCell.initialValue = item;
                 textCell.parseKeyIndex = indexPath.row;
@@ -276,6 +290,11 @@
 }
 
 #pragma mark - Table Actions
+- (IBAction)ToolTypeValueChanged:(id)sender {
+    
+    
+    
+}
 
 -(void)addPartNumberRow{
     

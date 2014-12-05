@@ -621,6 +621,9 @@
                                             <segments>
                                                 <segment title="Die"/>
                                                 <segment title="Mold"/>
+                                                <segment title="Fixture"/>
+                                                <segment title="Gauge"/>
+                                                <segment title="Other"/>
                                             </segments>
                                         </segmentedControl>
                                     </subviews>
@@ -738,6 +741,60 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mVR-nH-QMK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2484.5" y="553.5"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="B3w-hb-BXr">
+            <objects>
+                <viewController storyboardIdentifier="TakePhotoViewController" id="7Ft-78-zx0" customClass="APPViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="EfX-Gy-Ddm"/>
+                        <viewControllerLayoutGuide type="bottom" id="sHq-Qb-bfd"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="21J-lp-vVI">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w33-6H-Fue">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="585"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="375" id="1ao-tc-wAf"/>
+                                    <constraint firstAttribute="width" secondItem="w33-6H-Fue" secondAttribute="height" multiplier="25:39" id="8eF-Zk-lfM"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X1F-4Z-8gh">
+                                <rect key="frame" x="141" y="623" width="94" height="30"/>
+                                <state key="normal" title="Select Photo">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="selectPhoto:" destination="7Ft-78-zx0" eventType="touchUpInside" id="Msc-yl-iAs"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1W1-G1-YOF">
+                                <rect key="frame" x="148" y="593" width="80" height="30"/>
+                                <state key="normal" title="Take Photo">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="takePhoto:" destination="7Ft-78-zx0" eventType="touchUpInside" id="tFH-IS-guD"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="X1F-4Z-8gh" firstAttribute="top" secondItem="1W1-G1-YOF" secondAttribute="bottom" id="9Y8-al-ko8"/>
+                            <constraint firstAttribute="centerX" secondItem="X1F-4Z-8gh" secondAttribute="centerX" id="e8J-Oz-GwU"/>
+                            <constraint firstAttribute="centerX" secondItem="1W1-G1-YOF" secondAttribute="centerX" id="fT9-AH-Td5"/>
+                            <constraint firstItem="sHq-Qb-bfd" firstAttribute="top" secondItem="X1F-4Z-8gh" secondAttribute="bottom" constant="14" id="nD6-9Q-zgh"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="w33-6H-Fue" id="YLh-u7-THM"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="g7c-2V-eRc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2940.5" y="553.5"/>
         </scene>
         <!--Scan-->
         <scene sceneID="7Eh-mR-dKJ">
