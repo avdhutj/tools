@@ -22,8 +22,6 @@
 
 - (void)SetUpNotificationCenterPartNumber:(UITableViewCell *)PartNo {
     
-     NSLog(@"text field changed");
-    
     if (self.controllerState != ATVC_VIEW_TOOL) {
         self.BackBtn.title = @"Save";
         //Notificaiton Center Setup
@@ -35,24 +33,6 @@
     }
     
 }
-
-/*
-- (void)SetUpNotificationCenterTextField:(TextFieldCell *)TextFeild {
-    
-    NSLog(@"text field changed");
-    
-    if (self.controllerState != ATVC_VIEW_TOOL) {
-        self.BackBtn.title = @"Save";
-        //Notificaiton Center Setup
-        NSLog(@"%@",TextFeild.TextField.text);
-        NSString *notifcaitonName = @"TextFeildChanged";
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(TextFieldChangedNotification:)
-                                                     name:notifcaitonName
-                                                   object:TextFeild];
-    }
-    
-}*/
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -109,6 +89,11 @@
     return [sectionItems count];
 }
 
+-(void)handleTap{
+ 
+    NSLog(@"Clicked");
+    
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -175,13 +160,14 @@
                 textCell.parseKeyIndex = indexPath.row;
             }
             [textCell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            [self SetUpNotificationCenterPartNumber:textCell];
             return textCell;
         } else {
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellToolId" forIndexPath:indexPath];
             cell.textLabel.text = item;
             if ([sectionTitle isEqualToString:@"Tool Details"]){
-                //cell.imageView.image = self.toolImage;
                 cell.imageView.image = self.cameraImage;
+                //UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
                 cell.detailTextLabel.text = self.toolStatus;
             } else {
                 //phone call image
@@ -201,6 +187,7 @@
                 [textCell setSelectionStyle:UITableViewCellSelectionStyleNone];
                 textCell.initialValue = item;
                 textCell.parseKeyIndex = indexPath.row;
+                [self SetUpNotificationCenterPartNumber:textCell];
                 return textCell;
             } else if(indexPath.section == 0 && indexPath.row ==2) {
                 //Tool Type in Edit Mode
@@ -209,6 +196,7 @@
                 [textCell setSelectionStyle:UITableViewCellSelectionStyleNone];
                 textCell.initialValue = item;
                 textCell.parseKeyIndex = indexPath.row;
+                [self SetUpNotificationCenterPartNumber:textCell];
                 return textCell;
             } else {
                 //Other - text in dark grey
@@ -218,6 +206,7 @@
                 [textCell setSelectionStyle:UITableViewCellSelectionStyleNone];
                 textCell.initialValue = item;
                 textCell.parseKeyIndex = indexPath.row;
+                [self SetUpNotificationCenterPartNumber:textCell];
                 return textCell;
             }
             
@@ -264,7 +253,7 @@
             //Set Up for the  cells in the table
             
             NSDictionary *dict =  @{@"Supplier" : @[[self.Supplier objectForKey:@"supplier"], [self.Supplier objectForKey:@"address"], [self.Supplier objectForKey:@"phoneNumber"]],
-                                    @"Tool Details" : @[[self.exam objectForKey:@"toolId"], [NSString stringWithFormat: @"%i lbs",[[self.exam objectForKey:@"weight"]integerValue]], [self.exam objectForKey:@"toolType"],[self.exam objectForKey:@"toolDescription"]]};
+                                    @"Tool Details" : @[[self.exam objectForKey:@"toolId"], [NSString stringWithFormat:@"%@",[self.exam objectForKey:@"weight"]], [self.exam objectForKey:@"toolType"],[self.exam objectForKey:@"toolDescription"]]};
             
             self.items = [NSMutableDictionary dictionaryWithDictionary:dict];
             [self.items setObject:self.partNumbers forKey:@"Part Numbers"];
@@ -310,7 +299,10 @@
     NSLog(@"%@",toolDetails);
     self.exam[@"toolId"] = toolDetails[0];
     //need to convert string back to NSNumber
-    self.exam[@"weight"] = toolDetails[1];
+    NSNumberFormatter *formater = [[NSNumberFormatter alloc] init];
+    [formater setNumberStyle:NSNumberFormatterNoStyle];
+    self.exam[@"weight"] = [formater numberFromString:toolDetails[1]];
+    
     self.exam[@"toolType"] = toolDetails[2];
     self.exam[@"toolDescription"] = toolDetails[3];
     self.exam[@"part"] = self.AddedPartNumbers;
@@ -433,11 +425,7 @@
 
 -(void)TextFieldChangedNotification:(NSNotification *) notification {
     
-    NSLog(@"here");
-    
     NSDictionary *updateDict  = [[notification userInfo] objectForKey:@"updateArray"];
-    
-        NSLog(@"%@",[updateDict objectForKey:@"ParseClass"]);
     
     if ([[updateDict objectForKey:@"isUpdated"] isEqualToString:@"UpdatedAdd"]) {
         [self addPartNumberRow];
@@ -475,14 +463,13 @@
             
             
         } else if ([[updateDict objectForKey:@"ParseClass"] isEqualToString:@"Tools"]) {
-            NSLog(@"In tools");
+            NSLog(@"In tools index: %i updated value: %@",[[updateDict objectForKey:@"ParseKey"] integerValue], [updateDict objectForKey:@"UpdatedValue"]);
             //Tools
             //updateArray format:(NSString)isUpdated (NSString)ParseClass (int)PraseKey (NSString)UpdatedValue
             //@"Tool Details" : @[@"Tool ID", @"Weight", @"Tool Type",@"Tool Description"],
-            NSMutableArray* tool =[self.items objectForKey:@"Tool Details"];
+            NSMutableArray* tool =[[self.items objectForKey:@"Tool Details"] mutableCopy];
             [tool setObject:[updateDict objectForKey:@"UpdatedValue"] atIndexedSubscript:[[updateDict objectForKey:@"ParseKey"] integerValue]];
-            
-            NSLog(@"updated value:%@",[updateDict objectForKey:@"UpdatedValue"]);
+            [self.items setObject:tool forKey:@"Tool Details"];
             
         } else {
             
@@ -549,6 +536,7 @@
             [parts removeObjectAtIndex:indexPath.row];
             [self.AddedPartNumbers removeObjectAtIndex:indexPath.row];
             [self.items setObject:parts forKey:@"Part Numbers"];
+            [self.tableView reloadData];
         }
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
