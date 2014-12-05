@@ -27,7 +27,6 @@ UIAlertViewDelegate, CLLocationManagerDelegate> {
 
 }
 @property (nonatomic) CVCControllerState controllerState;
-@property (weak, nonatomic) IBOutlet UIButton *CancelBtn;
 @property (weak, nonatomic) IBOutlet UIView *cameraView;
 @property (weak, nonatomic) IBOutlet UIButton *TorchBtn;
 

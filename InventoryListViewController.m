@@ -31,6 +31,7 @@
 
 -(void)loadData;
 -(void)gotSupplier;
+-(void)gotQRCode;
 
 @end
 
@@ -65,6 +66,9 @@
     [super viewDidAppear:animated];
     if (_controllerState == IL_SHIP_TOOL) {
         [self gotSupplier];
+    }
+    else if (_controllerState == IL_CAMERA) {
+        [self gotQRCode];
     }
 }
 
@@ -127,9 +131,11 @@
     if (self.segmentController.selectedSegmentIndex == 0) {
         self.selectedObject = [_allToolsArray objectAtIndex:indexPath.row];
         CameraViewController* cVC = [self.storyboard instantiateViewControllerWithIdentifier:@"CameraViewController"];
+        self.controllerState = IL_CAMERA;
+        _qrCodeString = nil;
+
         if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:0]]) {
-            self.controllerState = IL_CAMERA;
-            [cVC setInvToolId:[_selectedObject valueForKey:@"toolId"]];
+                        [cVC setInvToolId:[_selectedObject valueForKey:@"toolId"]];
             [cVC setControllerState:CVC_INV];
         }
         else if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:1]]) {
@@ -144,11 +150,12 @@
         else if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:4]]) {
             [cVC setControllerState:CVC_INV];
         }
-//        [self.navigationController pushViewController:cVC animated:YES];
+
         [cVC setInventoryListViewController:self];
-        [self presentViewController:cVC animated:YES completion:^{
-            
-        }];
+        [self.navigationController pushViewController:cVC animated:YES];
+//        [self presentViewController:cVC animated:YES completion:^{
+//            
+//        }];
     }
 }
 
@@ -265,24 +272,24 @@
     
 }
 
--(void)gotQRCode:(NSString *)qrCodeString {
-    if (qrCodeString == nil) {
+-(void)gotQRCode {
+    if (_qrCodeString == nil) {
         // Process Error
         NSLog(@"Canceled pressed");
     }
     else {
 //        NSLog(@"Got qrCode: %@", qrCodeString);
         if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:0]]) {
-            [self HandleTagTool:qrCodeString];
+            [self HandleTagTool:_qrCodeString];
         }
         else if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:1]]) {
-            [self HandleAddTool:qrCodeString];
+            [self HandleAddTool:_qrCodeString];
         }
         else if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:2]]) {
-            [self HandleShipTool:qrCodeString];
+            [self HandleShipTool:_qrCodeString];
         }
         else if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:3]]) {
-            [self HandleRecieveTool:qrCodeString];
+            [self HandleRecieveTool:_qrCodeString];
         }
         
     }

@@ -30,8 +30,8 @@ typedef NS_ENUM(NSInteger, ILControllerState) {
 
 @interface InventoryListViewController : UITableViewController
 
--(void)gotQRCode:(NSString*)qrCodeString;
 
+@property (strong, nonatomic) NSString* qrCodeString;
 @property (strong, nonatomic) PFObject* shippingSupplier;
 
 @property (strong, nonatomic) IBOutlet UISegmentedControl *segmentController;

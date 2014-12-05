@@ -34,11 +34,11 @@
 -(void)ScanTool;
 -(void)ScanToolNext;
 
--(void)InvTagTool;
--(void)InvAddTool;
--(void)InvShipTool;
--(void)InvRecieveTool;
--(void)InvUpdateTool;
+//-(void)InvTagTool;
+//-(void)InvAddTool;
+//-(void)InvShipTool;
+//-(void)InvRecieveTool;
+//-(void)InvUpdateTool;
 -(void)HandleInv;
 
 -(void)AddToolWithCheck:(BOOL)check;
@@ -56,8 +56,6 @@
         [_locationManager requestWhenInUseAuthorization];
     }
     _locationManager.delegate = self;
-    
-    [self.CancelBtn setImage:[UIImage imageNamed:@"CancelSelected"] forState:UIControlStateSelected];
     [self.TorchBtn setImage:[UIImage imageNamed:@"TorchSelected"] forState:UIControlStateSelected];
     
 }
@@ -247,9 +245,12 @@
 -(void)HandleInv {
     NSArray* splitString = [_qrCodeString componentsSeparatedByString:@"_"];
     if ([[splitString objectAtIndex:0] isEqualToString:@"tool"]) {
-        [self dismissViewControllerAnimated:YES completion:^{
-            [_inventoryListViewController gotQRCode:_qrCodeString];
-        }];
+        [_inventoryListViewController setQrCodeString:_qrCodeString];
+        [self.navigationController popViewControllerAnimated:YES];
+//        [_inventoryListViewController gotQRCode:_qrCodeString];
+//        [self dismissViewControllerAnimated:YES completion:^{
+//            [_inventoryListViewController gotQRCode:_qrCodeString];
+//        }];
         
     }
     else {
@@ -259,6 +260,7 @@
     }
     
 }
+/*
 -(void)InvTagTool {
     PFQuery* query = [PFQuery queryWithClassName:@"Tools"];
     [query whereKey:@"qrCode" equalTo:_qrCodeString];
@@ -304,6 +306,7 @@
         [_inventoryListViewController gotQRCode:_qrCodeString];
     }];
 }
+ */
 
 #pragma Add Tool Functions
 -(void)AddToolWithCheck:(BOOL)check {
@@ -391,11 +394,6 @@
     [PFUser logOut];
     [self dismissViewControllerAnimated:YES completion:^{
         //
-    }];
-}
-- (IBAction)CancelClicked:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:^{
-        [_inventoryListViewController gotQRCode:nil];
     }];
 }
 
