@@ -168,6 +168,7 @@
             if ([sectionTitle isEqualToString:@"Tool Details"]){
                 cell.imageView.image = self.cameraImage;
                 UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+                cell.imageView.userInteractionEnabled = YES;
                 [cell.imageView addGestureRecognizer:tap];
                 cell.detailTextLabel.text = self.toolStatus;
             } else {
