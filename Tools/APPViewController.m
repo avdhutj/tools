@@ -31,6 +31,34 @@
         
     }
     
+    UIBarButtonItem *saveBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save:)];
+    self.navigationItem.rightBarButtonItem = saveBtn;
+    
+    PFFile* img = [self.tool objectForKey:@"imageFile"];
+    self.imageView.image = [UIImage imageWithData:[img getData]];
+    
+}
+
+-(void)save:(id)sender {
+    NSLog(@"In save");
+    UIImage* img = self.imageView.image;
+    NSData *imageData = UIImageJPEGRepresentation(img, 0.05f);
+    [self uploadImage:imageData];
+}
+
+-(void)uploadImage:(NSData *)imageData{
+    PFFile *imageFile = [PFFile fileWithName:@"Image.jpg" data:imageData];
+    [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (!error) {
+            
+            [self.tool setObject:imageFile forKey:@"imageFile"];
+            [self.navigationController popViewControllerAnimated:YES];
+            
+        } else {
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
+     
 }
 
 - (void)viewDidAppear:(BOOL)animated {

@@ -93,11 +93,9 @@
 
 -(void)handleTap:(UITapGestureRecognizer *)recognizer {
  
-    NSLog(@"Clicked");
     APPViewController* cameraVC = [self.storyboard instantiateViewControllerWithIdentifier:@"TakePhotoViewController"];
-    [self presentViewController:cameraVC animated:YES completion:^{
-    }];
-    
+    cameraVC.tool = self.exam;
+    [self.navigationController pushViewController:cameraVC animated:YES];
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -155,8 +153,12 @@
             TextFieldCell *textCell = [tableView dequeueReusableCellWithIdentifier:@"TextCell" forIndexPath:indexPath];
             textCell.TextField.text = item;
             if ([sectionTitle isEqualToString:@"Tool Details"]) {
+                PFFile* img = [self.exam objectForKey:@"imageFile"];
+                UIImage* image = [UIImage imageWithData:[img getData]];
+                if ([image isEqual:[NSNull null]]) {
+                    self.toolImage = image;
+                }
                 textCell.imageView.image = self.toolImage;
-                //if (self.controllerState == ATVC_ADD_TOOL) {[textCell.TextField becomeFirstResponder];}
                 UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 60, 20)];
                 textCell.TextField.leftView = paddingView;
                 textCell.TextField.leftViewMode = UITextFieldViewModeAlways;
