@@ -616,7 +616,7 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ru1-kH-3SJ" id="ANd-lX-IkM">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="UZx-f3-m8D">
+                                        <segmentedControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="UZx-f3-m8D">
                                             <rect key="frame" x="8" y="9" width="359" height="29"/>
                                             <segments>
                                                 <segment title="Die"/>
@@ -630,6 +630,10 @@
                                             </connections>
                                         </segmentedControl>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="centerY" secondItem="UZx-f3-m8D" secondAttribute="centerY" id="8TA-Ev-1Di"/>
+                                        <constraint firstAttribute="centerX" secondItem="UZx-f3-m8D" secondAttribute="centerX" id="RA3-LG-EXC"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="ToolTypeSegControl" destination="UZx-f3-m8D" id="m5p-UM-7IP"/>
@@ -647,7 +651,7 @@
                                                 <constraint firstAttribute="width" constant="300" id="WTc-g2-DkB"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                            <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
                                             <connections>
                                                 <action selector="TextCellDidEndEditing:" destination="juP-C2-IDb" eventType="editingDidEnd" id="HQD-Vo-Elc"/>
                                             </connections>

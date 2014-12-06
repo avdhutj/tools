@@ -195,6 +195,9 @@
                 //Weight in Edit Mode
                 TextFieldCell *textCell = [tableView dequeueReusableCellWithIdentifier:@"TextCell" forIndexPath:indexPath];
                 textCell.TextField.text = item;
+                //WHY IS THIS NOT WORKING??
+                textCell.TextField.keyboardType = UIKeyboardTypeNamePhonePad;
+                //
                 [textCell setSelectionStyle:UITableViewCellSelectionStyleNone];
                 textCell.initialValue = item;
                 textCell.parseKeyIndex = indexPath.row;
@@ -233,10 +236,6 @@
             
         } else {
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellLbl" forIndexPath:indexPath];
-            
-            if (indexPath.section == 0 && indexPath.row ==3) {
-                cell.textLabel.textColor = [UIColor grayColor];
-            }
             cell.textLabel.text = item;
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             return cell;
@@ -316,11 +315,6 @@
 }
 
 #pragma mark - Table Actions
-- (IBAction)ToolTypeValueChanged:(id)sender {
-    
-    
-    
-}
 
 -(void)addPartNumberRow{
     
@@ -343,9 +337,7 @@
     }
     
     NSArray *toolDetails = [self.items objectForKey:@"Tool Details"];
-    NSLog(@"%@",toolDetails);
     self.exam[@"toolId"] = toolDetails[0];
-    //need to convert string back to NSNumber
     NSNumberFormatter *formater = [[NSNumberFormatter alloc] init];
     [formater setNumberStyle:NSNumberFormatterNoStyle];
     self.exam[@"weight"] = [formater numberFromString:toolDetails[1]];
@@ -353,7 +345,6 @@
     self.exam[@"toolType"] = toolDetails[2];
     self.exam[@"toolDescription"] = toolDetails[3];
     self.exam[@"part"] = self.AddedPartNumbers;
-    NSLog(@"%@",self.exam);
     [self.exam saveInBackground];
     [self.tableView reloadData];
 }
@@ -460,16 +451,6 @@
     }
 }
 
-    /*
-     //Need to perform basic validation to ensure all cells are filled
-     PFObject *tool = [PFObject objectWithClassName:@"Tools"];
-     tool[@"supplier"] = self.;
-     tool[@"toolId"] = self.ToolIdTxt.text;
-     tool[@"weight"] = [NSNumber numberWithInt:[self.WeightTxt.text integerValue]];
-     tool[@"toolDescription"] = self.DescrTxt.text;
-     [tool saveInBackground];
-     //Need to set up the part number adding thing this might be a little tricky because we will need to tool up the part number that was added and if it isnt there a new part number needs to be created after confirming with the user.*/
-
 -(void)TextFieldChangedNotification:(NSNotification *) notification {
     
     NSDictionary *updateDict  = [[notification userInfo] objectForKey:@"updateArray"];
@@ -510,7 +491,7 @@
             
             
         } else if ([[updateDict objectForKey:@"ParseClass"] isEqualToString:@"Tools"]) {
-            NSLog(@"In tools index: %i updated value: %@",[[updateDict objectForKey:@"ParseKey"] integerValue], [updateDict objectForKey:@"UpdatedValue"]);
+            //NSLog(@"In tools index: %i updated value: %@",[[updateDict objectForKey:@"ParseKey"] integerValue], [updateDict objectForKey:@"UpdatedValue"]);
             //Tools
             //updateArray format:(NSString)isUpdated (NSString)ParseClass (int)PraseKey (NSString)UpdatedValue
             //@"Tool Details" : @[@"Tool ID", @"Weight", @"Tool Type",@"Tool Description"],
@@ -557,22 +538,6 @@
     
     return NO;
 }
-
-/*
-//Update setEditing to add a button
-- (void)setEditing:(BOOL)editing animated:(BOOL)animated {
-    [super setEditing:editing animated:animated];
-    
-    if (editing) {
-        // Add the + button
-        UIBarButtonItem *addBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addAction:)];
-        self.navigationItem.leftBarButtonItem = addBtn;
-    } else {
-        // remove the + button
-        self.navigationItem.leftBarButtonItem = nil;
-    }
-}*/
-
 
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
