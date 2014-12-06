@@ -194,10 +194,13 @@
     NSString* toolId = [_selectedObject objectForKey:@"toolId"];
     PFQuery* query = [PFQuery queryWithClassName:@"Tools"];
     [query whereKey:@"toolId" equalTo:toolId];
+    
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if ([objects count] == 0) {
             [lView removeFromSuperview];
             // Error
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Tool Not Found" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
         }
         else {
             PFObject* toolObject = [objects objectAtIndex:0];
@@ -217,6 +220,8 @@
                 }
                 else {
                     // Handle Error
+                    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Error Saving" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                    [alert show];
                 }
             }];
         }
@@ -238,8 +243,11 @@
     [query whereKey:@"qrCode" equalTo:qrCodeString];
     [query whereKey:@"toolId" equalTo:[_selectedObject objectForKey:@"toolId"]];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (objects == 0) {
+        if ([objects count] == 0) {
             // Handle Error
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Incorrect Tool Scanned" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+            
         }
         else {
             // Open Supplier List View Controller and wait for call from supplier selected method
@@ -273,6 +281,7 @@
 }
 
 -(void)gotQRCode {
+    _controllerState = IL_NONE;
     if (_qrCodeString == nil) {
         // Process Error
         NSLog(@"Canceled pressed");
@@ -303,12 +312,24 @@
     _controllerState = IL_NONE;
     if (_shippingSupplier) {
         // Format string
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Shipping" message:@"Shipping to supplier" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
+        NSString* message = [NSString stringWithFormat:@"Shipping to %@", [_shippingSupplier valueForKey:@"supplier"]];
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Shipping" message:message delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
         [alert setTag:1];
         [alert show];
     }
     
 }
 
+#pragma AlertViewDelegates
+
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    // Shipping alert
+    if ([alertView tag] == 1) {
+        if (buttonIndex == 1) {
+            [_doneSet addObject:[_selectedObject objectId]];
+            [self.tableView reloadData];
+        }
+    }
+}
 
 @end

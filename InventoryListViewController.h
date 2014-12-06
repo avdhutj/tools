@@ -28,7 +28,7 @@ typedef NS_ENUM(NSInteger, ILControllerState) {
 };
 
 
-@interface InventoryListViewController : UITableViewController
+@interface InventoryListViewController : UITableViewController<UIAlertViewDelegate>
 
 
 @property (strong, nonatomic) NSString* qrCodeString;

@@ -21,7 +21,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [PFUser logOut];
+//    [PFUser logOut];
     // Do any additional setup after loading the view.
     //Button Setup - why is the touch down event not working??
     UIImage *btnPressed = [UIImage imageNamed:@"BlueButtonPressed.png"];

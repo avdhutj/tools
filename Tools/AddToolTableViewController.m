@@ -268,8 +268,17 @@
             
             //Set Up for the  cells in the table
             
-            NSDictionary *dict =  @{@"Supplier" : @[[self.Supplier objectForKey:@"supplier"], [self.Supplier objectForKey:@"address"], [self.Supplier objectForKey:@"phoneNumber"]],
-                                    @"Tool Details" : @[[self.exam objectForKey:@"toolId"], [NSString stringWithFormat:@"%@",[self.exam objectForKey:@"weight"]], [self.exam objectForKey:@"toolType"],[self.exam objectForKey:@"toolDescription"]]};
+            //TODO: Mazin check this if this is true
+            NSDictionary *dict;
+            if (self.Supplier) {
+                dict =  @{@"Supplier" : @[[self.Supplier objectForKey:@"supplier"], [self.Supplier objectForKey:@"address"], [self.Supplier objectForKey:@"phoneNumber"]],
+                                        @"Tool Details" : @[[self.exam objectForKey:@"toolId"], [NSString stringWithFormat:@"%@",[self.exam objectForKey:@"weight"]], [self.exam objectForKey:@"toolType"],[self.exam objectForKey:@"toolDescription"]]};
+            }
+            else {
+                dict =  @{@"Tool Details" : @[[self.exam objectForKey:@"toolId"], [NSString stringWithFormat:@"%@",[self.exam objectForKey:@"weight"]], [self.exam objectForKey:@"toolType"],[self.exam objectForKey:@"toolDescription"]]};
+            }
+            
+
             
             self.items = [NSMutableDictionary dictionaryWithDictionary:dict];
             [self.items setObject:self.partNumbers forKey:@"Part Numbers"];
@@ -286,6 +295,17 @@
         } else {
             NSLog(@"%@", [error userInfo]);
         }
+    }];
+    NSString* supplierId = [self.exam valueForKey:@"supplier"];
+    PFObject* supplier = [PFObject objectWithoutDataWithClassName:@"SupplierList" objectId:supplierId];
+    [supplier fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if (!error) {
+            self.Supplier = supplier;
+            NSArray* sup = [NSArray arrayWithObjects:[self.Supplier objectForKey:@"supplier"], [self.Supplier objectForKey:@"address"], [self.Supplier objectForKey:@"phoneNumber"], nil];
+            [self.items setObject:sup forKey:@"Supplier"];
+            [self.tableView reloadData];
+        }
+        
     }];
 }
 

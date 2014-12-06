@@ -146,25 +146,13 @@
                         <subviews>
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="umO-eK-dMa">
                                 <rect key="frame" x="60" y="83" width="250" height="300"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GGw-5E-sZD">
-                                        <rect key="frame" x="100" y="242" width="50" height="50"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="GGw-5E-sZD" secondAttribute="height" multiplier="100:100" id="VxZ-S9-VnR"/>
-                                            <constraint firstAttribute="width" constant="50" id="de8-8J-nFj"/>
-                                        </constraints>
-                                        <state key="normal" image="Torch"/>
-                                        <connections>
-                                            <action selector="TourchTouchUpInside:" destination="lKU-96-fqs" eventType="touchUpInside" id="MO7-An-nal"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
                                 <color key="backgroundColor" red="0.95282907196969702" green="0.95282907196969702" blue="0.95282907196969702" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GGw-5E-sZD">
                                 <rect key="frame" x="160" y="391" width="50" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="centerX" secondItem="GGw-5E-sZD" secondAttribute="centerX" id="0WK-hb-FOz"/>
+                                    <constraint firstAttribute="width" secondItem="GGw-5E-sZD" secondAttribute="height" multiplier="100:100" id="VxZ-S9-VnR"/>
+                                    <constraint firstAttribute="width" constant="50" id="de8-8J-nFj"/>
                                 </constraints>
                                 <state key="normal" image="Torch"/>
                                 <connections>
@@ -752,7 +740,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mVR-nH-QMK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2524.5" y="443.5"/>
+            <point key="canvasLocation" x="2484.5" y="553.5"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="B3w-hb-BXr">
