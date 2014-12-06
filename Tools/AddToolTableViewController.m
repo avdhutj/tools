@@ -274,6 +274,8 @@
     CIImage *cim = [image CIImage];
     if (cim == nil && cgref == NULL) {
         self.cameraImage = [UIImage imageNamed:@"CameraImg"];
+    } else {
+        self.cameraImage = image;
     }
     
     //Parts Query
