@@ -204,7 +204,10 @@
         if (self.controllerState != ATVC_VIEW_TOOL && ![sectionTitle  isEqual: @"Supplier"]) {
             if(indexPath.section == 0 && indexPath.row ==1) {
                 //Weight in Edit Mode
-                TextFieldCell *textCell = [tableView dequeueReusableCellWithIdentifier:@"TextCell" forIndexPath:indexPath];
+                TextFieldCell *textCell = [tableView dequeueReusableCellWithIdentifier:@"NumberTextCell" forIndexPath:indexPath];
+                if (self.controllerState == ATVC_ADD_TOOL) {
+                    textCell.TextField.placeholder = @"Weight";
+                }
                 textCell.TextField.text = item;
                 [textCell setSelectionStyle:UITableViewCellSelectionStyleNone];
                 textCell.initialValue = item;
@@ -252,6 +255,8 @@
             return cell;
         }
     }
+}
+- (IBAction)flagValueChanged:(id)sender {
 }
 
 - (void)LoadExsistingToolDetails {
@@ -304,7 +309,7 @@
                 dict =  @{@"Tool Details" : @[[self.exam objectForKey:@"toolId"], [NSString stringWithFormat:@"%@",[self.exam objectForKey:@"weight"]], [self.exam objectForKey:@"toolType"],[self.exam objectForKey:@"toolDescription"]]};
             }
             
-
+            self.ToolFlagSegControl.selectedSegmentIndex = [[self.exam objectForKey:@"flag"] integerValue];
             
             self.items = [NSMutableDictionary dictionaryWithDictionary:dict];
             [self.items setObject:self.partNumbers forKey:@"Part Numbers"];
@@ -314,6 +319,8 @@
             [self.tableTitles addObject:@"Tool Details"];
             [self.tableTitles addObject:@"Part Numbers"];
             [self.tableTitles addObject:@"Supplier"];
+            
+            
             
             [self.tableView reloadData];
             
@@ -377,6 +384,7 @@
     self.exam[@"toolType"] = toolDetails[2];
     self.exam[@"toolDescription"] = toolDetails[3];
     self.exam[@"part"] = self.AddedPartNumbers;
+    self.exam[@"flag"] = [NSNumber numberWithInt:self.ToolFlagSegControl.selectedSegmentIndex];
     [self.exam saveInBackground];
     [self.tableView reloadData];
     
