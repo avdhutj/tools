@@ -22,26 +22,64 @@
     // Do any additional setup after loading the view.
     _MapView.delegate = self;
     _MapView.showsUserLocation = YES;
+    
+    NSMutableArray* toolCenters = [[NSMutableArray alloc] init];
+    NSMutableArray* toolCenterCount = [[NSMutableArray alloc] init];
     if (_controllerState == MV_SHOW_TOOLS || _controllerState == MV_SHOW_TOOLS_AND_SUPPLIERS) {
         for (PFObject* object in _toolObjects) {
             if ([object valueForKey:@"toolGeoPoint"] != nil) {
-                MKPointAnnotation* annontation = [[MKPointAnnotation alloc] init];
+                // Check if there exists a tool center
+                long idx = 0;
+                bool centerFound = false;
                 PFGeoPoint* toolGeoPoint = [object valueForKey:@"toolGeoPoint"];
-                [annontation setCoordinate:CLLocationCoordinate2DMake(toolGeoPoint.latitude, toolGeoPoint.longitude)];
-                [self.MapView addAnnotation:annontation];
+                for (PFGeoPoint* toolCenter in toolCenters) {
+                    if ([toolGeoPoint distanceInMilesTo:toolCenter] < 1.0) {
+                        toolCenter.latitude = [toolCenterCount[idx] integerValue] * toolCenter.latitude + toolGeoPoint.latitude;
+                        toolCenter.longitude = [toolCenterCount[idx] integerValue] * toolCenter.longitude + toolGeoPoint.longitude;
+                        toolCenterCount[idx] = [NSNumber numberWithLong:([toolCenterCount[idx] integerValue] + 1)];
+                        toolCenter.latitude /= [toolCenterCount[idx] integerValue];
+                        toolCenter.longitude /= [toolCenterCount[idx] integerValue];
+                        
+                        idx++;
+                        centerFound = true;
+                        break;
+                    }
+                }
+                if (!centerFound) {
+                    [toolCenters addObject:toolGeoPoint];
+                    [toolCenterCount addObject:[NSNumber numberWithInt:1]];
+                }
             }
         }
-    }
-    if (_controllerState == MV_SHOW_SUPPLIERS || _controllerState == MV_SHOW_TOOLS_AND_SUPPLIERS) {
-        for (PFObject* object in _supplierObjects) {
-            if ([object valueForKey:@"supplierGeoPoint"] != nil) {
-                PFGeoPoint* geoPoint = [object valueForKey:@"supplierGeoPoint"];
-                MKPointAnnotation* annontation = [[MKPointAnnotation alloc] init];
-                [annontation setCoordinate:CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude)];
-                [self.MapView addAnnotation:annontation];
-            }
+        for (PFGeoPoint* toolCenter in toolCenters) {
+            MKPointAnnotation* annontation = [[MKPointAnnotation alloc] init];
+            [annontation setCoordinate:CLLocationCoordinate2DMake(toolCenter.latitude, toolCenter.longitude)];
+            [self.MapView addAnnotation:annontation];
         }
     }
+    
+    
+    
+//    if (_controllerState == MV_SHOW_TOOLS || _controllerState == MV_SHOW_TOOLS_AND_SUPPLIERS) {
+//        for (PFObject* object in _toolObjects) {
+//            if ([object valueForKey:@"toolGeoPoint"] != nil) {
+//                MKPointAnnotation* annontation = [[MKPointAnnotation alloc] init];
+//                PFGeoPoint* toolGeoPoint = [object valueForKey:@"toolGeoPoint"];
+//                [annontation setCoordinate:CLLocationCoordinate2DMake(toolGeoPoint.latitude, toolGeoPoint.longitude)];
+//                [self.MapView addAnnotation:annontation];
+//            }
+//        }
+//    }
+//    if (_controllerState == MV_SHOW_SUPPLIERS || _controllerState == MV_SHOW_TOOLS_AND_SUPPLIERS) {
+//        for (PFObject* object in _supplierObjects) {
+//            if ([object valueForKey:@"supplierGeoPoint"] != nil) {
+//                PFGeoPoint* geoPoint = [object valueForKey:@"supplierGeoPoint"];
+//                MKPointAnnotation* annontation = [[MKPointAnnotation alloc] init];
+//                [annontation setCoordinate:CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude)];
+//                [self.MapView addAnnotation:annontation];
+//            }
+//        }
+//    }
 }
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
