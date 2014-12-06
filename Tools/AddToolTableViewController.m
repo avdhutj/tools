@@ -360,6 +360,18 @@
             
         }];
     }
+    PFObject* supplier = [PFObject objectWithoutDataWithClassName:@"SupplierList" objectId:supplierId];
+    [supplier fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if (!error) {
+            self.Supplier = supplier;
+            NSArray* sup = [NSArray arrayWithObjects:[self.Supplier objectForKey:@"supplier"], [self.Supplier objectForKey:@"address"], [self.Supplier objectForKey:@"phoneNumber"], nil];
+            [self.items setObject:sup forKey:@"Supplier"];
+            [self.tableView reloadData];
+        }
+        
+    }];
+    
+    NSLog(@"%@",self.items);
 }
 
 #pragma mark - Table Actions
@@ -399,6 +411,7 @@
         [_inventoryViewController setAddedTool:self.exam];
         [self.navigationController popViewControllerAnimated:YES];
     }
+    NSLog(@"%@",self.exam);
 }
 
 - (IBAction)back:(id)sender {
