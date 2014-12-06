@@ -99,7 +99,7 @@
         
         detailViewController.exam = object;
         detailViewController.Supplier = self.Supplier;
-        [detailViewController setControllerState:ATVC_VIEW_TOOL];
+        [detailViewController setControllerState:ATVC_ADD_TOOL];
         
         //[self.navigationController pushViewController:detailViewController animated:YES];
 

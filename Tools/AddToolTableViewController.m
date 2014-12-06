@@ -45,11 +45,18 @@
         [self setEditing:NO animated:NO];
     }
     
+    //Default Images
+    self.cameraImage = [UIImage imageNamed:@"CameraImg"];
+    self.cameraSelectedImage = [UIImage imageNamed:@"CameraSelectedImg"];
+    self.PhoneImage = [UIImage imageNamed:@"phone"];
+    self.PhoneSelectedImage = [UIImage imageNamed:@"phoneSelected"];
+    self.toolImage = [UIImage imageNamed:@"UserImg"];
+    
     if (self.controllerState == ATVC_ADD_TOOL) {
         
         NSDictionary *dict =  @{@"Supplier" : @[@"Supplier", @"Supplier Address",@"Phone Number"],
                                 @"Tool Details" : @[@"Tool ID", @"Weight", @"Tool Type",@"Tool Description"],
-                                @"Part Numbers" : @[@"Part Number"]};
+                                @"Part Numbers" : @[@"New part number"]};
         
         self.partStausLookUp = [NSMutableDictionary dictionaryWithObject:@"Status" forKey:@"Part Number"];
         self.items = [NSMutableDictionary dictionaryWithDictionary:dict];
@@ -57,6 +64,8 @@
         [self.tableTitles addObject:@"Tool Details"];
         [self.tableTitles addObject:@"Part Numbers"];
         [self.tableTitles addObject:@"Supplier"];
+        
+        self.AddedPartNumbers = [NSMutableArray arrayWithArray:@[@"new"]];
         
         [self.tableView reloadData];
         
@@ -117,7 +126,7 @@
     NSString *sectionTitle = [self.tableTitles objectAtIndex:indexPath.section];
     NSArray *sectionitems = [self.items objectForKey:sectionTitle];
     NSString*item = [sectionitems objectAtIndex:indexPath.row];
-
+    
     //enable text feild
     
     if ([sectionTitle isEqualToString:@"Part Numbers"]) {
@@ -133,8 +142,9 @@
             [self SetUpNotificationCenterPartNumber:PartTextCell];
             PartTextCell.ArrayIndex = indexPath.row;
             
-            if (indexPath.row == [self.AddedPartNumbers count]) {
+            if (indexPath.row == [self.AddedPartNumbers count] && ![item isEqualToString:@"New part number"]) {
                 //Add part no
+                NSLog(@"In Add Part No with Parts: %@ item: %@ index.row: %i items: %@",self.AddedPartNumbers, item, indexPath.row, self.items);
                 [self addPartNumberRow];
             }
             
@@ -252,13 +262,6 @@
     self.toolStatus = [NSString stringWithFormat:@"TBD"];
     __block int obsCount = 0;
     
-    //Default Images
-    self.cameraImage = [UIImage imageNamed:@"CameraImg"];
-    self.cameraSelectedImage = [UIImage imageNamed:@"CameraSelectedImg"];
-    self.PhoneImage = [UIImage imageNamed:@"phone"];
-    self.PhoneSelectedImage = [UIImage imageNamed:@"phoneSelected"];
-    self.toolImage = [UIImage imageNamed:@"UserImg"];
-    
     //Tool image set up
     PFFile* img = [self.exam objectForKey:@"imageFile"];
     UIImage* image = [UIImage imageWithData:[img getData]];
@@ -266,8 +269,6 @@
     CIImage *cim = [image CIImage];
     if (cim == nil && cgref == NULL) {
         self.cameraImage = [UIImage imageNamed:@"CameraImg"];
-    } else {
-        self.cameraImage = image;
     }
     
     //Parts Query
@@ -357,7 +358,7 @@
     [partsMutable addObject:newPart];
     [self.items setObject:partsMutable forKey:@"Part Numbers"];
     [self.partStausLookUp addEntriesFromDictionary:[NSDictionary dictionaryWithObject:@"-" forKey:newPart]];
-    [self.tableView reloadData];
+    //[self.tableView reloadData];
     
 }
 
@@ -378,7 +379,12 @@
     self.exam[@"part"] = self.AddedPartNumbers;
     [self.exam saveInBackground];
     [self.tableView reloadData];
-
+    
+    if (_inventoryViewController) {
+        [_inventoryViewController setAddedTool:self.exam];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    NSLog(@"%@",self.exam);
 }
 
 - (IBAction)back:(id)sender {
@@ -419,8 +425,6 @@
 
             [self.items setObject:partNumbers forKey:@"Part Numbers"];
             
-            //NSLog(@"items:%@ added:%@",self.items,self.AddedPartNumbers);
-            
             //Save New Part Numbers
             int CountParts = 0;
             NSMutableArray *newPartNumbers = [NSMutableArray new];
@@ -436,8 +440,6 @@
                 }
                 CountParts++;
             }
-            
-            NSLog(@"new: %@ Exsisting: %@",newPartNumbers, ExsistingPartNumbers);
             
             if ([newPartNumbers count]>0) {
                 
