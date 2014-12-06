@@ -91,9 +91,21 @@
     return [sectionItems count];
 }
 
+-(void)handlePhoneCall:(UITapGestureRecognizer *)recognizer{
+    
+    NSString *phoneNumber = [@"tel://" stringByAppendingString:[self.Supplier objectForKey:@"phoneNumber"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
+    
+}
+
 -(void)handleTap:(UITapGestureRecognizer *)recognizer {
  
     APPViewController* cameraVC = [self.storyboard instantiateViewControllerWithIdentifier:@"TakePhotoViewController"];
+    if (self.controllerState == ATVC_ADD_TOOL) {
+        PFObject *tool = [PFObject objectWithClassName:@"Tools"];
+        self.exam = tool;
+        self.controllerState = ATVC_EDIT_TOOL;
+    }
     cameraVC.tool = self.exam;
     [self.navigationController pushViewController:cameraVC animated:YES];
 }
@@ -146,7 +158,7 @@
             TextFieldCell *textCell = [tableView dequeueReusableCellWithIdentifier:@"TextCell" forIndexPath:indexPath];
             textCell.TextField.text = item;
             if ([sectionTitle isEqualToString:@"Tool Details"]) {
-                textCell.imageView.image = self.toolImage;
+                textCell.imageView.image = self.cameraImage;
                 UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 60, 20)];
                 textCell.TextField.leftView = paddingView;
                 textCell.TextField.leftViewMode = UITextFieldViewModeAlways;
@@ -168,6 +180,9 @@
             } else {
                 //phone call image
                 cell.imageView.image = self.PhoneImage;
+                UITapGestureRecognizer *call = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handlePhoneCall:)];
+                cell.imageView.userInteractionEnabled = YES;
+                [cell.imageView addGestureRecognizer:call];
                 cell.detailTextLabel.text = @"";
             };
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -205,10 +220,10 @@
                 [self SetUpNotificationCenterPartNumber:textCell];
                 return textCell;
             } else {
-                //Other - text in dark grey
+                //Other
                 TextFieldCell *textCell = [tableView dequeueReusableCellWithIdentifier:@"TextCell" forIndexPath:indexPath];
                 textCell.TextField.text = item;
-                textCell.TextField.textColor = [UIColor grayColor];
+                //textCell.TextField.textColor = [UIColor grayColor];
                 [textCell setSelectionStyle:UITableViewCellSelectionStyleNone];
                 textCell.initialValue = item;
                 textCell.parseKeyIndex = indexPath.row;
@@ -242,6 +257,7 @@
     self.cameraSelectedImage = [UIImage imageNamed:@"CameraSelectedImg"];
     self.PhoneImage = [UIImage imageNamed:@"phone"];
     self.PhoneSelectedImage = [UIImage imageNamed:@"phoneSelected"];
+    self.toolImage = [UIImage imageNamed:@"UserImg"];
     
     //Tool image set up
     PFFile* img = [self.exam objectForKey:@"imageFile"];
@@ -249,10 +265,10 @@
     CGImageRef cgref = [image CGImage];
     CIImage *cim = [image CIImage];
     if (cim == nil && cgref == NULL) {
-        self.toolImage = [UIImage imageNamed:@"UserImg"];
+        self.cameraImage = [UIImage imageNamed:@"CameraImg"];
     } else {
         NSLog(@"in load image form parse");
-        self.toolImage = [UIImage imageWithCGImage:(__bridge CGImageRef)(image)];
+        self.cameraImage = image;
     }
     
     //Parts Query
