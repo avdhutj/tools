@@ -70,6 +70,9 @@
     else if (_controllerState == IL_CAMERA) {
         [self gotQRCode];
     }
+    else  if (_controllerState == IL_ADD_TOOL) {
+        [self toolAdded];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -115,7 +118,7 @@
         object = [_addToolsArray objectAtIndex:indexPath.row];
     }
     
-    if ([_doneSet containsObject:[object objectId]]) {
+    if ([_doneSet containsObject:[object valueForKey:@"toolId"]]) {
         [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
     }
     else {
@@ -209,7 +212,7 @@
                 [lView removeFromSuperview];
                 if (succeeded) {
                     // Add check mark
-                    [_doneSet addObject:[_selectedObject objectId]];
+                    [_doneSet addObject:[_selectedObject valueForKey:@"toolId"]];
                     [self.tableView reloadData];
                     
                     // Move to detail view controller
@@ -232,9 +235,14 @@
     PFObject* toolObject = [PFObject objectWithClassName:@"Tools"];
     [toolObject setValue:qrCodeString forKey:@"qrCode"];
     [toolObject setValue:[_selectedObject objectForKey:@"toolId"] forKey:@"toolId"];
+    [toolObject setValue:_userLocation forKey:@"toolGeoPoint"];
+    
     AddToolTableViewController* aTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"AddToolTableViewController"];
     [aTVC setExam:toolObject];
+    [aTVC setInventoryViewController:self];
     [aTVC setControllerState:ATVC_ADD_TOOL];
+    
+    _controllerState = IL_ADD_TOOL;
     [self.navigationController pushViewController:aTVC animated:YES];
 }
 
@@ -320,13 +328,20 @@
     
 }
 
+-(void)toolAdded {
+    _controllerState = IL_NONE;
+    if (_addedTool) {
+        [_doneSet addObject:[_selectedObject valueForKey:@"toolId"]];
+    }
+}
+
 #pragma AlertViewDelegates
 
 -(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     // Shipping alert
     if ([alertView tag] == 1) {
         if (buttonIndex == 1) {
-            [_doneSet addObject:[_selectedObject objectId]];
+            [_doneSet addObject:[_selectedObject valueForKey:@"toolId"]];
             [self.tableView reloadData];
         }
     }

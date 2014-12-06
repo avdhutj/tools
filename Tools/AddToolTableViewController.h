@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 
+#import "InventoryListViewController.h"
+
 @interface AddToolTableViewController : UITableViewController <UITableViewDelegate>
 
 typedef NS_ENUM(NSInteger, ATVCControllerState) {
@@ -50,6 +52,7 @@ typedef NS_ENUM(NSInteger, ATVCControllerState) {
 @property (nonatomic) UITextField* selectedTextFeild;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *BackBtn;
 @property (nonatomic) ATVCControllerState controllerState;
+@property (weak, nonatomic) InventoryListViewController* inventoryViewController;
 
 -(void)addPartNumberRow;
 
