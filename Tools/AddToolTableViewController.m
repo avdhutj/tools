@@ -13,6 +13,7 @@
 #import "TextFieldCell.h"
 #import "ToolTypeCell.h"
 #import "APPViewController.h"
+#import "ToolFlagCell.h"
 
 @interface AddToolTableViewController ()
 
@@ -32,6 +33,7 @@
                                                  selector:@selector(TextFieldChangedNotification:)
                                                      name:notifcaitonName
                                                    object:PartNo];
+        NSLog(@"notification center set up complete");
     }
     
 }
@@ -47,13 +49,15 @@
     
     if (self.controllerState == ATVC_ADD_TOOL) {
         
-        NSDictionary *dict =  @{@"Supplier" : @[@"Supplier", @"Supplier Address",@"Phone Number"],
+        NSDictionary *dict =  @{@"Flag Tool:" : @[[NSNumber numberWithInt:0]],
+                                @"Supplier" : @[@"Supplier", @"Supplier Address",@"Phone Number"],
                                 @"Tool Details" : @[@"Tool ID", @"Weight", @"Tool Type",@"Tool Description"],
                                 @"Part Numbers" : @[@"Part Number"]};
         
         self.partStausLookUp = [NSMutableDictionary dictionaryWithObject:@"Status" forKey:@"Part Number"];
         self.items = [NSMutableDictionary dictionaryWithDictionary:dict];
         self.tableTitles = [[NSMutableArray alloc] initWithCapacity:[dict count]];
+        [self.tableTitles addObject:@"Flag Tool:"];
         [self.tableTitles addObject:@"Tool Details"];
         [self.tableTitles addObject:@"Part Numbers"];
         [self.tableTitles addObject:@"Supplier"];
@@ -65,6 +69,7 @@
         [self LoadExsistingToolDetails];
 
     }
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -91,9 +96,21 @@
     return [sectionItems count];
 }
 
+-(void)handlePhoneCall:(UITapGestureRecognizer *)recognizer{
+    
+    NSString *phoneNumber = [@"tel://" stringByAppendingString:[self.Supplier objectForKey:@"phoneNumber"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
+    
+}
+
 -(void)handleTap:(UITapGestureRecognizer *)recognizer {
  
     APPViewController* cameraVC = [self.storyboard instantiateViewControllerWithIdentifier:@"TakePhotoViewController"];
+    if (self.controllerState == ATVC_ADD_TOOL) {
+        PFObject *tool = [PFObject objectWithClassName:@"Tools"];
+        self.exam = tool;
+        self.controllerState = ATVC_EDIT_TOOL;
+    }
     cameraVC.tool = self.exam;
     [self.navigationController pushViewController:cameraVC animated:YES];
 }
@@ -103,8 +120,14 @@
     
     NSString *sectionTitle = [self.tableTitles objectAtIndex:indexPath.section];
     NSArray *sectionitems = [self.items objectForKey:sectionTitle];
-    NSString *item = [sectionitems objectAtIndex:indexPath.row];
+    NSString*item = [NSString stringWithFormat:@"item"];
+    NSNumber* flagNo = [NSNumber numberWithInt:0];
     
+    if ([sectionTitle isEqualToString:@"Flag Tool:"]) {
+        flagNo = [sectionitems objectAtIndex:indexPath.row];
+    } else {
+        item = [sectionitems objectAtIndex:indexPath.row];
+    }
     //enable text feild
     
     if ([sectionTitle isEqualToString:@"Part Numbers"]) {
@@ -146,7 +169,7 @@
             TextFieldCell *textCell = [tableView dequeueReusableCellWithIdentifier:@"TextCell" forIndexPath:indexPath];
             textCell.TextField.text = item;
             if ([sectionTitle isEqualToString:@"Tool Details"]) {
-                textCell.imageView.image = self.toolImage;
+                textCell.imageView.image = self.cameraImage;
                 UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 60, 20)];
                 textCell.TextField.leftView = paddingView;
                 textCell.TextField.leftViewMode = UITextFieldViewModeAlways;
@@ -156,6 +179,16 @@
             [textCell setSelectionStyle:UITableViewCellSelectionStyleNone];
             [self SetUpNotificationCenterPartNumber:textCell];
             return textCell;
+        } else if ([sectionTitle isEqualToString:@"Flag Tool:"]) {
+
+            ToolFlagCell *toolFlag = [tableView dequeueReusableCellWithIdentifier:@"flag" forIndexPath:indexPath];
+            toolFlag.initialValue = flagNo;
+            toolFlag.parseKeyIndex = indexPath.row;
+            //[toolFlag setSelectionStyle:UITableViewCellSelectionStyleNone];
+            NSLog(@"flag no: %i",[flagNo integerValue]);
+            [self SetUpNotificationCenterPartNumber:toolFlag];
+            return toolFlag;
+            
         } else {
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellToolId" forIndexPath:indexPath];
             cell.textLabel.text = item;
@@ -168,6 +201,9 @@
             } else {
                 //phone call image
                 cell.imageView.image = self.PhoneImage;
+                UITapGestureRecognizer *call = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handlePhoneCall:)];
+                cell.imageView.userInteractionEnabled = YES;
+                [cell.imageView addGestureRecognizer:call];
                 cell.detailTextLabel.text = @"";
             };
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -182,6 +218,9 @@
                 textCell.TextField.text = item;
                 [textCell setSelectionStyle:UITableViewCellSelectionStyleNone];
                 textCell.initialValue = item;
+                //WHY IS THIS NOT WORKING??
+                textCell.TextField.keyboardType = UIKeyboardTypeNamePhonePad;
+                //
                 textCell.parseKeyIndex = indexPath.row;
                 [self SetUpNotificationCenterPartNumber:textCell];
                 return textCell;
@@ -205,10 +244,10 @@
                 [self SetUpNotificationCenterPartNumber:textCell];
                 return textCell;
             } else {
-                //Other - text in dark grey
+                //Other
                 TextFieldCell *textCell = [tableView dequeueReusableCellWithIdentifier:@"TextCell" forIndexPath:indexPath];
                 textCell.TextField.text = item;
-                textCell.TextField.textColor = [UIColor grayColor];
+                //textCell.TextField.textColor = [UIColor grayColor];
                 [textCell setSelectionStyle:UITableViewCellSelectionStyleNone];
                 textCell.initialValue = item;
                 textCell.parseKeyIndex = indexPath.row;
@@ -218,10 +257,6 @@
             
         } else {
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellLbl" forIndexPath:indexPath];
-            
-            if (indexPath.section == 0 && indexPath.row ==3) {
-                cell.textLabel.textColor = [UIColor grayColor];
-            }
             cell.textLabel.text = item;
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             return cell;
@@ -242,6 +277,7 @@
     self.cameraSelectedImage = [UIImage imageNamed:@"CameraSelectedImg"];
     self.PhoneImage = [UIImage imageNamed:@"phone"];
     self.PhoneSelectedImage = [UIImage imageNamed:@"phoneSelected"];
+    self.toolImage = [UIImage imageNamed:@"UserImg"];
     
     //Tool image set up
     PFFile* img = [self.exam objectForKey:@"imageFile"];
@@ -249,10 +285,10 @@
     CGImageRef cgref = [image CGImage];
     CIImage *cim = [image CIImage];
     if (cim == nil && cgref == NULL) {
-        self.toolImage = [UIImage imageNamed:@"UserImg"];
+        self.cameraImage = [UIImage imageNamed:@"CameraImg"];
     } else {
         NSLog(@"in load image form parse");
-        self.toolImage = [UIImage imageWithCGImage:(__bridge CGImageRef)(image)];
+        self.cameraImage = image;
     }
     
     //Parts Query
@@ -281,11 +317,13 @@
             //TODO: Mazin check this if this is true
             NSDictionary *dict;
             if (self.Supplier) {
-                dict =  @{@"Supplier" : @[[self.Supplier objectForKey:@"supplier"], [self.Supplier objectForKey:@"address"], [self.Supplier objectForKey:@"phoneNumber"]],
-                                        @"Tool Details" : @[[self.exam objectForKey:@"toolId"], [NSString stringWithFormat:@"%@",[self.exam objectForKey:@"weight"]], [self.exam objectForKey:@"toolType"],[self.exam objectForKey:@"toolDescription"]]};
+                dict =  @{@"Flag Tool:" : @[[self.exam objectForKey:@"flag"]],
+                          @"Supplier" : @[[self.Supplier objectForKey:@"supplier"], [self.Supplier objectForKey:@"address"], [self.Supplier objectForKey:@"phoneNumber"]],
+                          @"Tool Details" : @[[self.exam objectForKey:@"toolId"], [NSString stringWithFormat:@"%@",[self.exam objectForKey:@"weight"]], [self.exam objectForKey:@"toolType"],[self.exam objectForKey:@"toolDescription"]]};
             }
             else {
-                dict =  @{@"Tool Details" : @[[self.exam objectForKey:@"toolId"], [NSString stringWithFormat:@"%@",[self.exam objectForKey:@"weight"]], [self.exam objectForKey:@"toolType"],[self.exam objectForKey:@"toolDescription"]]};
+                dict =  @{@"Flag Tool:" : @[[self.exam objectForKey:@"flag"]],
+                          @"Tool Details" : @[[self.exam objectForKey:@"toolId"], [NSString stringWithFormat:@"%@",[self.exam objectForKey:@"weight"]], [self.exam objectForKey:@"toolType"],[self.exam objectForKey:@"toolDescription"]]};
             }
             
 
@@ -295,9 +333,12 @@
             self.AddedPartNumbers = [NSMutableArray arrayWithArray:partIDs];
             
             self.tableTitles = [[NSMutableArray alloc] initWithCapacity:[dict count]];
+            [self.tableTitles addObject:@"Flag Tool:"];
             [self.tableTitles addObject:@"Tool Details"];
             [self.tableTitles addObject:@"Part Numbers"];
             [self.tableTitles addObject:@"Supplier"];
+            
+            NSLog(@"%@",self.items);
             
             [self.tableView reloadData];
             
@@ -322,11 +363,6 @@
 }
 
 #pragma mark - Table Actions
-- (IBAction)ToolTypeValueChanged:(id)sender {
-    
-    
-    
-}
 
 -(void)addPartNumberRow{
     
@@ -347,19 +383,15 @@
         self.exam = tool;
 
     }
-    
-    NSArray *toolDetails = [self.items objectForKey:@"Tool Details"];
-    NSLog(@"%@",toolDetails);
-    self.exam[@"toolId"] = toolDetails[0];
-    //need to convert string back to NSNumber
     NSNumberFormatter *formater = [[NSNumberFormatter alloc] init];
     [formater setNumberStyle:NSNumberFormatterNoStyle];
+    self.exam[@"flag"] = [self.items objectForKey:@"Flag Tool:"][0];
+    NSArray *toolDetails = [self.items objectForKey:@"Tool Details"];
+    self.exam[@"toolId"] = toolDetails[0];
     self.exam[@"weight"] = [formater numberFromString:toolDetails[1]];
-    
     self.exam[@"toolType"] = toolDetails[2];
     self.exam[@"toolDescription"] = toolDetails[3];
     self.exam[@"part"] = self.AddedPartNumbers;
-    NSLog(@"%@",self.exam);
     [self.exam saveInBackground];
     [self.tableView reloadData];
     
@@ -471,17 +503,9 @@
     }
 }
 
-    /*
-     //Need to perform basic validation to ensure all cells are filled
-     PFObject *tool = [PFObject objectWithClassName:@"Tools"];
-     tool[@"supplier"] = self.;
-     tool[@"toolId"] = self.ToolIdTxt.text;
-     tool[@"weight"] = [NSNumber numberWithInt:[self.WeightTxt.text integerValue]];
-     tool[@"toolDescription"] = self.DescrTxt.text;
-     [tool saveInBackground];
-     //Need to set up the part number adding thing this might be a little tricky because we will need to tool up the part number that was added and if it isnt there a new part number needs to be created after confirming with the user.*/
-
 -(void)TextFieldChangedNotification:(NSNotification *) notification {
+    
+    NSLog(@"In textfield did change");
     
     NSDictionary *updateDict  = [[notification userInfo] objectForKey:@"updateArray"];
     
@@ -521,7 +545,7 @@
             
             
         } else if ([[updateDict objectForKey:@"ParseClass"] isEqualToString:@"Tools"]) {
-            NSLog(@"In tools index: %i updated value: %@",[[updateDict objectForKey:@"ParseKey"] integerValue], [updateDict objectForKey:@"UpdatedValue"]);
+            //NSLog(@"In tools index: %i updated value: %@",[[updateDict objectForKey:@"ParseKey"] integerValue], [updateDict objectForKey:@"UpdatedValue"]);
             //Tools
             //updateArray format:(NSString)isUpdated (NSString)ParseClass (int)PraseKey (NSString)UpdatedValue
             //@"Tool Details" : @[@"Tool ID", @"Weight", @"Tool Type",@"Tool Description"],
@@ -530,12 +554,12 @@
             [self.items setObject:tool forKey:@"Tool Details"];
             
         } else {
+            [self.items setObject:[updateDict objectForKey:@"UpdatedValue"] forKey:@"Flag Tool:"];
             
         }
         
     }
-    
-
+    NSLog(@"items in textfield did change: %@", self.items);
     [self.tableView reloadData];
 }
 
@@ -568,22 +592,6 @@
     
     return NO;
 }
-
-/*
-//Update setEditing to add a button
-- (void)setEditing:(BOOL)editing animated:(BOOL)animated {
-    [super setEditing:editing animated:animated];
-    
-    if (editing) {
-        // Add the + button
-        UIBarButtonItem *addBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addAction:)];
-        self.navigationItem.leftBarButtonItem = addBtn;
-    } else {
-        // remove the + button
-        self.navigationItem.leftBarButtonItem = nil;
-    }
-}*/
-
 
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {

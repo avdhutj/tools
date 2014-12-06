@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -459,24 +459,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4VE-nX-Sdv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2563.5" y="2152.5"/>
-        </scene>
-        <!--SupplierInventory-->
-        <scene sceneID="s0e-Et-aTZ">
-            <objects>
-                <navigationController id="gOK-ka-kvi" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="SupplierInventory" id="s9g-Nc-wqK"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="fD3-9t-0LN">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="7th-3w-IDw" kind="relationship" relationship="rootViewController" id="xA8-Ef-knQ"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="asU-mC-lCH" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2011.5" y="2152.5"/>
+            <point key="canvasLocation" x="1976.5" y="2070.5"/>
         </scene>
         <!--Add Tool Table View Controller-->
         <scene sceneID="W6a-Mh-irf">
@@ -612,7 +595,7 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ru1-kH-3SJ" id="ANd-lX-IkM">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="UZx-f3-m8D">
+                                        <segmentedControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="UZx-f3-m8D">
                                             <rect key="frame" x="8" y="9" width="359" height="29"/>
                                             <segments>
                                                 <segment title="Die"/>
@@ -626,6 +609,10 @@
                                             </connections>
                                         </segmentedControl>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="centerY" secondItem="UZx-f3-m8D" secondAttribute="centerY" id="8TA-Ev-1Di"/>
+                                        <constraint firstAttribute="centerX" secondItem="UZx-f3-m8D" secondAttribute="centerX" id="RA3-LG-EXC"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="ToolTypeSegControl" destination="UZx-f3-m8D" id="m5p-UM-7IP"/>
@@ -643,7 +630,7 @@
                                                 <constraint firstAttribute="width" constant="300" id="WTc-g2-DkB"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                            <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
                                             <connections>
                                                 <action selector="TextCellDidEndEditing:" destination="juP-C2-IDb" eventType="editingDidEnd" id="HQD-Vo-Elc"/>
                                             </connections>
@@ -655,6 +642,40 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="TextField" destination="VeF-1F-l39" id="1QR-fb-juy"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell opaque="NO" alpha="0.0" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="flag" rowHeight="42" id="Smp-pU-JLE" customClass="ToolFlagCell">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Smp-pU-JLE" id="4tq-9y-MFV">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="8oU-yH-sfC">
+                                            <rect key="frame" x="8" y="0.0" width="359" height="41"/>
+                                            <segments>
+                                                <segment title="None"/>
+                                                <segment title="Tool Info"/>
+                                                <segment title="Part Nos"/>
+                                                <segment title="Scrap"/>
+                                                <segment title="Other"/>
+                                            </segments>
+                                            <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <connections>
+                                                <action selector="flagChanged:" destination="Smp-pU-JLE" eventType="valueChanged" id="9d8-TG-0ER"/>
+                                            </connections>
+                                        </segmentedControl>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="8oU-yH-sfC" firstAttribute="trailing" secondItem="4tq-9y-MFV" secondAttribute="trailingMargin" id="0Ni-09-hIp"/>
+                                        <constraint firstAttribute="centerX" secondItem="8oU-yH-sfC" secondAttribute="centerX" id="1tb-6c-Dop"/>
+                                        <constraint firstItem="8oU-yH-sfC" firstAttribute="top" secondItem="4tq-9y-MFV" secondAttribute="topMargin" constant="-8" id="ER5-ua-gti"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="8oU-yH-sfC" secondAttribute="bottom" constant="-7" id="qQW-dI-Tyi"/>
+                                        <constraint firstItem="8oU-yH-sfC" firstAttribute="leading" secondItem="4tq-9y-MFV" secondAttribute="leadingMargin" id="sa8-Sf-qBn"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="flagSegControl" destination="8oU-yH-sfC" id="1pE-Yj-qAW"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -684,7 +705,7 @@
                     </items>
                 </navigationBar>
             </objects>
-            <point key="canvasLocation" x="1946.5" y="482.5"/>
+            <point key="canvasLocation" x="1946.5" y="478.5"/>
         </scene>
         <!--Tool Map-->
         <scene sceneID="jxk-Rm-U48">
