@@ -99,13 +99,6 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    //Get tool image from parse
-    self.toolImage = [UIImage imageNamed:@"UserImg"];
-    self.cameraImage = [UIImage imageNamed:@"CameraImg"];
-    self.cameraSelectedImage = [UIImage imageNamed:@"CameraSelectedImg"];
-    self.PhoneImage = [UIImage imageNamed:@"phone"];
-    self.PhoneSelectedImage = [UIImage imageNamed:@"phoneSelected"];
-    
     // Configure the cell...
     
     NSString *sectionTitle = [self.tableTitles objectAtIndex:indexPath.section];
@@ -153,11 +146,6 @@
             TextFieldCell *textCell = [tableView dequeueReusableCellWithIdentifier:@"TextCell" forIndexPath:indexPath];
             textCell.TextField.text = item;
             if ([sectionTitle isEqualToString:@"Tool Details"]) {
-                PFFile* img = [self.exam objectForKey:@"imageFile"];
-                UIImage* image = [UIImage imageWithData:[img getData]];
-                if ([image isEqual:[NSNull null]]) {
-                    self.toolImage = image;
-                }
                 textCell.imageView.image = self.toolImage;
                 UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 60, 20)];
                 textCell.TextField.leftView = paddingView;
@@ -248,6 +236,26 @@
     self.partStausLookUp = [[NSMutableDictionary alloc] init];
     self.toolStatus = [NSString stringWithFormat:@"TBD"];
     __block int obsCount = 0;
+    
+    //Default Images
+    self.cameraImage = [UIImage imageNamed:@"CameraImg"];
+    self.cameraSelectedImage = [UIImage imageNamed:@"CameraSelectedImg"];
+    self.PhoneImage = [UIImage imageNamed:@"phone"];
+    self.PhoneSelectedImage = [UIImage imageNamed:@"phoneSelected"];
+    
+    //Tool image set up
+    PFFile* img = [self.exam objectForKey:@"imageFile"];
+    UIImage* image = [UIImage imageWithData:[img getData]];
+    CGImageRef cgref = [image CGImage];
+    CIImage *cim = [image CIImage];
+    if (cim == nil && cgref == NULL) {
+        self.toolImage = [UIImage imageNamed:@"UserImg"];
+    } else {
+        NSLog(@"in load image form parse");
+        self.toolImage = [UIImage imageWithCGImage:(__bridge CGImageRef)(image)];
+    }
+    
+    //Parts Query
     self.queryParts = [PFQuery queryWithClassName:@"PartNumbers"];
     
     [self.queryParts findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error){

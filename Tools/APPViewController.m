@@ -40,23 +40,44 @@
 }
 
 -(void)save:(id)sender {
-    NSLog(@"In save");
+    
     UIImage* img = self.imageView.image;
-    NSData *imageData = UIImageJPEGRepresentation(img, 0.05f);
-    [self uploadImage:imageData];
+    CGImageRef cgref = [img CGImage];
+    CIImage *cim = [img CIImage];
+
+    if (cim == nil && cgref == NULL) {
+        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"Please take a photo or select an image to save" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alertView show];
+        
+    } else {
+        
+        NSData *imageData = UIImageJPEGRepresentation(img, 0.05f);
+        [self.navigationItem.rightBarButtonItem setEnabled:NO];
+        [self uploadImage:imageData];
+    }
 }
 
 -(void)uploadImage:(NSData *)imageData{
     PFFile *imageFile = [PFFile fileWithName:@"Image.jpg" data:imageData];
     [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
-            
+            //Save Image (to update for add new tool)
             [self.tool setObject:imageFile forKey:@"imageFile"];
-            [self.navigationController popViewControllerAnimated:YES];
+            [self.tool saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (!error) {
+                    //Save Tool
+                    [self.navigationController popViewControllerAnimated:YES];
+                } else {
+                    NSLog(@"Error: %@ %@", error, [error userInfo]);
+                }
+            }];
             
         } else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
+    }progressBlock:^(int percentDone) {
+        // To update progress spinner here. percentDone will be between 0 and 100.
+        
     }];
      
 }
