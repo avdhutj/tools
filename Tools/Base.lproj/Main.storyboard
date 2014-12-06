@@ -469,6 +469,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <segmentedControl key="tableHeaderView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="Mvc-cJ-9jL">
+                            <rect key="frame" x="0.0" y="64" width="375" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="None"/>
+                                <segment title="Tool Info"/>
+                                <segment title="Part Nos"/>
+                                <segment title="Scrap"/>
+                                <segment title=""/>
+                            </segments>
+                            <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        </segmentedControl>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CellLbl" textLabel="6Tl-fL-Sro" style="IBUITableViewCellStyleDefault" id="U4D-ax-496">
                                 <autoresizingMask key="autoresizingMask"/>
@@ -644,40 +656,6 @@
                                     <outlet property="TextField" destination="VeF-1F-l39" id="1QR-fb-juy"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell opaque="NO" alpha="0.0" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="flag" rowHeight="42" id="Smp-pU-JLE" customClass="ToolFlagCell">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Smp-pU-JLE" id="4tq-9y-MFV">
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="8oU-yH-sfC">
-                                            <rect key="frame" x="8" y="0.0" width="359" height="41"/>
-                                            <segments>
-                                                <segment title="None"/>
-                                                <segment title="Tool Info"/>
-                                                <segment title="Part Nos"/>
-                                                <segment title="Scrap"/>
-                                                <segment title="Other"/>
-                                            </segments>
-                                            <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                            <connections>
-                                                <action selector="flagChanged:" destination="Smp-pU-JLE" eventType="valueChanged" id="9d8-TG-0ER"/>
-                                            </connections>
-                                        </segmentedControl>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstItem="8oU-yH-sfC" firstAttribute="trailing" secondItem="4tq-9y-MFV" secondAttribute="trailingMargin" id="0Ni-09-hIp"/>
-                                        <constraint firstAttribute="centerX" secondItem="8oU-yH-sfC" secondAttribute="centerX" id="1tb-6c-Dop"/>
-                                        <constraint firstItem="8oU-yH-sfC" firstAttribute="top" secondItem="4tq-9y-MFV" secondAttribute="topMargin" constant="-8" id="ER5-ua-gti"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="8oU-yH-sfC" secondAttribute="bottom" constant="-7" id="qQW-dI-Tyi"/>
-                                        <constraint firstItem="8oU-yH-sfC" firstAttribute="leading" secondItem="4tq-9y-MFV" secondAttribute="leadingMargin" id="sa8-Sf-qBn"/>
-                                    </constraints>
-                                </tableViewCellContentView>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <outlet property="flagSegControl" destination="8oU-yH-sfC" id="1pE-Yj-qAW"/>
-                                </connections>
-                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="tJR-jZ-xZ3" id="nIm-QU-cVk"/>
@@ -838,6 +816,6 @@
         <simulatedScreenMetrics key="destination" type="retina47"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="ZmY-up-pUw"/>
+        <segue reference="AXz-aE-YIu"/>
     </inferredMetricsTieBreakers>
 </document>
