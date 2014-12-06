@@ -18,7 +18,8 @@ typedef NS_ENUM(NSInteger, CVCControllerState) {
     CVC_INV_ADD_TOOL,
     CVC_INV_SHIP_TOOL,
     CVC_INV_RECIEVE_TOOL,
-    CVC_INV_UPDATE_TOOL
+    CVC_INV_UPDATE_TOOL,
+    CVC_INV
 };
 
 @interface CameraViewController : UIViewController <AVCaptureMetadataOutputObjectsDelegate,
@@ -26,7 +27,6 @@ UIAlertViewDelegate, CLLocationManagerDelegate> {
 
 }
 @property (nonatomic) CVCControllerState controllerState;
-@property (weak, nonatomic) IBOutlet UIButton *CancelBtn;
 @property (weak, nonatomic) IBOutlet UIView *cameraView;
 @property (weak, nonatomic) IBOutlet UIButton *TorchBtn;
 

@@ -34,11 +34,12 @@
 -(void)ScanTool;
 -(void)ScanToolNext;
 
--(void)InvTagTool;
--(void)InvAddTool;
--(void)InvShipTool;
--(void)InvRecieveTool;
--(void)InvUpdateTool;
+//-(void)InvTagTool;
+//-(void)InvAddTool;
+//-(void)InvShipTool;
+//-(void)InvRecieveTool;
+//-(void)InvUpdateTool;
+-(void)HandleInv;
 
 -(void)AddToolWithCheck:(BOOL)check;
 -(void)AddToolNext;
@@ -55,8 +56,6 @@
         [_locationManager requestWhenInUseAuthorization];
     }
     _locationManager.delegate = self;
-    
-    [self.CancelBtn setImage:[UIImage imageNamed:@"CancelSelected"] forState:UIControlStateSelected];
     [self.TorchBtn setImage:[UIImage imageNamed:@"TorchSelected"] forState:UIControlStateSelected];
     
 }
@@ -176,15 +175,18 @@
             if (self.controllerState == CVC_SCAN_TOOL) {
                 [self ScanTool];
             }
-            else if (self.controllerState == CVC_INV_TAG_TOOL) {
-                [self InvTagTool];
+            else if (self.controllerState == CVC_INV) {
+                [self HandleInv];
             }
-            else if (self.controllerState == CVC_INV_ADD_TOOL) {
-                [self InvAddTool];
-            }
-            else if (self.controllerState == CVC_INV_SHIP_TOOL) {
-                [self InvShipTool];
-            }
+//            else if (self.controllerState == CVC_INV_TAG_TOOL) {
+//                [self InvTagTool];
+//            }
+//            else if (self.controllerState == CVC_INV_ADD_TOOL) {
+//                [self InvAddTool];
+//            }
+//            else if (self.controllerState == CVC_INV_SHIP_TOOL) {
+//                [self InvShipTool];
+//            }
         }
     }
 }
@@ -239,6 +241,26 @@
 }
 
 #pragma Inventory Functions
+
+-(void)HandleInv {
+    NSArray* splitString = [_qrCodeString componentsSeparatedByString:@"_"];
+    if ([[splitString objectAtIndex:0] isEqualToString:@"tool"]) {
+        [_inventoryListViewController setQrCodeString:_qrCodeString];
+        [self.navigationController popViewControllerAnimated:YES];
+//        [_inventoryListViewController gotQRCode:_qrCodeString];
+//        [self dismissViewControllerAnimated:YES completion:^{
+//            [_inventoryListViewController gotQRCode:_qrCodeString];
+//        }];
+        
+    }
+    else {
+        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"Incorrect QR Code" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alertView setTag:3];
+        [alertView show];
+    }
+    
+}
+/*
 -(void)InvTagTool {
     PFQuery* query = [PFQuery queryWithClassName:@"Tools"];
     [query whereKey:@"qrCode" equalTo:_qrCodeString];
@@ -284,6 +306,7 @@
         [_inventoryListViewController gotQRCode:_qrCodeString];
     }];
 }
+ */
 
 #pragma Add Tool Functions
 -(void)AddToolWithCheck:(BOOL)check {
@@ -371,11 +394,6 @@
     [PFUser logOut];
     [self dismissViewControllerAnimated:YES completion:^{
         //
-    }];
-}
-- (IBAction)CancelClicked:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:^{
-        [_inventoryListViewController gotQRCode:nil];
     }];
 }
 

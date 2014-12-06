@@ -31,6 +31,7 @@
 
 -(void)loadData;
 -(void)gotSupplier;
+-(void)gotQRCode;
 
 @end
 
@@ -65,6 +66,9 @@
     [super viewDidAppear:animated];
     if (_controllerState == IL_SHIP_TOOL) {
         [self gotSupplier];
+    }
+    else if (_controllerState == IL_CAMERA) {
+        [self gotQRCode];
     }
 }
 
@@ -127,27 +131,31 @@
     if (self.segmentController.selectedSegmentIndex == 0) {
         self.selectedObject = [_allToolsArray objectAtIndex:indexPath.row];
         CameraViewController* cVC = [self.storyboard instantiateViewControllerWithIdentifier:@"CameraViewController"];
+        self.controllerState = IL_CAMERA;
+        _qrCodeString = nil;
+
         if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:0]]) {
-            [cVC setInvToolId:[_selectedObject valueForKey:@"toolId"]];
-            [cVC setControllerState:CVC_INV_TAG_TOOL];
+                        [cVC setInvToolId:[_selectedObject valueForKey:@"toolId"]];
+            [cVC setControllerState:CVC_INV];
         }
         else if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:1]]) {
-            [cVC setControllerState:CVC_INV_ADD_TOOL];
+            [cVC setControllerState:CVC_INV];
         }
         else if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:2]]) {
-            [cVC setControllerState:CVC_INV_SHIP_TOOL];
+            [cVC setControllerState:CVC_INV];
         }
         else if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:3]]) {
-            [cVC setControllerState:CVC_INV_RECIEVE_TOOL];
+            [cVC setControllerState:CVC_INV];
         }
         else if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:4]]) {
-            [cVC setControllerState:CVC_INV_UPDATE_TOOL];
+            [cVC setControllerState:CVC_INV];
         }
-//        [self.navigationController pushViewController:cVC animated:YES];
+
         [cVC setInventoryListViewController:self];
-        [self presentViewController:cVC animated:YES completion:^{
-            
-        }];
+        [self.navigationController pushViewController:cVC animated:YES];
+//        [self presentViewController:cVC animated:YES completion:^{
+//            
+//        }];
     }
 }
 
@@ -186,10 +194,13 @@
     NSString* toolId = [_selectedObject objectForKey:@"toolId"];
     PFQuery* query = [PFQuery queryWithClassName:@"Tools"];
     [query whereKey:@"toolId" equalTo:toolId];
+    
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if ([objects count] == 0) {
             [lView removeFromSuperview];
             // Error
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Tool Not Found" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
         }
         else {
             PFObject* toolObject = [objects objectAtIndex:0];
@@ -209,6 +220,8 @@
                 }
                 else {
                     // Handle Error
+                    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Error Saving" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                    [alert show];
                 }
             }];
         }
@@ -230,8 +243,11 @@
     [query whereKey:@"qrCode" equalTo:qrCodeString];
     [query whereKey:@"toolId" equalTo:[_selectedObject objectForKey:@"toolId"]];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (objects == 0) {
+        if ([objects count] == 0) {
             // Handle Error
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Incorrect Tool Scanned" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+            
         }
         else {
             // Open Supplier List View Controller and wait for call from supplier selected method
@@ -264,24 +280,25 @@
     
 }
 
--(void)gotQRCode:(NSString *)qrCodeString {
-    if (qrCodeString == nil) {
+-(void)gotQRCode {
+    _controllerState = IL_NONE;
+    if (_qrCodeString == nil) {
         // Process Error
         NSLog(@"Canceled pressed");
     }
     else {
 //        NSLog(@"Got qrCode: %@", qrCodeString);
         if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:0]]) {
-            [self HandleTagTool:qrCodeString];
+            [self HandleTagTool:_qrCodeString];
         }
         else if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:1]]) {
-            [self HandleAddTool:qrCodeString];
+            [self HandleAddTool:_qrCodeString];
         }
         else if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:2]]) {
-            [self HandleShipTool:qrCodeString];
+            [self HandleShipTool:_qrCodeString];
         }
         else if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:3]]) {
-            [self HandleRecieveTool:qrCodeString];
+            [self HandleRecieveTool:_qrCodeString];
         }
         
     }
@@ -295,12 +312,24 @@
     _controllerState = IL_NONE;
     if (_shippingSupplier) {
         // Format string
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Shipping" message:@"Shipping to supplier" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
+        NSString* message = [NSString stringWithFormat:@"Shipping to %@", [_shippingSupplier valueForKey:@"supplier"]];
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Shipping" message:message delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
         [alert setTag:1];
         [alert show];
     }
     
 }
 
+#pragma AlertViewDelegates
+
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    // Shipping alert
+    if ([alertView tag] == 1) {
+        if (buttonIndex == 1) {
+            [_doneSet addObject:[_selectedObject objectId]];
+            [self.tableView reloadData];
+        }
+    }
+}
 
 @end

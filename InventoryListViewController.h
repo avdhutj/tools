@@ -18,7 +18,8 @@ typedef NS_ENUM(NSInteger, TaskType) {
 };
 
 typedef NS_ENUM(NSInteger, ILControllerState) {
-    IL_TAG_TOOL = 0,
+    IL_CAMERA = 0,
+    IL_TAG_TOOL,
     IL_ADD_TOOL,
     IL_SHIP_TOOL,
     IL_RECIEVE_TOOL,
@@ -27,10 +28,10 @@ typedef NS_ENUM(NSInteger, ILControllerState) {
 };
 
 
-@interface InventoryListViewController : UITableViewController
+@interface InventoryListViewController : UITableViewController<UIAlertViewDelegate>
 
--(void)gotQRCode:(NSString*)qrCodeString;
 
+@property (strong, nonatomic) NSString* qrCodeString;
 @property (strong, nonatomic) PFObject* shippingSupplier;
 
 @property (strong, nonatomic) IBOutlet UISegmentedControl *segmentController;
