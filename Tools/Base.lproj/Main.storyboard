@@ -351,10 +351,6 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
-                    <connections>
-                        <segue destination="3ZN-Hi-er1" kind="relationship" relationship="viewControllers" id="MuC-wQ-ViB"/>
-                        <segue destination="105-pI-3rU" kind="relationship" relationship="viewControllers" id="1qS-Vg-ceW"/>
-                    </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mmB-xs-toQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -380,7 +376,7 @@
         <!--Tool List-->
         <scene sceneID="jbq-zp-WYu">
             <objects>
-                <tableViewController id="WB3-Jn-xHr" customClass="ToolListViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="ToolListViewController" id="WB3-Jn-xHr" customClass="ToolListViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Uc9-aH-O0Z">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -804,38 +800,6 @@
             </objects>
             <point key="canvasLocation" x="2945.5" y="561.5"/>
         </scene>
-        <!--Scan-->
-        <scene sceneID="7Eh-mR-dKJ">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="3ZN-Hi-er1" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Scan" id="dop-NK-feC"/>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="qBa-uS-lrn">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="e6H-2E-qMT" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="62.5" y="1500.5"/>
-        </scene>
-        <!--Search-->
-        <scene sceneID="br8-Ip-Ivu">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="105-pI-3rU" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Search" id="fzO-zQ-TBb"/>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="qsQ-Vf-iLQ">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="WaA-vq-ese" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="62.5" y="2424.5"/>
-        </scene>
     </scenes>
     <resources>
         <image name="BlueButtonDown" width="200" height="50"/>
@@ -853,6 +817,6 @@
         <simulatedScreenMetrics key="destination" type="retina47"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="AXz-aE-YIu"/>
+        <segue reference="ZmY-up-pUw"/>
     </inferredMetricsTieBreakers>
 </document>

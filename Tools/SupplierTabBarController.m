@@ -17,6 +17,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    UITabBar *tabBar = self.tabBar;
+    //Scan
+    UITabBarItem *targetTabBarItem = [[tabBar items] objectAtIndex:0];
+    UIImage *selectedIcon = [UIImage imageNamed:@"scanSelected.png"];
+    UIImage *unSelectedImage = [UIImage imageNamed:@"scanUnSelected.png"];
+    [targetTabBarItem setImage:[self imageWithImage:unSelectedImage scaledToSize:CGSizeMake(30, 30)]];
+    [targetTabBarItem setSelectedImage:[self imageWithImage:selectedIcon scaledToSize:CGSizeMake(30, 30)]];
+    //Search
+    UITabBarItem *targetTabBarItem1 = [[tabBar items] objectAtIndex:1];
+    UIImage *selectedSearchIcon = [UIImage imageNamed:@"searchSelected.png"];
+    UIImage *unSelectedSearchIcon = [UIImage imageNamed:@"searchUnSelected.png"];
+    [targetTabBarItem1 setImage:[self imageWithImage:unSelectedSearchIcon scaledToSize:CGSizeMake(30, 30)]];
+    [targetTabBarItem1 setSelectedImage:[self imageWithImage:selectedSearchIcon scaledToSize:CGSizeMake(30, 30)]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -33,5 +46,13 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+- (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
+    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
+    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
 
 @end
