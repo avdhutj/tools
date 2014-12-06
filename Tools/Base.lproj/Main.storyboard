@@ -477,9 +477,12 @@
                                 <segment title="Tool Info"/>
                                 <segment title="Part Nos"/>
                                 <segment title="Scrap"/>
-                                <segment title=""/>
+                                <segment title="Other"/>
                             </segments>
                             <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="flagValueChanged:" destination="tJR-jZ-xZ3" eventType="valueChanged" id="6SJ-6Q-4dd"/>
+                            </connections>
                         </segmentedControl>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CellLbl" textLabel="6Tl-fL-Sro" style="IBUITableViewCellStyleDefault" id="U4D-ax-496">
@@ -672,6 +675,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="BackBtn" destination="LmM-Jt-C4o" id="yqc-aJ-fig"/>
+                        <outlet property="ToolFlagSegControl" destination="Mvc-cJ-9jL" id="hHQ-S1-dIN"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c5e-RK-vOH" userLabel="First Responder" sceneMemberID="firstResponder"/>

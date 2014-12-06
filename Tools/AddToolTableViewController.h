@@ -49,6 +49,7 @@ typedef NS_ENUM(NSInteger, ATVCControllerState) {
 
 
 //Controller
+@property (weak, nonatomic) IBOutlet UISegmentedControl *ToolFlagSegControl;
 @property (nonatomic) UITextField* selectedTextFeild;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *BackBtn;
 @property (nonatomic) ATVCControllerState controllerState;
