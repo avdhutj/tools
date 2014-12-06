@@ -19,7 +19,6 @@
 		1DDC3FD21A21482100E385F5 /* SupplierInventoryList.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC3FD11A21482100E385F5 /* SupplierInventoryList.m */; };
 		1DDC3FD51A2148B700E385F5 /* ToolListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC3FD41A2148B700E385F5 /* ToolListViewController.m */; };
 		1DEF9BC01A32475300FC2995 /* ToolTypeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEF9BBF1A32475300FC2995 /* ToolTypeCell.m */; };
-		1DEF9BC81A3267A500FC2995 /* APPAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEF9BC51A3267A500FC2995 /* APPAppDelegate.m */; };
 		1DEF9BC91A3267A500FC2995 /* APPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEF9BC71A3267A500FC2995 /* APPViewController.m */; };
 		1DEF9BCC1A32C3B400FC2995 /* ToolFlagCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEF9BCB1A32C3B300FC2995 /* ToolFlagCell.m */; };
 		2E27C4231A28DA2C001204FB /* InventoryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E27C4221A28DA2C001204FB /* InventoryListViewController.m */; };
@@ -84,8 +83,6 @@
 		1DDC3FD41A2148B700E385F5 /* ToolListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToolListViewController.m; sourceTree = "<group>"; };
 		1DEF9BBE1A32475300FC2995 /* ToolTypeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToolTypeCell.h; sourceTree = "<group>"; };
 		1DEF9BBF1A32475300FC2995 /* ToolTypeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToolTypeCell.m; sourceTree = "<group>"; };
-		1DEF9BC41A3267A500FC2995 /* APPAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APPAppDelegate.h; sourceTree = "<group>"; };
-		1DEF9BC51A3267A500FC2995 /* APPAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APPAppDelegate.m; sourceTree = "<group>"; };
 		1DEF9BC61A3267A500FC2995 /* APPViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APPViewController.h; sourceTree = "<group>"; };
 		1DEF9BC71A3267A500FC2995 /* APPViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APPViewController.m; sourceTree = "<group>"; };
 		1DEF9BCA1A32C3B300FC2995 /* ToolFlagCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToolFlagCell.h; sourceTree = "<group>"; };
@@ -272,8 +269,6 @@
 		4A02420A1A1DA8DC00498E0B /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				1DEF9BC41A3267A500FC2995 /* APPAppDelegate.h */,
-				1DEF9BC51A3267A500FC2995 /* APPAppDelegate.m */,
 				1DEF9BC61A3267A500FC2995 /* APPViewController.h */,
 				1DEF9BC71A3267A500FC2995 /* APPViewController.m */,
 				4A39E1D11A2D72890082D390 /* SupplierListViewController.m */,
@@ -418,7 +413,6 @@
 				1DCCBCB21A2AFC950040369E /* TextFieldCell.m in Sources */,
 				4A39E1D51A2F72EB0082D390 /* SupplierTabBarController.m in Sources */,
 				4A7DFE7C1A25854D0046B3AE /* LoadView.m in Sources */,
-				1DEF9BC81A3267A500FC2995 /* APPAppDelegate.m in Sources */,
 				4A02420D1A1DA90B00498E0B /* LoginViewController.m in Sources */,
 				4A9172241A1DBA6C006E5C8A /* OEMTabViewController.m in Sources */,
 				1DEF9BC91A3267A500FC2995 /* APPViewController.m in Sources */,

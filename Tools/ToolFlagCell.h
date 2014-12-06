@@ -10,4 +10,9 @@
 
 @interface ToolFlagCell : UITableViewCell
 
+@property (nonatomic) int parseKeyIndex; //1 - 5 for values on tools detailes table
+@property (nonatomic) NSNumber* initialValue;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *flagSegControl;
+@property (nonatomic) NSNumber* UpdatedValue;
+
 @end

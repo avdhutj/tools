@@ -13,6 +13,7 @@
 #import "TextFieldCell.h"
 #import "ToolTypeCell.h"
 #import "APPViewController.h"
+#import "ToolFlagCell.h"
 
 @interface AddToolTableViewController ()
 
@@ -32,6 +33,7 @@
                                                  selector:@selector(TextFieldChangedNotification:)
                                                      name:notifcaitonName
                                                    object:PartNo];
+        NSLog(@"notification center set up complete");
     }
     
 }
@@ -47,13 +49,15 @@
     
     if (self.controllerState == ATVC_ADD_TOOL) {
         
-        NSDictionary *dict =  @{@"Supplier" : @[@"Supplier", @"Supplier Address",@"Phone Number"],
+        NSDictionary *dict =  @{@"Flag Tool:" : @[[NSNumber numberWithInt:0]],
+                                @"Supplier" : @[@"Supplier", @"Supplier Address",@"Phone Number"],
                                 @"Tool Details" : @[@"Tool ID", @"Weight", @"Tool Type",@"Tool Description"],
                                 @"Part Numbers" : @[@"Part Number"]};
         
         self.partStausLookUp = [NSMutableDictionary dictionaryWithObject:@"Status" forKey:@"Part Number"];
         self.items = [NSMutableDictionary dictionaryWithDictionary:dict];
         self.tableTitles = [[NSMutableArray alloc] initWithCapacity:[dict count]];
+        [self.tableTitles addObject:@"Flag Tool:"];
         [self.tableTitles addObject:@"Tool Details"];
         [self.tableTitles addObject:@"Part Numbers"];
         [self.tableTitles addObject:@"Supplier"];
@@ -65,6 +69,7 @@
         [self LoadExsistingToolDetails];
 
     }
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -115,8 +120,14 @@
     
     NSString *sectionTitle = [self.tableTitles objectAtIndex:indexPath.section];
     NSArray *sectionitems = [self.items objectForKey:sectionTitle];
-    NSString *item = [sectionitems objectAtIndex:indexPath.row];
+    NSString*item = [NSString stringWithFormat:@"item"];
+    NSNumber* flagNo = [NSNumber numberWithInt:0];
     
+    if ([sectionTitle isEqualToString:@"Flag Tool:"]) {
+        flagNo = [sectionitems objectAtIndex:indexPath.row];
+    } else {
+        item = [sectionitems objectAtIndex:indexPath.row];
+    }
     //enable text feild
     
     if ([sectionTitle isEqualToString:@"Part Numbers"]) {
@@ -168,6 +179,16 @@
             [textCell setSelectionStyle:UITableViewCellSelectionStyleNone];
             [self SetUpNotificationCenterPartNumber:textCell];
             return textCell;
+        } else if ([sectionTitle isEqualToString:@"Flag Tool:"]) {
+
+            ToolFlagCell *toolFlag = [tableView dequeueReusableCellWithIdentifier:@"flag" forIndexPath:indexPath];
+            toolFlag.initialValue = flagNo;
+            toolFlag.parseKeyIndex = indexPath.row;
+            //[toolFlag setSelectionStyle:UITableViewCellSelectionStyleNone];
+            NSLog(@"flag no: %i",[flagNo integerValue]);
+            [self SetUpNotificationCenterPartNumber:toolFlag];
+            return toolFlag;
+            
         } else {
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellToolId" forIndexPath:indexPath];
             cell.textLabel.text = item;
@@ -296,11 +317,13 @@
             //TODO: Mazin check this if this is true
             NSDictionary *dict;
             if (self.Supplier) {
-                dict =  @{@"Supplier" : @[[self.Supplier objectForKey:@"supplier"], [self.Supplier objectForKey:@"address"], [self.Supplier objectForKey:@"phoneNumber"]],
-                                        @"Tool Details" : @[[self.exam objectForKey:@"toolId"], [NSString stringWithFormat:@"%@",[self.exam objectForKey:@"weight"]], [self.exam objectForKey:@"toolType"],[self.exam objectForKey:@"toolDescription"]]};
+                dict =  @{@"Flag Tool:" : @[[self.exam objectForKey:@"flag"]],
+                          @"Supplier" : @[[self.Supplier objectForKey:@"supplier"], [self.Supplier objectForKey:@"address"], [self.Supplier objectForKey:@"phoneNumber"]],
+                          @"Tool Details" : @[[self.exam objectForKey:@"toolId"], [NSString stringWithFormat:@"%@",[self.exam objectForKey:@"weight"]], [self.exam objectForKey:@"toolType"],[self.exam objectForKey:@"toolDescription"]]};
             }
             else {
-                dict =  @{@"Tool Details" : @[[self.exam objectForKey:@"toolId"], [NSString stringWithFormat:@"%@",[self.exam objectForKey:@"weight"]], [self.exam objectForKey:@"toolType"],[self.exam objectForKey:@"toolDescription"]]};
+                dict =  @{@"Flag Tool:" : @[[self.exam objectForKey:@"flag"]],
+                          @"Tool Details" : @[[self.exam objectForKey:@"toolId"], [NSString stringWithFormat:@"%@",[self.exam objectForKey:@"weight"]], [self.exam objectForKey:@"toolType"],[self.exam objectForKey:@"toolDescription"]]};
             }
             
 
@@ -310,9 +333,12 @@
             self.AddedPartNumbers = [NSMutableArray arrayWithArray:partIDs];
             
             self.tableTitles = [[NSMutableArray alloc] initWithCapacity:[dict count]];
+            [self.tableTitles addObject:@"Flag Tool:"];
             [self.tableTitles addObject:@"Tool Details"];
             [self.tableTitles addObject:@"Part Numbers"];
             [self.tableTitles addObject:@"Supplier"];
+            
+            NSLog(@"%@",self.items);
             
             [self.tableView reloadData];
             
@@ -332,6 +358,8 @@
         }
         
     }];
+    
+    NSLog(@"%@",self.items);
 }
 
 #pragma mark - Table Actions
@@ -355,18 +383,19 @@
         self.exam = tool;
 
     }
-    
-    NSArray *toolDetails = [self.items objectForKey:@"Tool Details"];
-    self.exam[@"toolId"] = toolDetails[0];
     NSNumberFormatter *formater = [[NSNumberFormatter alloc] init];
     [formater setNumberStyle:NSNumberFormatterNoStyle];
+    self.exam[@"flag"] = [self.items objectForKey:@"Flag Tool:"][0];
+    NSArray *toolDetails = [self.items objectForKey:@"Tool Details"];
+    self.exam[@"toolId"] = toolDetails[0];
     self.exam[@"weight"] = [formater numberFromString:toolDetails[1]];
-    
     self.exam[@"toolType"] = toolDetails[2];
     self.exam[@"toolDescription"] = toolDetails[3];
     self.exam[@"part"] = self.AddedPartNumbers;
     [self.exam saveInBackground];
     [self.tableView reloadData];
+    
+    NSLog(@"%@",self.exam);
 }
 
 - (IBAction)back:(id)sender {
@@ -473,6 +502,8 @@
 
 -(void)TextFieldChangedNotification:(NSNotification *) notification {
     
+    NSLog(@"In textfield did change");
+    
     NSDictionary *updateDict  = [[notification userInfo] objectForKey:@"updateArray"];
     
     if ([[updateDict objectForKey:@"isUpdated"] isEqualToString:@"UpdatedAdd"]) {
@@ -520,12 +551,12 @@
             [self.items setObject:tool forKey:@"Tool Details"];
             
         } else {
+            [self.items setObject:[updateDict objectForKey:@"UpdatedValue"] forKey:@"Flag Tool:"];
             
         }
         
     }
-    
-
+    NSLog(@"items in textfield did change: %@", self.items);
     [self.tableView reloadData];
 }
 
