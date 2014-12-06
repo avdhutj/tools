@@ -307,16 +307,18 @@
         }
     }];
     NSString* supplierId = [self.exam valueForKey:@"supplier"];
-    PFObject* supplier = [PFObject objectWithoutDataWithClassName:@"SupplierList" objectId:supplierId];
-    [supplier fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        if (!error) {
-            self.Supplier = supplier;
-            NSArray* sup = [NSArray arrayWithObjects:[self.Supplier objectForKey:@"supplier"], [self.Supplier objectForKey:@"address"], [self.Supplier objectForKey:@"phoneNumber"], nil];
-            [self.items setObject:sup forKey:@"Supplier"];
-            [self.tableView reloadData];
-        }
-        
-    }];
+    if (supplierId) {
+        PFObject* supplier = [PFObject objectWithoutDataWithClassName:@"SupplierList" objectId:supplierId];
+        [supplier fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            if (!error) {
+                self.Supplier = supplier;
+                NSArray* sup = [NSArray arrayWithObjects:[self.Supplier objectForKey:@"supplier"], [self.Supplier objectForKey:@"address"], [self.Supplier objectForKey:@"phoneNumber"], nil];
+                [self.items setObject:sup forKey:@"Supplier"];
+                [self.tableView reloadData];
+            }
+            
+        }];
+    }
 }
 
 #pragma mark - Table Actions
@@ -330,7 +332,7 @@
     
     [self.AddedPartNumbers addObject:@"new"];
     NSString *newPart = @"New part number";
-    NSMutableArray* partsMutable = [self.items objectForKey:@"Part Numbers"];
+    NSMutableArray* partsMutable = [[self.items objectForKey:@"Part Numbers"] mutableCopy];
     [partsMutable addObject:newPart];
     [self.items setObject:partsMutable forKey:@"Part Numbers"];
     [self.partStausLookUp addEntriesFromDictionary:[NSDictionary dictionaryWithObject:@"-" forKey:newPart]];
@@ -360,6 +362,11 @@
     NSLog(@"%@",self.exam);
     [self.exam saveInBackground];
     [self.tableView reloadData];
+    
+    if (_inventoryViewController) {
+        [_inventoryViewController setAddedTool:self.exam];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (IBAction)back:(id)sender {

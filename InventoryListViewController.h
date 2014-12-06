@@ -34,5 +34,6 @@ typedef NS_ENUM(NSInteger, ILControllerState) {
 @property (strong, nonatomic) NSString* qrCodeString;
 @property (strong, nonatomic) PFObject* shippingSupplier;
 
+@property (strong, nonatomic) PFObject* addedTool;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *segmentController;
 @end
