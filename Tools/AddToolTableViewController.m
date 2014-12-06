@@ -195,11 +195,11 @@
                 //Weight in Edit Mode
                 TextFieldCell *textCell = [tableView dequeueReusableCellWithIdentifier:@"TextCell" forIndexPath:indexPath];
                 textCell.TextField.text = item;
+                [textCell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                textCell.initialValue = item;
                 //WHY IS THIS NOT WORKING??
                 textCell.TextField.keyboardType = UIKeyboardTypeNamePhonePad;
                 //
-                [textCell setSelectionStyle:UITableViewCellSelectionStyleNone];
-                textCell.initialValue = item;
                 textCell.parseKeyIndex = indexPath.row;
                 [self SetUpNotificationCenterPartNumber:textCell];
                 return textCell;

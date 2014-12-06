@@ -665,6 +665,35 @@
                                     <outlet property="TextField" destination="VeF-1F-l39" id="1QR-fb-juy"/>
                                 </connections>
                             </tableViewCell>
+                            <tableViewCell alpha="0.0" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="64" id="Smp-pU-JLE" customClass="ToolFlagCell">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Smp-pU-JLE" id="4tq-9y-MFV">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <segmentedControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="8oU-yH-sfC">
+                                            <rect key="frame" x="8" y="28" width="359" height="29"/>
+                                            <segments>
+                                                <segment title="None"/>
+                                                <segment title="Tool Info"/>
+                                                <segment title="Part Nos"/>
+                                                <segment title="Scrap"/>
+                                                <segment title="Other"/>
+                                            </segments>
+                                            <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        </segmentedControl>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Flag tool for supplier Review:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dff-xc-wyR">
+                                            <rect key="frame" x="8" y="2" width="165" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="centerX" secondItem="8oU-yH-sfC" secondAttribute="centerX" id="1tb-6c-Dop"/>
+                                        <constraint firstItem="8oU-yH-sfC" firstAttribute="bottom" secondItem="4tq-9y-MFV" secondAttribute="bottomMargin" id="5Ys-VZ-c2y"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="tJR-jZ-xZ3" id="nIm-QU-cVk"/>
@@ -692,7 +721,7 @@
                     </items>
                 </navigationBar>
             </objects>
-            <point key="canvasLocation" x="1946.5" y="482.5"/>
+            <point key="canvasLocation" x="1946.5" y="478.5"/>
         </scene>
         <!--Tool Map-->
         <scene sceneID="jxk-Rm-U48">
