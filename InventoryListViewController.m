@@ -73,6 +73,9 @@
     else  if (_controllerState == IL_ADD_TOOL) {
         [self toolAdded];
     }
+    else if (_controllerState == IL_UPDATE_TOOL) {
+        [self toolUpdated];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -246,6 +249,27 @@
     [self.navigationController pushViewController:aTVC animated:YES];
 }
 
+-(void)HandleUpdateTool:(NSString*)qrCodeString {
+    PFQuery* query = [PFQuery queryWithClassName:@"Tools"];
+    [query whereKey:@"qrCode" equalTo:qrCodeString];
+    [query whereKey:@"toolId" equalTo:[_selectedObject objectForKey:@"toolId"]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if ([objects count] == 0) {
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Incorrect Tool Scanned or Tool not found" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+        }
+        else {
+            _controllerState = IL_UPDATE_TOOL;
+            AddToolTableViewController* aTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"AddToolTableViewController"];
+            [aTVC setExam:[objects objectAtIndex:0]];
+            [aTVC setControllerState:ATVC_EDIT_TOOL];
+            [aTVC setInventoryViewController:self];
+            
+            [self.navigationController pushViewController:aTVC animated:YES];
+        }
+    }];
+}
+
 -(void)HandleShipTool:(NSString*)qrCodeString{
     PFQuery* query = [PFQuery queryWithClassName:@"Tools"];
     [query whereKey:@"qrCode" equalTo:qrCodeString];
@@ -308,6 +332,9 @@
         else if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:3]]) {
             [self HandleRecieveTool:_qrCodeString];
         }
+        else if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:4]]) {
+            [self HandleUpdateTool:_qrCodeString];
+        }
         
     }
 }
@@ -329,6 +356,13 @@
 }
 
 -(void)toolAdded {
+    _controllerState = IL_NONE;
+    if (_addedTool) {
+        [_doneSet addObject:[_selectedObject valueForKey:@"toolId"]];
+    }
+}
+
+-(void)toolUpdated {
     _controllerState = IL_NONE;
     if (_addedTool) {
         [_doneSet addObject:[_selectedObject valueForKey:@"toolId"]];
