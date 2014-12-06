@@ -13,7 +13,13 @@
 #import "OEMTabViewController.h"
 #import "SupplierTabBarController.h"
 
+#import "CameraViewController.h"
+#import "ToolListViewController.h"
+
 @interface LoginViewController ()
+
+-(void)setupOEMTabBarController;
+-(void)setupSupplierTabBarController;
 
 @end
 
@@ -41,17 +47,13 @@
     if (currentUser) {
         // Move to Next Screen
         if ([[currentUser valueForKey:@"type"] isEqualToString:@"oem"]) {
-            OEMTabViewController* mTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"OEMTabBarController"];
-            [self presentViewController:mTVC animated:YES completion:^{
-            }];
+            [self setupOEMTabBarController];
+
         }
         else {
-            SupplierTabBarController* sTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SupplierTabBarController"];
-            [self presentViewController:sTVC animated:YES completion:^{
-            }];
+            [self setupSupplierTabBarController];
         }
     }
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -89,14 +91,11 @@
             [lView removeFromSuperview];
             if (user) {
                 if ([[user valueForKey:@"type"] isEqualToString:@"oem"]) {
-                    OEMTabViewController* mTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"OEMTabBarController"];
-                    [self presentViewController:mTVC animated:YES completion:^{
-                    }];
+
+                    [self setupOEMTabBarController];
                 }
                 else {
-                    SupplierTabBarController* sTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SupplierTabBarController"];
-                    [self presentViewController:sTVC animated:YES completion:^{
-                    }];
+                    [self setupSupplierTabBarController];
                 }
 
             }
@@ -110,6 +109,28 @@
         UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"Please Enter Username and Password" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [alertView show];
     }
+}
+
+-(void)setupSupplierTabBarController {
+    SupplierTabBarController* sTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SupplierTabBarController"];
+    
+    CameraViewController* vc1 = [self.storyboard instantiateViewControllerWithIdentifier:@"CameraViewController"];
+    ToolListViewController* vc2 = [self.storyboard instantiateViewControllerWithIdentifier:@"ToolListViewController"];
+    
+    UINavigationController* nv1 = [[UINavigationController alloc] initWithRootViewController:vc1];
+    UINavigationController* nv2 = [[UINavigationController alloc] initWithRootViewController:vc2];
+    
+    [sTVC setViewControllers:[NSArray arrayWithObjects:nv1, nv2, nil]];
+    
+    [self presentViewController:sTVC animated:YES completion:^{
+    }];
+    
+}
+
+-(void)setupOEMTabBarController {
+    OEMTabViewController* mTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"OEMTabBarController"];
+    [self presentViewController:mTVC animated:YES completion:^{
+    }];
 }
 
 @end
