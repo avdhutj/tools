@@ -11,6 +11,7 @@
 		1D2D8E0D1A1FC4A90035E144 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D2D8E091A1FC4A90035E144 /* Parse.framework */; };
 		1D2D8E0E1A1FC4A90035E144 /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D2D8E0A1A1FC4A90035E144 /* ParseFacebookUtils.framework */; };
 		1D2D8E0F1A1FC4A90035E144 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D2D8E0B1A1FC4A90035E144 /* ParseUI.framework */; };
+		1D4B6C2A1A342B2200EEA535 /* ReviewTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4B6C291A342B2200EEA535 /* ReviewTabBarController.m */; };
 		1DCCBCA61A27F6E70040369E /* AddToolTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DCCBCA51A27F6E70040369E /* AddToolTableViewController.m */; };
 		1DCCBCA91A29992F0040369E /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DCCBCA81A29992F0040369E /* MapViewController.m */; };
 		1DCCBCAB1A299C0C0040369E /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DCCBCAA1A299C0C0040369E /* MapKit.framework */; };
@@ -68,6 +69,8 @@
 		1D2D8E091A1FC4A90035E144 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		1D2D8E0A1A1FC4A90035E144 /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtils.framework; sourceTree = "<group>"; };
 		1D2D8E0B1A1FC4A90035E144 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
+		1D4B6C281A342B2200EEA535 /* ReviewTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewTabBarController.h; sourceTree = "<group>"; };
+		1D4B6C291A342B2200EEA535 /* ReviewTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewTabBarController.m; sourceTree = "<group>"; };
 		1DCCBCA41A27F6E70040369E /* AddToolTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddToolTableViewController.h; sourceTree = "<group>"; };
 		1DCCBCA51A27F6E70040369E /* AddToolTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddToolTableViewController.m; sourceTree = "<group>"; };
 		1DCCBCA71A29992F0040369E /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
@@ -289,6 +292,8 @@
 				1DDC3FD11A21482100E385F5 /* SupplierInventoryList.m */,
 				1DDC3FD31A2148B700E385F5 /* ToolListViewController.h */,
 				1DDC3FD41A2148B700E385F5 /* ToolListViewController.m */,
+				1D4B6C281A342B2200EEA535 /* ReviewTabBarController.h */,
+				1D4B6C291A342B2200EEA535 /* ReviewTabBarController.m */,
 				4A39E1D31A2F72EB0082D390 /* SupplierTabBarController.h */,
 				4A39E1D41A2F72EB0082D390 /* SupplierTabBarController.m */,
 			);
@@ -417,6 +422,7 @@
 				4A9172241A1DBA6C006E5C8A /* OEMTabViewController.m in Sources */,
 				1DEF9BC91A3267A500FC2995 /* APPViewController.m in Sources */,
 				4A9172211A1DB590006E5C8A /* LoadingView.m in Sources */,
+				1D4B6C2A1A342B2200EEA535 /* ReviewTabBarController.m in Sources */,
 				1DDC3FD51A2148B700E385F5 /* ToolListViewController.m in Sources */,
 				4A39E1D21A2D72890082D390 /* SupplierListViewController.m in Sources */,
 				1DDC3FD21A21482100E385F5 /* SupplierInventoryList.m in Sources */,
