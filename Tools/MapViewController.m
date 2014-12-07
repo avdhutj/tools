@@ -34,11 +34,16 @@
                 PFGeoPoint* toolGeoPoint = [object valueForKey:@"toolGeoPoint"];
                 for (PFGeoPoint* toolCenter in toolCenters) {
                     if ([toolGeoPoint distanceInMilesTo:toolCenter] < 1.0) {
-                        toolCenter.latitude = [toolCenterCount[idx] integerValue] * toolCenter.latitude + toolGeoPoint.latitude;
-                        toolCenter.longitude = [toolCenterCount[idx] integerValue] * toolCenter.longitude + toolGeoPoint.longitude;
+                        double lat = [toolCenterCount[idx] integerValue] * toolCenter.latitude + toolGeoPoint.latitude;
+                        double lon = [toolCenterCount[idx] integerValue] * toolCenter.longitude + toolGeoPoint.longitude;
                         toolCenterCount[idx] = [NSNumber numberWithLong:([toolCenterCount[idx] integerValue] + 1)];
-                        toolCenter.latitude /= [toolCenterCount[idx] integerValue];
-                        toolCenter.longitude /= [toolCenterCount[idx] integerValue];
+                        lat /= [toolCenterCount[idx] integerValue];
+                        lon /= [toolCenterCount[idx] integerValue];
+//                        toolCenter.latitude = [toolCenterCount[idx] integerValue] * toolCenter.latitude + toolGeoPoint.latitude;
+//                        toolCenter.longitude = [toolCenterCount[idx] integerValue] * toolCenter.longitude + toolGeoPoint.longitude;
+
+                        toolCenter.latitude = lat;
+                        toolCenter.longitude = lon;
                         
                         idx++;
                         centerFound = true;

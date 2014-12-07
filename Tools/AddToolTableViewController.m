@@ -98,6 +98,9 @@
     // Return the number of rows in the section.
     NSString *sectionTitle = [self.tableTitles objectAtIndex:section];
     NSArray *sectionItems = [self.items objectForKey:sectionTitle];
+//    if ([sectionTitle isEqualToString:@"Part Numbers"] && _controllerState == ATVC_EDIT_TOOL) {
+//        return [sectionItems count];
+//    }
     return [sectionItems count];
 }
 
@@ -142,15 +145,23 @@
             [self SetUpNotificationCenterPartNumber:PartTextCell];
             PartTextCell.ArrayIndex = indexPath.row;
             
-            if (indexPath.row == [self.AddedPartNumbers count] && ![item isEqualToString:@"New part number"]) {
-                //Add part no
-                NSLog(@"In Add Part No with Parts: %@ item: %@ index.row: %i items: %@",self.AddedPartNumbers, item, indexPath.row, self.items);
-                [self addPartNumberRow];
+            if (indexPath.row == self.AddedPartNumbers.count) {
+                PartTextCell.TextField.textColor = [UIColor lightGrayColor];
             }
             
-            if (indexPath.row == [[self.items objectForKey:@"Part Numbers"] count] - 1) {
-                PartTextCell.TextField.textColor =[UIColor lightGrayColor];
-            }
+//            if (indexPath.row == [self.AddedPartNumbers count]) {
+////                [self addPartNumberRow];
+//            }
+            
+//            if (indexPath.row == [self.AddedPartNumbers count] && ![item isEqualToString:@"New part number"]) {
+//                //Add part no
+//                NSLog(@"In Add Part No with Parts: %@ item: %@ index.row: %i items: %@",self.AddedPartNumbers, item, indexPath.row, self.items);
+//                [self addPartNumberRow];
+//            }
+            
+//            if (indexPath.row == [[self.items objectForKey:@"Part Numbers"] count] - 1) {
+//                PartTextCell.TextField.textColor =[UIColor lightGrayColor];
+//            }
             
             return PartTextCell;
 
@@ -314,7 +325,6 @@
             }
             
             self.ToolFlagSegControl.selectedSegmentIndex = [[self.exam objectForKey:@"flag"] integerValue];
-            NSLog(@"select: %i",self.ToolFlagSegControl.selectedSegmentIndex);
             
             self.items = [NSMutableDictionary dictionaryWithDictionary:dict];
             [self.items setObject:self.partNumbers forKey:@"Part Numbers"];
@@ -560,7 +570,7 @@
     
     if ([sectionTitle isEqualToString:@"Part Numbers"]) {
         
-        if ([[self.items objectForKey:@"Part Numbers"] count] > 2) {
+        if ([[self.items objectForKey:@"Part Numbers"] count] > 2 && [[self.items objectForKey:@"Part Numbers"] count] > indexPath.row + 1) {
             return YES;
         }
         
@@ -578,7 +588,10 @@
             [parts removeObjectAtIndex:indexPath.row];
             [self.AddedPartNumbers removeObjectAtIndex:indexPath.row];
             [self.items setObject:parts forKey:@"Part Numbers"];
-            [self.tableView reloadData];
+            /*
+            if ([[self.items objectForKey:@"Part Numbers"] count] == indexPath.row) {
+                [self addPartNumberRow];
+            }*/
         }
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
