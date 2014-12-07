@@ -257,6 +257,8 @@
     }
 }
 - (IBAction)flagValueChanged:(id)sender {
+    
+    
 }
 
 - (void)LoadExsistingToolDetails {
@@ -312,6 +314,7 @@
             }
             
             self.ToolFlagSegControl.selectedSegmentIndex = [[self.exam objectForKey:@"flag"] integerValue];
+            NSLog(@"select: %i",self.ToolFlagSegControl.selectedSegmentIndex);
             
             self.items = [NSMutableDictionary dictionaryWithDictionary:dict];
             [self.items setObject:self.partNumbers forKey:@"Part Numbers"];
