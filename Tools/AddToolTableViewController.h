@@ -56,5 +56,6 @@ typedef NS_ENUM(NSInteger, ATVCControllerState) {
 @property (weak, nonatomic) InventoryListViewController* inventoryViewController;
 
 -(void)addPartNumberRow;
+-(void)UpdateSupplier;
 
 @end

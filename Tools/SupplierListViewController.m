@@ -66,9 +66,19 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    PFObject* object = [_supplierList objectAtIndex:indexPath.row];
-    [_inventoryListViewController setShippingSupplier:object];
-    [self.navigationController popViewControllerAnimated:YES];
+    
+    if (self.isAddToolTable) {
+        PFObject* object = [_supplierList objectAtIndex:indexPath.row];
+        [self.addToolController setSupplier:object];
+        [self.addToolController UpdateSupplier];
+        [self.navigationController popViewControllerAnimated:YES];
+        
+    } else {
+        PFObject* object = [_supplierList objectAtIndex:indexPath.row];
+        [_inventoryListViewController setShippingSupplier:object];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+
 }
 
 

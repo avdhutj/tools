@@ -8,9 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "InventoryListViewController.h"
+#import "AddToolTableViewController.h"
 
 @interface SupplierListViewController : UITableViewController
 
 @property (weak, nonatomic) InventoryListViewController* inventoryListViewController;
+
+@property (weak, nonatomic) AddToolTableViewController* addToolController;
+
+@property BOOL isAddToolTable;
 
 @end

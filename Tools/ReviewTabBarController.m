@@ -6,13 +6,13 @@
 //  Copyright (c) 2014 Fun. All rights reserved.
 //
 
-#import "SupplierTabBarController.h"
+#import "ReviewTabBarController.h"
 
-@interface SupplierTabBarController ()
+@interface ReviewTabBarController ()
 
 @end
 
-@implementation SupplierTabBarController
+@implementation ReviewTabBarController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -30,12 +30,6 @@
     UIImage *unSelectedSearchIcon = [UIImage imageNamed:@"searchUnSelected.png"];
     [targetTabBarItem1 setImage:[self imageWithImage:unSelectedSearchIcon scaledToSize:CGSizeMake(30, 30)]];
     [targetTabBarItem1 setSelectedImage:[self imageWithImage:selectedSearchIcon scaledToSize:CGSizeMake(30, 30)]];
-    //Inv
-    UITabBarItem *targetTabBarItem2 = [[tabBar items] objectAtIndex:2];
-    UIImage *selectedInvIcon = [UIImage imageNamed:@"InvSelected.png"];
-    UIImage *unInvSelectedImage = [UIImage imageNamed:@"InvUnSelected.png"];
-    [targetTabBarItem2 setImage:[self imageWithImage:unInvSelectedImage scaledToSize:CGSizeMake(30, 30)]];
-    [targetTabBarItem2 setSelectedImage:[self imageWithImage:selectedInvIcon scaledToSize:CGSizeMake(30, 30)]];
 }
 
 - (void)didReceiveMemoryWarning {

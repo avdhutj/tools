@@ -12,9 +12,11 @@
 #import "LoadView.h"
 #import "OEMTabViewController.h"
 #import "SupplierTabBarController.h"
+#import "ReviewTabBarController.h"
 
 #import "CameraViewController.h"
 #import "ToolListViewController.h"
+#import "SupplierInventoryList.h"
 
 @interface LoginViewController ()
 
@@ -94,8 +96,10 @@
 
                     [self setupOEMTabBarController];
                 }
-                else {
+                else if ([[user valueForKey:@"type"] isEqualToString:@"supplier"]) {
                     [self setupSupplierTabBarController];
+                } else {
+                    [self setupReviewTabBarController];
                 }
 
             }
@@ -111,8 +115,8 @@
     }
 }
 
--(void)setupSupplierTabBarController {
-    SupplierTabBarController* sTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SupplierTabBarController"];
+-(void)setupReviewTabBarController {
+    ReviewTabBarController* sTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ReviewTabBarController"];
     
     CameraViewController* vc1 = [self.storyboard instantiateViewControllerWithIdentifier:@"CameraViewController"];
     ToolListViewController* vc2 = [self.storyboard instantiateViewControllerWithIdentifier:@"ToolListViewController"];
@@ -121,6 +125,24 @@
     UINavigationController* nv2 = [[UINavigationController alloc] initWithRootViewController:vc2];
     
     [sTVC setViewControllers:[NSArray arrayWithObjects:nv1, nv2, nil]];
+    
+    [self presentViewController:sTVC animated:YES completion:^{
+    }];
+    
+}
+
+-(void)setupSupplierTabBarController {
+    SupplierTabBarController* sTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SupplierTabBarController"];
+    
+    CameraViewController* vc1 = [self.storyboard instantiateViewControllerWithIdentifier:@"CameraViewController"];
+    ToolListViewController* vc2 = [self.storyboard instantiateViewControllerWithIdentifier:@"ToolListViewController"];
+    SupplierInventoryList* vc3 = [self.storyboard instantiateViewControllerWithIdentifier:@"SupplierInventoryList"];
+    
+    UINavigationController* nv1 = [[UINavigationController alloc] initWithRootViewController:vc1];
+    UINavigationController* nv2 = [[UINavigationController alloc] initWithRootViewController:vc2];
+    UINavigationController* nv3 = [[UINavigationController alloc] initWithRootViewController:vc3];
+    
+    [sTVC setViewControllers:[NSArray arrayWithObjects:nv1, nv2, nv3, nil]];
     
     [self presentViewController:sTVC animated:YES completion:^{
     }];

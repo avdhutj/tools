@@ -13,6 +13,7 @@
 #import "TextFieldCell.h"
 #import "ToolTypeCell.h"
 #import "APPViewController.h"
+#import "SupplierListViewController.h"
 
 @interface AddToolTableViewController ()
 
@@ -38,7 +39,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
+    if (![[[PFUser currentUser] objectForKey:@"type"] isEqualToString:@"oem"] && ![[[PFUser currentUser] objectForKey:@"type"] isEqualToString:@"supplier"]) {
+        self.navigationItem.rightBarButtonItem.enabled = FALSE;
+    }
+    
+    if (![[[PFUser currentUser] objectForKey:@"type"] isEqualToString:@"oem"]) {
+        [self.ToolFlagSegControl removeFromSuperview];
+    }
+    
     if (self.controllerState == ATVC_ADD_TOOL || self.controllerState == ATVC_EDIT_TOOL) {
         [self setEditing:YES animated:NO];
     } else {
@@ -54,6 +63,8 @@
     
     if (self.controllerState == ATVC_ADD_TOOL) {
         
+        if ([[[PFUser currentUser] objectForKey:@"type"] isEqualToString:@"oem"]) {
+        
         NSDictionary *dict =  @{@"Supplier" : @[@"Supplier", @"Supplier Address",@"Phone Number"],
                                 @"Tool Details" : @[@"Tool ID", @"Weight", @"Tool Type",@"Tool Description"],
                                 @"Part Numbers" : @[@"New part number"]};
@@ -66,6 +77,20 @@
         [self.tableTitles addObject:@"Supplier"];
         
         self.AddedPartNumbers = [NSMutableArray arrayWithArray:@[@"new"]];
+        } else {
+            
+            NSDictionary *dict =  @{@"Tool Details" : @[@"Tool ID", @"Oem", @"Weight", @"Tool Type",@"Tool Description"],
+                                    @"Part Numbers" : @[@"New part number"]};
+            
+            self.partStausLookUp = [NSMutableDictionary dictionaryWithObject:@"Status" forKey:@"Part Number"];
+            self.items = [NSMutableDictionary dictionaryWithDictionary:dict];
+            self.tableTitles = [[NSMutableArray alloc] initWithCapacity:[dict count]];
+            [self.tableTitles addObject:@"Tool Details"];
+            [self.tableTitles addObject:@"Part Numbers"];
+            
+            self.AddedPartNumbers = [NSMutableArray arrayWithArray:@[@"new"]];
+            
+        }
         
         [self.tableView reloadData];
         
@@ -145,7 +170,7 @@
             [self SetUpNotificationCenterPartNumber:PartTextCell];
             PartTextCell.ArrayIndex = indexPath.row;
             
-            if (indexPath.row == self.AddedPartNumbers.count) {
+            if (indexPath.row == self.AddedPartNumbers.count-1) {
                 PartTextCell.TextField.textColor = [UIColor lightGrayColor];
             }
             
@@ -213,7 +238,14 @@
         
     } else {
         if (self.controllerState != ATVC_VIEW_TOOL && ![sectionTitle  isEqual: @"Supplier"]) {
-            if(indexPath.section == 0 && indexPath.row ==1) {
+            
+            int toolDetailRowsAdded = 0;
+            
+            if (![[[PFUser currentUser] objectForKey:@"type"]isEqualToString:@"oem"]) {
+                toolDetailRowsAdded = 1;
+            }
+            
+            if(indexPath.section == 0 && indexPath.row ==1 + toolDetailRowsAdded) {
                 //Weight in Edit Mode
                 TextFieldCell *textCell = [tableView dequeueReusableCellWithIdentifier:@"NumberTextCell" forIndexPath:indexPath];
                 if (self.controllerState == ATVC_ADD_TOOL) {
@@ -228,7 +260,7 @@
                 textCell.parseKeyIndex = indexPath.row;
                 [self SetUpNotificationCenterPartNumber:textCell];
                 return textCell;
-            } else if(indexPath.section == 0 && indexPath.row ==2) {
+            } else if([sectionTitle  isEqualToString: @"Tool Details"] && indexPath.row ==2 + toolDetailRowsAdded) {
                 //Tool Type in Edit Mode
                 ToolTypeCell *textCell = [tableView dequeueReusableCellWithIdentifier:@"ToolTypeInput" forIndexPath:indexPath];
                 if ([item isEqualToString:@"Stamping die"]) {
@@ -312,51 +344,68 @@
                 self.toolStatus = @"Obsolete";
             }
             
-            //Set Up for the  cells in the table
-            
-            //TODO: Mazin check this if this is true
             NSDictionary *dict;
-            if (self.Supplier) {
-                dict =  @{@"Supplier" : @[[self.Supplier objectForKey:@"supplier"], [self.Supplier objectForKey:@"address"], [self.Supplier objectForKey:@"phoneNumber"]],
-                          @"Tool Details" : @[[self.exam objectForKey:@"toolId"], [NSString stringWithFormat:@"%@",[self.exam objectForKey:@"weight"]], [self.exam objectForKey:@"toolType"],[self.exam objectForKey:@"toolDescription"]]};
-            }
-            else {
-                dict =  @{@"Tool Details" : @[[self.exam objectForKey:@"toolId"], [NSString stringWithFormat:@"%@",[self.exam objectForKey:@"weight"]], [self.exam objectForKey:@"toolType"],[self.exam objectForKey:@"toolDescription"]]};
+
+            if (![[[PFUser currentUser] objectForKey:@"type"] isEqualToString:@"oem"]) {
+                dict =  @{@"Tool Details" : @[[self.exam objectForKey:@"toolId"], [self.exam objectForKey:@"oem"],[NSString stringWithFormat:@"%@",[self.exam objectForKey:@"weight"]], [self.exam objectForKey:@"toolType"],[self.exam objectForKey:@"toolDescription"]]};
+                self.tableTitles = [[NSMutableArray alloc] initWithCapacity:[dict count]];
+                [self.tableTitles addObject:@"Tool Details"];
+                [self.tableTitles addObject:@"Part Numbers"];
+                self.items = [NSMutableDictionary dictionaryWithDictionary:dict];
+            } else {
+                
+                //TODO: Mazin check this if this is true
+                
+                if (self.Supplier) {
+                    dict =  @{@"Supplier" : @[[self.Supplier objectForKey:@"supplier"], [self.Supplier objectForKey:@"address"], [self.Supplier objectForKey:@"phoneNumber"]],
+                              @"Tool Details" : @[[self.exam objectForKey:@"toolId"], [NSString stringWithFormat:@"%@",[self.exam objectForKey:@"weight"]], [self.exam objectForKey:@"toolType"],[self.exam objectForKey:@"toolDescription"]]};
+                    
+                    self.items = [NSMutableDictionary dictionaryWithDictionary:dict];
+                    
+                } else {
+                    dict =  @{@"Tool Details" : @[[self.exam objectForKey:@"toolId"], [NSString stringWithFormat:@"%@",[self.exam objectForKey:@"weight"]], [self.exam objectForKey:@"toolType"],[self.exam objectForKey:@"toolDescription"]]};
+                    
+                    self.items = [NSMutableDictionary dictionaryWithDictionary:dict];
+                }
+                    self.ToolFlagSegControl.selectedSegmentIndex = [[self.exam objectForKey:@"flag"] integerValue];
+                    self.tableTitles = [[NSMutableArray alloc] initWithCapacity:[dict count]];
+                    [self.tableTitles addObject:@"Tool Details"];
+                    [self.tableTitles addObject:@"Part Numbers"];
+                    [self.tableTitles addObject:@"Supplier"];
             }
             
-            self.ToolFlagSegControl.selectedSegmentIndex = [[self.exam objectForKey:@"flag"] integerValue];
-            
-            self.items = [NSMutableDictionary dictionaryWithDictionary:dict];
             [self.items setObject:self.partNumbers forKey:@"Part Numbers"];
             self.AddedPartNumbers = [NSMutableArray arrayWithArray:partIDs];
             
-            self.tableTitles = [[NSMutableArray alloc] initWithCapacity:[dict count]];
-            [self.tableTitles addObject:@"Tool Details"];
-            [self.tableTitles addObject:@"Part Numbers"];
-            [self.tableTitles addObject:@"Supplier"];
-            
-            
-            
             [self.tableView reloadData];
-            
             
         } else {
             NSLog(@"%@", [error userInfo]);
         }
     }];
-    NSString* supplierId = [self.exam valueForKey:@"supplier"];
-    if (supplierId) {
-        PFObject* supplier = [PFObject objectWithoutDataWithClassName:@"SupplierList" objectId:supplierId];
-        [supplier fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-            if (!error) {
-                self.Supplier = supplier;
-                NSArray* sup = [NSArray arrayWithObjects:[self.Supplier objectForKey:@"supplier"], [self.Supplier objectForKey:@"address"], [self.Supplier objectForKey:@"phoneNumber"], nil];
-                [self.items setObject:sup forKey:@"Supplier"];
-                [self.tableView reloadData];
-            }
+    if ([[[PFUser currentUser] objectForKey:@"type"] isEqualToString:@"oem"]) {
+        
+        NSString* supplierId = [self.exam valueForKey:@"supplier"];
+        
+        if (supplierId) {
+            PFObject* supplier = [PFObject objectWithoutDataWithClassName:@"SupplierList" objectId:supplierId];
+            [supplier fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+                if (!error) {
+                    self.Supplier = supplier;
+                    NSArray* sup = [NSArray arrayWithObjects:[self.Supplier objectForKey:@"supplier"], [self.Supplier objectForKey:@"address"], [self.Supplier objectForKey:@"phoneNumber"], nil];
+                    [self.items setObject:sup forKey:@"Supplier"];
+                    [self.tableView reloadData];
+                }
+                
+            }];
+        } else {
+            NSArray* sup = [NSArray arrayWithObjects:@"Add supplier", @"Supplier address", @"Supplier phone", nil];
+            [self.items setObject:sup forKey:@"Supplier"];
             
-        }];
+            [self.tableView reloadData];
+        }
     }
+    
 }
 
 #pragma mark - Table Actions
@@ -549,14 +598,25 @@
     [self.tableView reloadData];
 }
 
-/*
+-(void)UpdateSupplier{
+
+    NSArray* sup = [NSArray arrayWithObjects:[self.Supplier objectForKey:@"supplier"], [self.Supplier objectForKey:@"address"], [self.Supplier objectForKey:@"phoneNumber"], nil];
+    [self.items setObject:sup forKey:@"Supplier"];
+    [self.tableView reloadData];
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{   NSLog(@"Row Selected: %@",indexPath);
-    PartNoCell * cell = (PartNoCell *)[tableView cellForRowAtIndexPath:indexPath];
-    self.selectedTextFeild = cell.TextField; // cell.tf is a UITextField property defined on MyCell
-    [self.selectedTextFeild becomeFirstResponder];
-}*/
+{
+    NSString *sectionTitle = [self.tableTitles objectAtIndex:indexPath.section];
+    //&& self.controllerState == ATVC_ADD_TOOL
+    if ([sectionTitle isEqualToString:@"Supplier"] && indexPath.row == 0){
+        SupplierListViewController* sLVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SupplierListViewController"];
+        [sLVC setAddToolController:self];
+        sLVC.isAddToolTable = TRUE;
+        [self.navigationController pushViewController:sLVC animated:YES];
+    }
+    
+}
 
 #pragma mark - Story Board
 
