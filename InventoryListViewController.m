@@ -306,7 +306,7 @@
             [[[UIAlertView alloc] initWithTitle:@"Reciept" message:@"Recieved tool from Supplier" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil] show];
             PFObject* toolObject = [objects objectAtIndex:0];
             [toolObject setObject:_userLocation forKey:@"toolGeoPoint"];
-            [toolObject saveEventually];
+            [toolObject saveInBackground];
         }
     }];
     
@@ -375,6 +375,16 @@
     // Shipping alert
     if ([alertView tag] == 1) {
         if (buttonIndex == 1) {
+            PFQuery* toolQuery = [PFQuery queryWithClassName:@"Tools"];
+            [toolQuery whereKey:@"toolId" equalTo:[_selectedObject valueForKey:@"toolId"]];
+            [toolQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                if ([objects count] != 0) {
+                    PFObject* toolObject = [objects objectAtIndex:0];
+                    [toolObject setValue:[_shippingSupplier objectId] forKey:@"supplier"];
+                    [toolObject saveInBackground];
+                }
+                
+            }];
             [_doneSet addObject:[_selectedObject valueForKey:@"toolId"]];
             [self.tableView reloadData];
         }
