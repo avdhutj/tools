@@ -54,10 +54,10 @@
     [query orderByDescending:@"createdAt"];
     
     //Supplier for Add tool / detailed tool view controller
-    PFQuery *querySupplier = [PFQuery queryWithClassName:@"SupplierList"];
-    [querySupplier findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error){
-        self.Supplier = [querySupplier getObjectWithId:@"Pj9iWujEKk"];
-    }];
+//    PFQuery *querySupplier = [PFQuery queryWithClassName:@"SupplierList"];
+//    [querySupplier findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error){
+//        self.Supplier = [querySupplier getObjectWithId:@"Pj9iWujEKk"];
+//    }];
     
     return query;
 }
