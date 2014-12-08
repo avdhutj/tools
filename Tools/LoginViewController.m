@@ -16,7 +16,7 @@
 
 #import "CameraViewController.h"
 #import "ToolListViewController.h"
-#import "SupplierInventoryList.h"
+#import "SupplierInventoryListViewController.h"
 
 @interface LoginViewController ()
 
@@ -136,7 +136,7 @@
     
     CameraViewController* vc1 = [self.storyboard instantiateViewControllerWithIdentifier:@"CameraViewController"];
     ToolListViewController* vc2 = [self.storyboard instantiateViewControllerWithIdentifier:@"ToolListViewController"];
-    SupplierInventoryList* vc3 = [self.storyboard instantiateViewControllerWithIdentifier:@"SupplierInventoryList"];
+    SupplierInventoryListViewController* vc3 = [self.storyboard instantiateViewControllerWithIdentifier:@"SupplierInventoryListViewController"];
     
     UINavigationController* nv1 = [[UINavigationController alloc] initWithRootViewController:vc1];
     UINavigationController* nv2 = [[UINavigationController alloc] initWithRootViewController:vc2];

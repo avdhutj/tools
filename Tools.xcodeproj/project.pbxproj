@@ -52,6 +52,7 @@
 		4AF22BFF1A1EBAEF00E1C317 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AF22BFB1A1EBAEF00E1C317 /* CoreVideo.framework */; };
 		4AF22C001A1EBAEF00E1C317 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AF22BFC1A1EBAEF00E1C317 /* libiconv.dylib */; };
 		4AF2641D1A213CF7002D0463 /* LoadView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4AF2641C1A213CF7002D0463 /* LoadView.xib */; };
+		4AF5AB8B1A3544EE00D945D4 /* SupplierInventoryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AF5AB8A1A3544EE00D945D4 /* SupplierInventoryListViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -134,6 +135,8 @@
 		4AF2641C1A213CF7002D0463 /* LoadView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadView.xib; sourceTree = "<group>"; };
 		4AF264241A213F8C002D0463 /* LoadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadView.h; sourceTree = "<group>"; };
 		4AF264251A213F8C002D0463 /* LoadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadView.m; sourceTree = "<group>"; };
+		4AF5AB891A3544EE00D945D4 /* SupplierInventoryListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SupplierInventoryListViewController.h; sourceTree = "<group>"; };
+		4AF5AB8A1A3544EE00D945D4 /* SupplierInventoryListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SupplierInventoryListViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -296,6 +299,8 @@
 				1D4B6C291A342B2200EEA535 /* ReviewTabBarController.m */,
 				4A39E1D31A2F72EB0082D390 /* SupplierTabBarController.h */,
 				4A39E1D41A2F72EB0082D390 /* SupplierTabBarController.m */,
+				4AF5AB891A3544EE00D945D4 /* SupplierInventoryListViewController.h */,
+				4AF5AB8A1A3544EE00D945D4 /* SupplierInventoryListViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -418,6 +423,7 @@
 				1DCCBCB21A2AFC950040369E /* TextFieldCell.m in Sources */,
 				4A39E1D51A2F72EB0082D390 /* SupplierTabBarController.m in Sources */,
 				4A7DFE7C1A25854D0046B3AE /* LoadView.m in Sources */,
+				4AF5AB8B1A3544EE00D945D4 /* SupplierInventoryListViewController.m in Sources */,
 				4A02420D1A1DA90B00498E0B /* LoginViewController.m in Sources */,
 				4A9172241A1DBA6C006E5C8A /* OEMTabViewController.m in Sources */,
 				1DEF9BC91A3267A500FC2995 /* APPViewController.m in Sources */,
