@@ -32,8 +32,7 @@
     NSMutableArray* toolCenters = [[NSMutableArray alloc] init];
     NSMutableArray* toolCenterCount = [[NSMutableArray alloc] init];
     
-    NSMutableDictionary* toolCenterDict = [[NSMutableDictionary alloc] init];
-    
+//    NSMutableDictionary* toolCenterDict = [[NSMutableDictionary alloc] init];
 //    _toolsDict = [[NSMutableDictionary alloc] init];
 //    _supplierDict = [[NSMutableDictionary alloc] init];
     
@@ -123,11 +122,7 @@
     }
     
 }
-- (IBAction)ZoomBtnClicked:(id)sender {
-    MKUserLocation *userLocation = _MapView.userLocation;
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(userLocation.location.coordinate, 20, 20);
-    [_MapView setRegion:region animated:NO];
-}
+
 - (IBAction)TypeBtnClicked:(id)sender {
     if (_MapView.mapType == MKMapTypeStandard)
         _MapView.mapType = MKMapTypeSatellite;
