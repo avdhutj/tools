@@ -57,6 +57,10 @@
 
 -(void)loadData {
     PFQuery* query = [PFQuery queryWithClassName:@"Tools"];
+    if ([[[PFUser currentUser] valueForKey:@"type"] isEqualToString:@"supplier"] ||
+        [[[PFUser currentUser] valueForKey:@"type"] isEqualToString:@"review"]) {
+        [query whereKey:@"supplier" equalTo:[[PFUser currentUser] valueForKey:@"supplier"]];
+    }
     LoadView* lView = [[[NSBundle mainBundle] loadNibNamed:@"LoadView" owner:nil options:nil] lastObject];
     [self.view addSubview:lView];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
