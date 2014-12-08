@@ -147,6 +147,14 @@
     cameraVC.tool = self.exam;
     [self.navigationController pushViewController:cameraVC animated:YES];
 }
+
+-(void)handleSelectSupplier:(UITapGestureRecognizer *)recognizer {
+    SupplierListViewController* sLVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SupplierListViewController"];
+    [sLVC setAddToolController:self];
+    sLVC.isAddToolTable = TRUE;
+    [self.navigationController pushViewController:sLVC animated:YES];
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     // Configure the cell...
@@ -173,20 +181,6 @@
             if (indexPath.row == self.AddedPartNumbers.count-1) {
                 PartTextCell.TextField.textColor = [UIColor lightGrayColor];
             }
-            
-//            if (indexPath.row == [self.AddedPartNumbers count]) {
-////                [self addPartNumberRow];
-//            }
-            
-//            if (indexPath.row == [self.AddedPartNumbers count] && ![item isEqualToString:@"New part number"]) {
-//                //Add part no
-//                NSLog(@"In Add Part No with Parts: %@ item: %@ index.row: %i items: %@",self.AddedPartNumbers, item, indexPath.row, self.items);
-//                [self addPartNumberRow];
-//            }
-            
-//            if (indexPath.row == [[self.items objectForKey:@"Part Numbers"] count] - 1) {
-//                PartTextCell.TextField.textColor =[UIColor lightGrayColor];
-//            }
             
             return PartTextCell;
 
@@ -215,7 +209,14 @@
             [textCell setSelectionStyle:UITableViewCellSelectionStyleNone];
             [self SetUpNotificationCenterPartNumber:textCell];
             return textCell;
-        }  else {
+        }  else if (self.controllerState != ATVC_VIEW_TOOL && [sectionTitle  isEqual: @"Supplier"]) {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"supplierAddCell" forIndexPath:indexPath];
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSelectSupplier:)];
+            cell.textLabel.text = item;
+            cell.userInteractionEnabled = YES;
+            [cell addGestureRecognizer:tap];
+            return cell;
+        } else {
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellToolId" forIndexPath:indexPath];
             cell.textLabel.text = item;
             if ([sectionTitle isEqualToString:@"Tool Details"]){
@@ -607,14 +608,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *sectionTitle = [self.tableTitles objectAtIndex:indexPath.section];
-    //&& self.controllerState == ATVC_ADD_TOOL
-    if ([sectionTitle isEqualToString:@"Supplier"] && indexPath.row == 0){
-        SupplierListViewController* sLVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SupplierListViewController"];
-        [sLVC setAddToolController:self];
-        sLVC.isAddToolTable = TRUE;
-        [self.navigationController pushViewController:sLVC animated:YES];
-    }
+    //NSLog(@"Cell Selected");
     
 }
 

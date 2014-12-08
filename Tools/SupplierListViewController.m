@@ -73,7 +73,14 @@
         [self.addToolController UpdateSupplier];
         [self.navigationController popViewControllerAnimated:YES];
         
-    } else {
+    } else if (self.isToolList){
+        PFObject* object = [_supplierList objectAtIndex:indexPath.row];
+        [self.ToolListVC setSelectedSupplier:[object objectId]];
+        [self.ToolListVC UpdateSupplier];
+        [self.navigationController popViewControllerAnimated:YES];
+        
+    }
+    else {
         PFObject* object = [_supplierList objectAtIndex:indexPath.row];
         [_inventoryListViewController setShippingSupplier:object];
         [self.navigationController popViewControllerAnimated:YES];
