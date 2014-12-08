@@ -76,7 +76,7 @@
     } else if (self.isToolList){
         NSLog(@"In send bacl to tool list");
         PFObject* object = [_supplierList objectAtIndex:indexPath.row];
-        [self.ToolListVC setSelectedSupplier:[object objectId]];
+        [self.ToolListVC setSelectedSupplier:object];
         [self.ToolListVC UpdateSupplier];
         [self.navigationController popViewControllerAnimated:YES];
         

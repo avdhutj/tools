@@ -10,11 +10,9 @@
 #import <Parse/Parse.h>
 #import <ParseUI/ParseUI.h>
 
-@interface ToolListViewController : PFQueryTableViewController
+@interface ToolListViewController : UITableViewController
 
-@property (strong, nonatomic) PFObject *Supplier;
-
-@property (strong, nonatomic) NSString *selectedSupplier;
+@property (strong, nonatomic) PFObject *selectedSupplier;
 
 -(void)UpdateSupplier;
 

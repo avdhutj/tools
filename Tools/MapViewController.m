@@ -149,6 +149,10 @@
                 view.pinColor = MKPinAnnotationColorGreen;
                 return view;
             }
+            else {
+                view.pinColor = MKPinAnnotationColorGreen;
+                return view;
+            }
         }
         if ([titleString containsString:@"Supplier"]) {
             MKPinAnnotationView* view = (MKPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:@"SupplierPinView"];

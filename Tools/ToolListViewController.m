@@ -12,55 +12,102 @@
 #import "MapViewController.h"
 #import "SupplierListViewController.h"
 
+#import "LoadView.h"
+
 @interface ToolListViewController ()
+@property (strong, nonatomic) NSMutableArray* allToolObjects;
+@property (strong, nonatomic) NSMutableArray* supplierToolObjects;
 
 @end
 
-@implementation ToolListViewController {
-    NSArray *searchResults;
-}
+@implementation ToolListViewController
 
-- (id)initWithCoder:(NSCoder *)bCoder {
-    self = [super initWithCoder:bCoder];
-    if (self) {
-        
-        if ([[[PFUser currentUser] objectForKey:@"type"] isEqualToString:@"oem"]) {
-            NSLog(@"here with selected supplier: %@",self.selectedSupplier);
-            self.selectedSupplier = @"All";
-            UIBarButtonItem *barBtnSelectSupplier = [[UIBarButtonItem alloc] initWithTitle:@"Select Supplier" style:UIBarButtonItemStyleDone target:self action:@selector(handleSelectSupplier:)];
-            self.navigationItem.leftBarButtonItem = barBtnSelectSupplier;
-        }
-        self.parseClassName = @"Tools";
-        self.pullToRefreshEnabled = YES;
-        self.paginationEnabled = YES;
-        self.objectsPerPage = 20;
-        
+
+//- (id)initWithCoder:(NSCoder *)bCoder {
+//    self = [super initWithCoder:bCoder];
+//    if (self) {
+//        
+//        if ([[[PFUser currentUser] objectForKey:@"type"] isEqualToString:@"oem"]) {
+//            NSLog(@"here with selected supplier: %@",self.selectedSupplier);
+//            self.selectedSupplier = @"All";
+//            UIBarButtonItem *barBtnSelectSupplier = [[UIBarButtonItem alloc] initWithTitle:@"Select Supplier" style:UIBarButtonItemStyleDone target:self action:@selector(handleSelectSupplier:)];
+//            self.navigationItem.leftBarButtonItem = barBtnSelectSupplier;
+//        }
+//        self.parseClassName = @"Tools";
+//        self.pullToRefreshEnabled = YES;
+//        self.paginationEnabled = YES;
+//        self.objectsPerPage = 20;
+//        
+//    }
+//    return self;
+//}
+
+-(void)viewDidLoad {
+    [super viewDidLoad];
+    if ([[[PFUser currentUser] objectForKey:@"type"] isEqualToString:@"oem"]) {
+        UIBarButtonItem *barBtnSelectSupplier = [[UIBarButtonItem alloc] initWithTitle:@"Select Supplier" style:UIBarButtonItemStyleDone target:self action:@selector(handleSelectSupplier:)];
+        self.navigationItem.leftBarButtonItem = barBtnSelectSupplier;
     }
-    return self;
+    _allToolObjects = [[NSMutableArray alloc] init];
+    _supplierToolObjects = [[NSMutableArray alloc] init];
+    _selectedSupplier = nil;
+    
+    [self loadData];
 }
 
--(void)handleSelectSupplier:(UITapGestureRecognizer *)recognizer {
-    SupplierListViewController* sLVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SupplierListViewController"];
-    [sLVC setToolListVC:self];
-    sLVC.isToolList = TRUE;
-    [self.navigationController pushViewController:sLVC animated:YES];
+-(void)loadData {
+    PFQuery* query = [PFQuery queryWithClassName:@"Tools"];
+    LoadView* lView = [[[NSBundle mainBundle] loadNibNamed:@"LoadView" owner:nil options:nil] lastObject];
+    [self.view addSubview:lView];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        [lView removeFromSuperview];
+        [_allToolObjects addObjectsFromArray:objects];
+        [self.tableView reloadData];
+    }];
+
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    // Return the number of sections.
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (_selectedSupplier)
+        return [_supplierToolObjects count];
+    else
+        return [_allToolObjects count];
 }
 
 -(void)UpdateSupplier {
-
-    [self.tableView reloadData];
-    [self queryForTable];
+    if (_selectedSupplier) {
+        self.navigationItem.leftBarButtonItem.title = @"Clear Supplier";
+        [_supplierToolObjects removeAllObjects];
+        for (PFObject* object in _allToolObjects) {
+            if ([[_selectedSupplier objectId] isEqualToString:[object valueForKey:@"supplier"]]) {
+                [_supplierToolObjects addObject:object];
+            }
+        }
+        [self.tableView reloadData];
+    }
 }
 
-- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
-{
-    NSPredicate *resultPredicate = [NSPredicate
-                                    predicateWithFormat:@"SELF contains[cd] %@",
-                                    searchText];
-    
-    searchResults = [self.objects filteredArrayUsingPredicate:resultPredicate];
+-(void)handleSelectSupplier:(UITapGestureRecognizer *)recognizer {
+    if (_selectedSupplier) {
+        _selectedSupplier = nil;
+        self.navigationItem.leftBarButtonItem.title = @"Select Supplier";
+        [self.tableView reloadData];
+    }
+    else {
+        SupplierListViewController* sLVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SupplierListViewController"];
+        [sLVC setToolListVC:self];
+        sLVC.isToolList = TRUE;
+        [self.navigationController pushViewController:sLVC animated:YES];
+    }
 }
 
+
+/*
 - (PFQuery *)queryForTable {
     PFQuery *query = [PFQuery queryWithClassName:self.parseClassName];
      //&& ![[[PFUser currentUser] objectForKey:@"type"] isEqualToString:@"oem"]
@@ -92,7 +139,20 @@
     
     return query;
 }
+ */
 
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ToolCell" forIndexPath:indexPath];
+    if (_selectedSupplier) {
+        cell.textLabel.text = [[_supplierToolObjects objectAtIndex:indexPath.row] valueForKey:@"toolId"];
+    }
+    else {
+        cell.textLabel.text = [[_allToolObjects objectAtIndex:indexPath.row] valueForKey:@"toolId"];
+    }
+    return cell;
+}
+
+/*
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
                         object:(PFObject *)object {
@@ -108,7 +168,7 @@
     
     return cell;
 }
-
+*/
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -116,29 +176,32 @@
     // Pass the selected object to the new view controller.
     if ([segue.identifier isEqualToString:@"displayDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        PFObject *object = [self.objects objectAtIndex:indexPath.row];
-    
-        // Set destination view controller to DetailViewController to avoid the NavigationViewController in the middle
-//        UINavigationController *nav = [segue destinationViewController];
-//        ToolDetailViewController *detailViewController = (ToolDetailViewController *) nav.topViewController;
-        
-
-//        UINavigationController *nav = [segue destinationViewController];
-//        AddToolTableViewController *detailViewController = (AddToolTableViewController *)([nav viewControllers][0]);
+        PFObject* object;
+        if (_selectedSupplier) {
+            object = [self.supplierToolObjects objectAtIndex:indexPath.row];
+        }
+        else {
+            object = [self.allToolObjects objectAtIndex:indexPath.row];
+        }
         
         AddToolTableViewController *detailViewController = [segue destinationViewController];
-        
+        if (_selectedSupplier) {
+            detailViewController.Supplier = _selectedSupplier;
+        }
         detailViewController.exam = object;
-        detailViewController.Supplier = self.Supplier;
         [detailViewController setControllerState:ATVC_VIEW_TOOL];
-        
-        //[self.navigationController pushViewController:detailViewController animated:YES];
-
     }
     else if ([segue.identifier isEqualToString:@"ToolListMapViewSegue"]) {
         MapViewController* mVC = [segue destinationViewController];
-        [mVC setControllerState:MV_SHOW_TOOLS];
-        [mVC setToolObjects:self.objects];
+        if (_selectedSupplier) {
+            [mVC setControllerState:MV_SHOW_TOOLS_AND_SUPPLIERS];
+            [mVC setToolObjects:_supplierToolObjects];
+            [mVC setSupplierObjects:[NSArray arrayWithObject:_selectedSupplier]];
+        }
+        else {
+            [mVC setControllerState:MV_SHOW_TOOLS];
+            [mVC setToolObjects:_allToolObjects];
+        }
     }
 }
 
