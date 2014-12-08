@@ -274,8 +274,8 @@
 			children = (
 				1DEF9BC61A3267A500FC2995 /* APPViewController.h */,
 				1DEF9BC71A3267A500FC2995 /* APPViewController.m */,
-				4A39E1D11A2D72890082D390 /* SupplierListViewController.m */,
 				4A39E1D01A2D72890082D390 /* SupplierListViewController.h */,
+				4A39E1D11A2D72890082D390 /* SupplierListViewController.m */,
 				2E27C4211A28DA2C001204FB /* InventoryListViewController.h */,
 				2E27C4221A28DA2C001204FB /* InventoryListViewController.m */,
 				1DCCBCA71A29992F0040369E /* MapViewController.h */,

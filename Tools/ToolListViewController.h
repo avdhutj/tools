@@ -14,4 +14,8 @@
 
 @property (strong, nonatomic) PFObject *Supplier;
 
+@property (strong, nonatomic) NSString *selectedSupplier;
+
+-(void)UpdateSupplier;
+
 @end

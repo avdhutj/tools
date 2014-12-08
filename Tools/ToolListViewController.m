@@ -10,6 +10,7 @@
 #import "ToolDetailViewController.h"
 #import "AddToolTableViewController.h"
 #import "MapViewController.h"
+#import "SupplierListViewController.h"
 
 @interface ToolListViewController ()
 
@@ -23,6 +24,11 @@
     self = [super initWithCoder:bCoder];
     if (self) {
         
+        if ([[[PFUser currentUser] objectForKey:@"type"] isEqualToString:@"oem"]) {
+            self.selectedSupplier = @"All";
+            UIBarButtonItem *barBtnSelectSupplier = [[UIBarButtonItem alloc] initWithTitle:@"Select Supplier" style:UIBarButtonItemStyleDone target:self action:@selector(handleSelectSupplier:)];
+            self.navigationItem.leftBarButtonItem = barBtnSelectSupplier;
+        }
         self.parseClassName = @"Tools";
         self.pullToRefreshEnabled = YES;
         self.paginationEnabled = YES;
@@ -30,6 +36,17 @@
         
     }
     return self;
+}
+
+-(void)handleSelectSupplier:(UITapGestureRecognizer *)recognizer {
+    SupplierListViewController* sLVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SupplierListViewController"];
+    [sLVC setToolListVC:self];
+    sLVC.isToolList = TRUE;
+    [self.navigationController pushViewController:sLVC animated:YES];
+}
+
+-(void)UpdateSupplier {
+    NSLog(@"In updated supplier: %@",self.selectedSupplier);
 }
 
 - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
@@ -43,6 +60,9 @@
 
 - (PFQuery *)queryForTable {
     PFQuery *query = [PFQuery queryWithClassName:self.parseClassName];
+    if (![self.selectedSupplier isEqualToString:@"All"]) {
+            [query whereKey:@"supplier" equalTo:[[PFUser currentUser] objectForKey:@"supplier"]];
+    }
     
     // If no objects are loaded in memory, we look to the cache
     // first to fill the table and then subsequently do a query
