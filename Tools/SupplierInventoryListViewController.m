@@ -74,6 +74,7 @@
 
 -(void)loadData {
     PFQuery* query = [PFQuery queryWithClassName:@"Tools"];
+    [query whereKey:@"supplier" equalTo:[[PFUser currentUser] objectForKey:@"supplier"]];
     LoadView* lView = [[[NSBundle mainBundle] loadNibNamed:@"LoadView" owner:nil options:nil] lastObject];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         [lView removeFromSuperview];

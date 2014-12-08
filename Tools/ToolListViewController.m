@@ -26,9 +26,7 @@
         
         if ([[[PFUser currentUser] objectForKey:@"type"] isEqualToString:@"oem"]) {
             NSLog(@"here with selected supplier: %@",self.selectedSupplier);
-            if ([self.selectedSupplier isEqualToString:@""]) {
-                self.selectedSupplier = @"All";
-            }
+            self.selectedSupplier = @"All";
             UIBarButtonItem *barBtnSelectSupplier = [[UIBarButtonItem alloc] initWithTitle:@"Select Supplier" style:UIBarButtonItemStyleDone target:self action:@selector(handleSelectSupplier:)];
             self.navigationItem.leftBarButtonItem = barBtnSelectSupplier;
         }
@@ -49,8 +47,9 @@
 }
 
 -(void)UpdateSupplier {
-    NSLog(@"In updated supplier: %@",self.selectedSupplier);
+
     [self.tableView reloadData];
+    [self queryForTable];
 }
 
 - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
@@ -64,10 +63,18 @@
 
 - (PFQuery *)queryForTable {
     PFQuery *query = [PFQuery queryWithClassName:self.parseClassName];
-    if (![self.selectedSupplier isEqualToString:@"All"] && ![[[PFUser currentUser] objectForKey:@"type"] isEqualToString:@"oem"]) {
+     //&& ![[[PFUser currentUser] objectForKey:@"type"] isEqualToString:@"oem"]
+    if (![self.selectedSupplier isEqualToString:@"All"]) {
+        if([[[PFUser currentUser] objectForKey:@"type"] isEqualToString:@"oem"]){
+            NSLog(@"In updated supplier: %@",self.selectedSupplier);
+            [query whereKey:@"supplier" equalTo:self.selectedSupplier];
+        } else {
             [query whereKey:@"supplier" equalTo:[[PFUser currentUser] objectForKey:@"supplier"]];
+        }
     }
     
+    
+    NSLog(@"%@",self.objects);
     // If no objects are loaded in memory, we look to the cache
     // first to fill the table and then subsequently do a query
     // against the network.

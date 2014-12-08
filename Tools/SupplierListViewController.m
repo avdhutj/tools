@@ -74,6 +74,7 @@
         [self.navigationController popViewControllerAnimated:YES];
         
     } else if (self.isToolList){
+        NSLog(@"In send bacl to tool list");
         PFObject* object = [_supplierList objectAtIndex:indexPath.row];
         [self.ToolListVC setSelectedSupplier:[object objectId]];
         [self.ToolListVC UpdateSupplier];
@@ -81,6 +82,7 @@
         
     }
     else {
+        NSLog(@"else block - In tool list");
         PFObject* object = [_supplierList objectAtIndex:indexPath.row];
         [_inventoryListViewController setShippingSupplier:object];
         [self.navigationController popViewControllerAnimated:YES];

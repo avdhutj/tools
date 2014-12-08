@@ -40,12 +40,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    if (![[[PFUser currentUser] objectForKey:@"type"] isEqualToString:@"oem"] && ![[[PFUser currentUser] objectForKey:@"type"] isEqualToString:@"supplier"]) {
+    if ([[[PFUser currentUser] objectForKey:@"type"] isEqualToString:@"review"]){
         self.navigationItem.rightBarButtonItem.enabled = FALSE;
     }
     
     if (![[[PFUser currentUser] objectForKey:@"type"] isEqualToString:@"oem"]) {
         [self.ToolFlagSegControl removeFromSuperview];
+    } else if (self.controllerState == ATVC_VIEW_TOOL) {
+        self.ToolFlagSegControl.enabled = FALSE;
     }
     
     if (self.controllerState == ATVC_ADD_TOOL || self.controllerState == ATVC_EDIT_TOOL) {
@@ -65,7 +67,7 @@
         
         if ([[[PFUser currentUser] objectForKey:@"type"] isEqualToString:@"oem"]) {
         
-        NSDictionary *dict =  @{@"Supplier" : @[@"Supplier", @"Supplier Address",@"Phone Number"],
+        NSDictionary *dict =  @{@"Supplier" : @[@"Add Supplier"],
                                 @"Tool Details" : @[@"Tool ID", @"Weight", @"Tool Type",@"Tool Description"],
                                 @"Part Numbers" : @[@"New part number"]};
         
@@ -150,14 +152,16 @@
 
 -(void)handleSelectSupplier:(UITapGestureRecognizer *)recognizer {
     SupplierListViewController* sLVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SupplierListViewController"];
-    [sLVC setAddToolController:self];
     sLVC.isAddToolTable = TRUE;
+    [sLVC setAddToolController:self];
     [self.navigationController pushViewController:sLVC animated:YES];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     // Configure the cell...
+    
+    NSLog(@"items in rows for indexpath: %@",self.items);
     
     NSString *sectionTitle = [self.tableTitles objectAtIndex:indexPath.section];
     NSArray *sectionitems = [self.items objectForKey:sectionTitle];
@@ -210,6 +214,7 @@
             [self SetUpNotificationCenterPartNumber:textCell];
             return textCell;
         }  else if (self.controllerState != ATVC_VIEW_TOOL && [sectionTitle  isEqual: @"Supplier"]) {
+            NSLog(@"In create add supplier cell");
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"supplierAddCell" forIndexPath:indexPath];
             UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSelectSupplier:)];
             cell.textLabel.text = item;
@@ -217,24 +222,37 @@
             [cell addGestureRecognizer:tap];
             return cell;
         } else {
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellToolId" forIndexPath:indexPath];
-            cell.textLabel.text = item;
             if ([sectionTitle isEqualToString:@"Tool Details"]){
+                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellToolId" forIndexPath:indexPath];
+                cell.textLabel.text = item;
                 cell.imageView.image = self.cameraImage;
+                cell.tag = 1;
                 UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
                 cell.imageView.userInteractionEnabled = YES;
                 [cell.imageView addGestureRecognizer:tap];
                 cell.detailTextLabel.text = self.toolStatus;
+                [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                return cell;
             } else {
-                //phone call image
-                cell.imageView.image = self.PhoneImage;
-                UITapGestureRecognizer *call = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handlePhoneCall:)];
-                cell.imageView.userInteractionEnabled = YES;
-                [cell.imageView addGestureRecognizer:call];
-                cell.detailTextLabel.text = @"";
+                if (self.Supplier) {
+                    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellToolId" forIndexPath:indexPath];
+                    cell.textLabel.text = item;
+                    //phone call image
+                    cell.imageView.image = self.PhoneImage;
+                    UITapGestureRecognizer *call = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handlePhoneCall:)];
+                    cell.imageView.userInteractionEnabled = YES;
+                    [cell.imageView addGestureRecognizer:call];
+                    cell.detailTextLabel.text = @"";
+                    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                    return cell;
+                } else {
+                    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellLbl" forIndexPath:indexPath];
+                    cell.textLabel.text = item;
+                    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                    return cell;
+                }
             };
-            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-            return cell;
+            
         }
         
     } else {
@@ -281,6 +299,12 @@
                 [self SetUpNotificationCenterPartNumber:textCell];
                 return textCell;
             } else {
+                if (toolDetailRowsAdded == 1 && [sectionTitle isEqualToString:@"Tool Details"] && indexPath.row == 1) {
+                    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellLbl" forIndexPath:indexPath];
+                    cell.textLabel.text = item;
+                    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                    return cell;
+                }
                 //Other
                 TextFieldCell *textCell = [tableView dequeueReusableCellWithIdentifier:@"TextCell" forIndexPath:indexPath];
                 textCell.TextField.text = item;
@@ -364,8 +388,8 @@
                     self.items = [NSMutableDictionary dictionaryWithDictionary:dict];
                     
                 } else {
-                    dict =  @{@"Tool Details" : @[[self.exam objectForKey:@"toolId"], [NSString stringWithFormat:@"%@",[self.exam objectForKey:@"weight"]], [self.exam objectForKey:@"toolType"],[self.exam objectForKey:@"toolDescription"]]};
-                    
+                    dict =  @{@"Supplier" :@[@"Add supplier"],
+                              @"Tool Details" : @[[self.exam objectForKey:@"toolId"], [NSString stringWithFormat:@"%@",[self.exam objectForKey:@"weight"]], [self.exam objectForKey:@"toolType"],[self.exam objectForKey:@"toolDescription"]]};
                     self.items = [NSMutableDictionary dictionaryWithDictionary:dict];
                 }
                     self.ToolFlagSegControl.selectedSegmentIndex = [[self.exam objectForKey:@"flag"] integerValue];
@@ -389,6 +413,7 @@
         NSString* supplierId = [self.exam valueForKey:@"supplier"];
         
         if (supplierId) {
+            NSLog(@"In supplier Id");
             PFObject* supplier = [PFObject objectWithoutDataWithClassName:@"SupplierList" objectId:supplierId];
             [supplier fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
                 if (!error) {
@@ -397,13 +422,7 @@
                     [self.items setObject:sup forKey:@"Supplier"];
                     [self.tableView reloadData];
                 }
-                
             }];
-        } else {
-            NSArray* sup = [NSArray arrayWithObjects:@"Add supplier", @"Supplier address", @"Supplier phone", nil];
-            [self.items setObject:sup forKey:@"Supplier"];
-            
-            [self.tableView reloadData];
         }
     }
     
@@ -456,9 +475,16 @@
         [self.tableView setEditing:YES animated:YES];
         self.BackBtn.title = @"Save";
         [self addPartNumberRow];
+        if ([[[PFUser currentUser] objectForKey:@"type"]isEqualToString:@"oem"]) {
+            self.ToolFlagSegControl.enabled = TRUE;
+        }
         [self.tableView reloadData];
         
     } else if (self.controllerState != ATVC_VIEW_TOOL) {
+        
+        if ([[[PFUser currentUser] objectForKey:@"type"]isEqualToString:@"oem"]) {
+            self.ToolFlagSegControl.enabled = FALSE;
+        }
         
         if ([self.BackBtn.title isEqualToString:@"Edit"]) {
             [self.tableView setEditing:YES animated:YES];
@@ -600,9 +626,9 @@
 }
 
 -(void)UpdateSupplier{
-
     NSArray* sup = [NSArray arrayWithObjects:[self.Supplier objectForKey:@"supplier"], [self.Supplier objectForKey:@"address"], [self.Supplier objectForKey:@"phoneNumber"], nil];
     [self.items setObject:sup forKey:@"Supplier"];
+    [self.exam setObject:[self.Supplier objectId] forKey:@"supplier"];
     [self.tableView reloadData];
 }
 
@@ -701,11 +727,20 @@
     // Pass the selected object to the new view controller.
     if ([segue.identifier isEqualToString:@"MapView"]) {
         MapViewController *map = [segue destinationViewController];
-        [map setControllerState:MV_SHOW_TOOLS_AND_SUPPLIERS];
         [map setToolObjects:[NSArray arrayWithObject:self.exam]];
         
-        if (self.Supplier) {
+        NSLog(@"%i",[sender tag]);
+        
+        if (![[[PFUser currentUser] objectForKey:@"type"] isEqualToString: @"oem"]) {
             [map setSupplierObjects:[NSArray arrayWithObject:self.Supplier]];
+            if ([sender tag] == 1) {
+                [map setControllerState:MV_SHOW_TOOLS_AND_SUPPLIERS];
+            } else {
+                [map setControllerState:MV_SHOW_SUPPLIERS];
+            }
+
+        } else {
+            [map setControllerState:MV_SHOW_TOOLS];
         }
         
         //map.supplier = self.Supplier;

@@ -24,12 +24,14 @@
     UIImage *unSelectedImage = [UIImage imageNamed:@"scanUnSelected.png"];
     [targetTabBarItem setImage:[self imageWithImage:unSelectedImage scaledToSize:CGSizeMake(30, 30)]];
     [targetTabBarItem setSelectedImage:[self imageWithImage:selectedIcon scaledToSize:CGSizeMake(30, 30)]];
+    targetTabBarItem.title = @"Scan";
     //Search
     UITabBarItem *targetTabBarItem1 = [[tabBar items] objectAtIndex:1];
     UIImage *selectedSearchIcon = [UIImage imageNamed:@"searchSelected.png"];
     UIImage *unSelectedSearchIcon = [UIImage imageNamed:@"searchUnSelected.png"];
     [targetTabBarItem1 setImage:[self imageWithImage:unSelectedSearchIcon scaledToSize:CGSizeMake(30, 30)]];
     [targetTabBarItem1 setSelectedImage:[self imageWithImage:selectedSearchIcon scaledToSize:CGSizeMake(30, 30)]];
+    targetTabBarItem1.title = @"Search";
 }
 
 - (void)didReceiveMemoryWarning {

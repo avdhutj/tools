@@ -24,18 +24,21 @@
     UIImage *unSelectedImage = [UIImage imageNamed:@"scanUnSelected.png"];
     [targetTabBarItem setImage:[self imageWithImage:unSelectedImage scaledToSize:CGSizeMake(30, 30)]];
     [targetTabBarItem setSelectedImage:[self imageWithImage:selectedIcon scaledToSize:CGSizeMake(30, 30)]];
+    targetTabBarItem.title = @"Scan";
     //Search
     UITabBarItem *targetTabBarItem1 = [[tabBar items] objectAtIndex:1];
     UIImage *selectedSearchIcon = [UIImage imageNamed:@"searchSelected.png"];
     UIImage *unSelectedSearchIcon = [UIImage imageNamed:@"searchUnSelected.png"];
     [targetTabBarItem1 setImage:[self imageWithImage:unSelectedSearchIcon scaledToSize:CGSizeMake(30, 30)]];
     [targetTabBarItem1 setSelectedImage:[self imageWithImage:selectedSearchIcon scaledToSize:CGSizeMake(30, 30)]];
+    targetTabBarItem1.title = @"Search";
     //Inv
     UITabBarItem *targetTabBarItem2 = [[tabBar items] objectAtIndex:2];
-    UIImage *selectedInvIcon = [UIImage imageNamed:@"InvSelected.png"];
-    UIImage *unInvSelectedImage = [UIImage imageNamed:@"InvUnSelected.png"];
+    UIImage *selectedInvIcon = [UIImage imageNamed:@"ReviewListSelected.png"];
+    UIImage *unInvSelectedImage = [UIImage imageNamed:@"ReviewListUnSelected.png"];
     [targetTabBarItem2 setImage:[self imageWithImage:unInvSelectedImage scaledToSize:CGSizeMake(30, 30)]];
     [targetTabBarItem2 setSelectedImage:[self imageWithImage:selectedInvIcon scaledToSize:CGSizeMake(30, 30)]];
+    targetTabBarItem2.title = @"Review List";
 }
 
 - (void)didReceiveMemoryWarning {
