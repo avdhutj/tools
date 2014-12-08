@@ -242,6 +242,7 @@
     
     AddToolTableViewController* aTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"AddToolTableViewController"];
     [aTVC setExam:toolObject];
+    [aTVC setQRCode:_qrCodeString];
     [aTVC setInventoryViewController:self];
     [aTVC setControllerState:ATVC_ADD_TOOL];
     

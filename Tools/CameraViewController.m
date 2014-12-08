@@ -321,11 +321,6 @@
             [lView removeFromSuperview];
             if ([objects count] == 0) {
                 [self AddToolNext];
-//                AddToolViewController* aTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"AddToolViewController"];
-//                [aTVC setQRCode:_qrCodeString];
-//                // [self.navigationController pushViewController:aTVC animated:YES];
-//                [self presentViewController:aTVC animated:YES completion:^{
-//                }];
             } else {
                 UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Tool Exists" message:@"This tool ID already exists in the system" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
                 [alertView setTag:4];
@@ -335,11 +330,6 @@
         
     } else {
         [self AddToolNext];
-//        AddToolViewController* aTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"AddToolViewController"];
-//        [aTVC setQRCode:_qrCodeString];
-//        // [self.navigationController pushViewController:aTVC animated:YES];
-//        [self presentViewController:aTVC animated:YES completion:^{
-//        }];
     }
 }
 

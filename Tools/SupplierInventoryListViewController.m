@@ -7,6 +7,7 @@
 //
 
 #import "SupplierInventoryListViewController.h"
+#import "AddToolTableViewController.h"
 #import "LoadView.h"
 #import <Parse/Parse.h>
 
@@ -126,6 +127,30 @@
     }
     cell.textLabel.text = [object valueForKey:@"toolId"];
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    PFObject* selectedObject;
+    if ([_segmentControl selectedSegmentIndex] == 0) {
+        selectedObject = [_allToolsArray objectAtIndex:indexPath.row];
+    }
+    else if ([_segmentControl selectedSegmentIndex] == 1) {
+        selectedObject = [_infoToolsArray objectAtIndex:indexPath.row];
+    }
+    else if ([_segmentControl selectedSegmentIndex] == 2) {
+        selectedObject = [_partToolsArray objectAtIndex:indexPath.row];
+    }
+    else if ([_segmentControl selectedSegmentIndex] == 3) {
+        selectedObject = [_scrapToolsArray objectAtIndex:indexPath.row];
+    }
+    else if ([_segmentControl selectedSegmentIndex] == 4) {
+        selectedObject = [_otherToolsArray objectAtIndex:indexPath.row];
+    }
+    AddToolTableViewController* aTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"AddToolTableViewController"];
+    [aTVC setExam:selectedObject];
+    [aTVC setControllerState:ATVC_VIEW_TOOL];
+    
+    [self.navigationController pushViewController:aTVC animated:YES];
 }
 
 
