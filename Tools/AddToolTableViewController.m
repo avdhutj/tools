@@ -701,8 +701,9 @@
     // Pass the selected object to the new view controller.
     if ([segue.identifier isEqualToString:@"MapView"]) {
         MapViewController *map = [segue destinationViewController];
-        [map setControllerState:MV_SHOW_TOOLS];
+        [map setControllerState:MV_SHOW_TOOLS_AND_SUPPLIERS];
         [map setToolObjects:[NSArray arrayWithObject:self.exam]];
+        [map setSupplierObjects:[NSArray arrayWithObject:self.Supplier]];
         //map.supplier = self.Supplier;
     }
 }
