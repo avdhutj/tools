@@ -33,5 +33,7 @@ UIAlertViewDelegate, CLLocationManagerDelegate> {
 @property (strong, nonatomic) NSString* invToolId; // Information passed from Inventory view conrtroller
 @property (nonatomic, weak) InventoryListViewController* inventoryListViewController;
 
+@property (strong, nonatomic) PFObject* supplier;
+
 
 @end
