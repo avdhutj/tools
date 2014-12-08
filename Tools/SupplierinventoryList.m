@@ -7,6 +7,7 @@
 //
 
 #import "SupplierInventoryList.h"
+#import "AddToolTableViewController.h"
 
 @interface SupplierInventoryList ()
 
@@ -28,6 +29,7 @@
 
 - (PFQuery *)queryForTable {
     PFQuery *query = [PFQuery queryWithClassName:self.parseClassName];
+    [query whereKey:@"supplier" equalTo:[[PFUser currentUser] objectForKey:@"supplier"]];
     
     // If no objects are loaded in memory, we look to the cache
     // first to fill the table and then subsequently do a que   ry
@@ -55,5 +57,29 @@
     cell.textLabel.text = [object objectForKey:@"toolId"];
     return cell;
 }
+
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+/*
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+    
+
+    if ([segue.identifier isEqualToString:@"displayDetail"]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        PFObject *object = [self.objects objectAtIndex:indexPath.row];
+        
+        AddToolTableViewController *detailViewController = [segue destinationViewController];
+        
+        detailViewController.exam = object;
+        detailViewController.Supplier = self.Supplier;
+        [detailViewController setControllerState:ATVC_VIEW_TOOL];
+        
+        
+    }
+    
+}*/
 
 @end

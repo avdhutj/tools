@@ -475,6 +475,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="tJR-jZ-xZ3" kind="push" identifier="ToolDetai" id="bIO-Da-GB8"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -486,7 +489,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4VE-nX-Sdv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1976.5" y="2070.5"/>
+            <point key="canvasLocation" x="1976.5" y="2024.5"/>
         </scene>
         <!--Add Tool Table View Controller-->
         <scene sceneID="W6a-Mh-irf">
@@ -878,5 +881,6 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="ZmY-up-pUw"/>
+        <segue reference="bIO-Da-GB8"/>
     </inferredMetricsTieBreakers>
 </document>
