@@ -58,7 +58,9 @@
     _locationManager.delegate = self;
     [self.TorchBtn setImage:[UIImage imageNamed:@"TorchSelected"] forState:UIControlStateSelected];
     
+    
 }
+
 - (IBAction)TourchTouchUpInside:(id)sender {
     
     AVCaptureDevice *flashLight = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
@@ -68,10 +70,10 @@
         if (success)
         {
             if ([flashLight isTorchActive]) {
-                self.TorchBtn.imageView.image = [UIImage imageNamed:@"TorchSelected"];
+                [self.TorchBtn setImage:[UIImage imageNamed:@"Torch"] forState:UIControlStateNormal];
                 [flashLight setTorchMode:AVCaptureTorchModeOff];
             } else {
-                self.TorchBtn.imageView.image = [UIImage imageNamed:@"Torch"];
+                [self.TorchBtn setImage:[UIImage imageNamed:@"TorchSelected"] forState:UIControlStateNormal];
                 [flashLight setTorchMode:AVCaptureTorchModeOn];
             }
             [flashLight unlockForConfiguration];

@@ -25,7 +25,10 @@
     if (self) {
         
         if ([[[PFUser currentUser] objectForKey:@"type"] isEqualToString:@"oem"]) {
-            self.selectedSupplier = @"All";
+            NSLog(@"here with selected supplier: %@",self.selectedSupplier);
+            if ([self.selectedSupplier isEqualToString:@""]) {
+                self.selectedSupplier = @"All";
+            }
             UIBarButtonItem *barBtnSelectSupplier = [[UIBarButtonItem alloc] initWithTitle:@"Select Supplier" style:UIBarButtonItemStyleDone target:self action:@selector(handleSelectSupplier:)];
             self.navigationItem.leftBarButtonItem = barBtnSelectSupplier;
         }
@@ -47,6 +50,7 @@
 
 -(void)UpdateSupplier {
     NSLog(@"In updated supplier: %@",self.selectedSupplier);
+    [self.tableView reloadData];
 }
 
 - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
@@ -60,7 +64,7 @@
 
 - (PFQuery *)queryForTable {
     PFQuery *query = [PFQuery queryWithClassName:self.parseClassName];
-    if (![self.selectedSupplier isEqualToString:@"All"]) {
+    if (![self.selectedSupplier isEqualToString:@"All"] && ![[[PFUser currentUser] objectForKey:@"type"] isEqualToString:@"oem"]) {
             [query whereKey:@"supplier" equalTo:[[PFUser currentUser] objectForKey:@"supplier"]];
     }
     

@@ -78,18 +78,21 @@
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         [lView removeFromSuperview];
         for (PFObject* object in objects) {
-            [_allToolsArray addObject:object];
             if ([[object valueForKey:@"flag"] isEqualToNumber:[NSNumber numberWithInt:1]]) {
                 [_infoToolsArray addObject:object];
+                [_allToolsArray addObject:object];
             }
             else if ([[object valueForKey:@"flag"] isEqualToNumber:[NSNumber numberWithInt:2]]) {
                 [_partToolsArray addObject:object];
+                [_allToolsArray addObject:object];
             }
             else if ([[object valueForKey:@"flag"] isEqualToNumber:[NSNumber numberWithInt:3]]) {
                 [_scrapToolsArray addObject:object];
+                [_allToolsArray addObject:object];
             }
             else if ([[object valueForKey:@"flag"] isEqualToNumber:[NSNumber numberWithInt:4]]) {
                 [_otherToolsArray addObject:object];
+                [_allToolsArray addObject:object];
             }
         }
         [self.tableView reloadData];

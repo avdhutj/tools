@@ -34,6 +34,6 @@ UIAlertViewDelegate, CLLocationManagerDelegate> {
 @property (nonatomic, weak) InventoryListViewController* inventoryListViewController;
 
 @property (strong, nonatomic) PFObject* supplier;
-
+@property BOOL TorchIsEnabled;
 
 @end
