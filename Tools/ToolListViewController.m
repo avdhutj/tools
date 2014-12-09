@@ -209,4 +209,8 @@
     }
 }
 
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    [_searchBar resignFirstResponder];
+}
+
 @end

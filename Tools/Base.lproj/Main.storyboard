@@ -468,6 +468,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="searchBar" destination="qt7-DZ-iPd" id="ppA-K9-zaj"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e9D-13-LDb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -918,7 +921,7 @@
         <simulatedScreenMetrics key="destination" type="retina47"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="bIO-Da-GB8"/>
-        <segue reference="AXz-aE-YIu"/>
+        <segue reference="ANf-vE-o37"/>
+        <segue reference="ZmY-up-pUw"/>
     </inferredMetricsTieBreakers>
 </document>

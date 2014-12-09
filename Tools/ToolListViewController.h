@@ -10,9 +10,10 @@
 #import <Parse/Parse.h>
 #import <ParseUI/ParseUI.h>
 
-@interface ToolListViewController : UITableViewController
+@interface ToolListViewController : UITableViewController<UIScrollViewDelegate>
 
 @property (strong, nonatomic) PFObject *selectedSupplier;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 -(void)UpdateSupplier;
 
