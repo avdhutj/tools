@@ -159,9 +159,58 @@
 
         [cVC setInventoryListViewController:self];
         [self.navigationController pushViewController:cVC animated:YES];
-//        [self presentViewController:cVC animated:YES completion:^{
-//            
-//        }];
+    }
+    else if (self.segmentController.selectedSegmentIndex == 1) {
+        self.selectedObject = [_addToolsArray objectAtIndex:indexPath.row];
+        CameraViewController* cVC = [self.storyboard instantiateViewControllerWithIdentifier:@"CameraViewController"];
+        self.controllerState = IL_CAMERA;
+        _qrCodeString = nil;
+        
+        if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:0]]) {
+            [cVC setInvToolId:[_selectedObject valueForKey:@"toolId"]];
+            [cVC setControllerState:CVC_INV];
+        }
+        else if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:1]]) {
+            [cVC setControllerState:CVC_INV];
+        }
+        else if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:2]]) {
+            [cVC setControllerState:CVC_INV];
+        }
+        else if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:3]]) {
+            [cVC setControllerState:CVC_INV];
+        }
+        else if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:4]]) {
+            [cVC setControllerState:CVC_INV];
+        }
+        
+        [cVC setInventoryListViewController:self];
+        [self.navigationController pushViewController:cVC animated:YES];
+    }
+    else if (self.segmentController.selectedSegmentIndex == 2) {
+        self.selectedObject = [_transferToolsArray objectAtIndex:indexPath.row];
+        CameraViewController* cVC = [self.storyboard instantiateViewControllerWithIdentifier:@"CameraViewController"];
+        self.controllerState = IL_CAMERA;
+        _qrCodeString = nil;
+        
+        if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:0]]) {
+            [cVC setInvToolId:[_selectedObject valueForKey:@"toolId"]];
+            [cVC setControllerState:CVC_INV];
+        }
+        else if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:1]]) {
+            [cVC setControllerState:CVC_INV];
+        }
+        else if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:2]]) {
+            [cVC setControllerState:CVC_INV];
+        }
+        else if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:3]]) {
+            [cVC setControllerState:CVC_INV];
+        }
+        else if ([[_selectedObject valueForKey:@"taskType"] isEqualToNumber:[NSNumber numberWithInt:4]]) {
+            [cVC setControllerState:CVC_INV];
+        }
+        
+        [cVC setInventoryListViewController:self];
+        [self.navigationController pushViewController:cVC animated:YES];
     }
 }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -191,14 +191,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="bFX-xw-6vs">
-                        <barButtonItem key="leftBarButtonItem" title="Logout" id="FeT-nh-xiY">
+                        <barButtonItem key="rightBarButtonItem" title="Logout" id="FeT-nh-xiY">
                             <connections>
                                 <action selector="LogoutClicked:" destination="lKU-96-fqs" id="wds-nE-xDo"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Settings" id="RVP-JH-Ssf">
-                            <connections>
-                                <segue destination="3bM-Hp-3QE" kind="push" id="e9F-WH-uyN"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -217,7 +212,7 @@
             <objects>
                 <tableViewController id="3bM-Hp-3QE" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="mMM-c9-vZ8">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="64" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
