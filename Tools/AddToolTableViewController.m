@@ -444,11 +444,12 @@
 
 -(void)saveToolId {
     
-    if (self.controllerState == ATVC_ADD_TOOL) {
-        PFObject *tool = [PFObject objectWithClassName:@"Tools"];
-        self.exam = tool;
-
-    }
+//    if (self.controllerState == ATVC_ADD_TOOL) {
+//        PFObject *tool = [PFObject objectWithClassName:@"Tools"];
+//        self.exam = tool;
+//
+//    }
+    
     NSNumberFormatter *formater = [[NSNumberFormatter alloc] init];
     [formater setNumberStyle:NSNumberFormatterNoStyle];
     NSArray *toolDetails = [self.items objectForKey:@"Tool Details"];
@@ -458,7 +459,8 @@
     self.exam[@"toolDescription"] = toolDetails[3];
     self.exam[@"part"] = self.AddedPartNumbers;
     self.exam[@"flag"] = [NSNumber numberWithInt:self.ToolFlagSegControl.selectedSegmentIndex];
-    self.exam[@"qrCode"] = _QRCode;
+//    self.exam[@"qrCode"] = _QRCode;
+    
     [self.exam saveInBackground];
     [self.tableView reloadData];
     

@@ -336,7 +336,13 @@
 -(void)AddToolNext {
     AddToolTableViewController* aTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"AddToolTableViewController"];
     [aTVC setControllerState:ATVC_ADD_TOOL];
+    PFObject* toolObject = [PFObject objectWithClassName:@"Tools"];
+    [toolObject setValue:_qrCodeString forKey:@"qrCode"];
+    [toolObject setObject:_geoPoint forKey:@"toolGeoPoint"];
+    
     [aTVC setQRCode:_qrCodeString];
+    [aTVC setExam:toolObject];
+    
     [self.navigationController pushViewController:aTVC animated:YES];
 }
 
